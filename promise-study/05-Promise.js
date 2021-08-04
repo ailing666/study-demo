@@ -22,3 +22,26 @@ bugPhone.then((value) => {
 }, (reason) => {
   console.log(reason, 'fail')
 })
+
+// 既调用resolve，又调用reject
+// 只会指定第一个，因为状态无法再改变
+const promise = new Promise((resolve, reject) => {
+  resolve('ok')
+  reject('error')
+})
+promise.then((value) => {
+  console.log(value, 'success')
+}, (reason) => {
+  console.log(reason, 'fail')
+})
+
+// 失败状态的方法reject和throw new Error都可以变为失败态
+const promise2 = new Promise((resolve, reject) => {
+  // reject('error')
+  throw new Error('error')
+})
+promise2.then((value) => {
+  console.log(value, 'success')
+}, (reason) => {
+  console.log(reason, 'fail')
+})
