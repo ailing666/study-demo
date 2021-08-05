@@ -181,6 +181,9 @@ class Promise {
     // 返回新的promise，供链式调用
     return promise2;
   }
+  catch(errFn) {
+    return this.then(null, errFn);
+  }
   // 静态方法resolve
   static resolve(value) {
     return new Promise((resolve, reject) => {

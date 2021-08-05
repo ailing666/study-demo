@@ -1,6 +1,6 @@
 const myPromise3 = require('./myPromise3')
-// Promise.resolve会等待异步任务执行完毕再进入resolve
-Promise.resolve(new myPromise3((resolve, reject) => {
+Promise.resolve会等待异步任务执行完毕再进入resolve
+myPromise3.resolve(new myPromise3((resolve, reject) => {
   setTimeout(() => {
     resolve('hello', 'success');
   }, 2000);
@@ -8,7 +8,7 @@ Promise.resolve(new myPromise3((resolve, reject) => {
   console.log(data); // hello
 })
 // Promise.reject会直接进入catch
-Promise.reject(new myPromise3((resolve, reject) => {
+myPromise3.reject(new myPromise3((resolve, reject) => {
   setTimeout(() => {
     resolve('hello');
   }, 1000);
