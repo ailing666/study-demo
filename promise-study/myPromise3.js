@@ -1,4 +1,3 @@
-
 const PENDING = 'PENDING'; // 默认等待态
 const FULFILLED = 'FULFILLED'; // 成功态 
 const REJECTED = 'REJECTED'; // 失败态
@@ -194,6 +193,33 @@ class Promise {
   static reject(err) {
     return new Promise((resolve, reject) => {
       reject(err);
+    })
+  }
+  static all(promises) {
+    return new Promise((resolve, reject) => {
+      // 将数组中的promise依次执行 
+      let result = [];
+      let index = 0;
+      // 处理函数
+      function process(v, k) {
+        // 将函数与索引映射
+        result[k] = v;
+        if (++index === promises.length) {
+          resolve(result)
+        }
+      }
+      for (let i = 0; i < promises.length; i++) {
+        let p = promises[i];
+        // 判断p是否是promsie
+        if (p && typeof p.then === 'function') {
+          p.then(data => {
+            process(data, i)
+          }, reject) // 只要有一个失败，就直接调reject
+        } else {
+          // 说明不是promise
+          process(p, i)
+        }
+      }
     })
   }
 }
