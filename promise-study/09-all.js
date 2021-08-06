@@ -9,4 +9,3 @@ myPromise3.all([fs.readFile('./promise-study/name.txt', 'utf8'), fs.readFile('./
 }).catch(err => {
   console.log(err)
 })
-
