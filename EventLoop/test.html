@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="btn">按钮</button>
+  <script>
+
+    // 6
+    Promise.resolve().then(() => {
+      console.log(0);
+      return Promise.resolve(4); // promisA+规范里面如何规定的？
+    }).then((res) => {
+      console.log(res)
+    })
+    Promise.resolve().then(() => {
+      console.log(1);
+    }).then(() => {
+      console.log(2);
+    }).then(() => {
+      console.log(3);
+    }).then(() => {
+      console.log(5);
+    })
+
+
+    // 5
+    // console.log(1);
+    // async function async() {
+    //   console.log(2);
+    //   await console.log(3);
+    //   console.log(4)
+    // }
+    // setTimeout(() => {
+    //   console.log(5);
+    // }, 0);
+    // const promise = new Promise((resolve, reject) => {
+    //   console.log(6);
+    //   resolve(7)
+    // })
+    // promise.then(res => {
+    //   console.log(res)
+    // })
+    // async();
+    // console.log(8);
+
+    // 4
+    // Promise.resolve().then(() => {
+    //   console.log('Promise1')
+    //   setTimeout(() => {
+    //     console.log('setTimeout2')
+    //   }, 0);
+    // })
+    // setTimeout(() => {
+    //   console.log('setTimeout1');
+    //   Promise.resolve().then(() => {
+    //     console.log('Promise2')
+    //   })
+    // }, 0);
+
+    // 3
+    // btn.addEventListener('click', () => {
+    //   Promise.resolve().then(() => console.log('micro task1'))
+    //   console.log('click1');
+    // })
+    // btn.addEventListener('click', () => {
+    //   Promise.resolve().then(() => console.log('micro task2'))
+    //   console.log('click2');
+    // })
+    // btn.click()
+
+    // 2
+    // btn.addEventListener('click', () => {
+    //   Promise.resolve().then(() => console.log('micro task1'))
+    //   console.log('click1');
+    // })
+    // btn.addEventListener('click', () => {
+    //   Promise.resolve().then(() => console.log('micro task2'))
+    //   console.log('click2');
+    // })
+
+    // 1
+     // document.body.style.background = 'red'
+    // console.log(1);
+    // setTimeout(() => {
+    //   document.body.style.background = 'green'
+    //   console.log(2);
+    // }, 0)
+    // Promise.resolve().then(() => {
+    //   console.log(3);
+    //   document.body.style.background = 'yellow'
+    // })
+  </script>
+</body>
+
+</html>
