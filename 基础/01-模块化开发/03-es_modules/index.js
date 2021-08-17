@@ -9,5 +9,11 @@
 // console.log(bar.age);
 // console.log(bar.nameAlias);
 // bar.sayHello('???')
-import { age } from './modules/foo.js'
-console.log(age);
+
+
+// import { age } from './modules/foo.js'
+// console.log(age);
+
+
+import fun from './modules/fun.js'
+fun()
