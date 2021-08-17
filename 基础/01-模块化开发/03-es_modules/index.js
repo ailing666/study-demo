@@ -5,7 +5,9 @@
 // console.log(ageAlias);
 // sayHello('hah')
 
-import * as foo from './modules/bar.js';
-console.log(foo.age);
-console.log(foo.nameAlias);
-foo.sayHello('???')
+// import * as bar from './modules/bar.js';
+// console.log(bar.age);
+// console.log(bar.nameAlias);
+// bar.sayHello('???')
+import { age } from './modules/foo.js'
+console.log(age);
