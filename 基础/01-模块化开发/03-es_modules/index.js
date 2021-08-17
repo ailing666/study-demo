@@ -1,5 +1,5 @@
-import { name, age, sayHello } from './modules/bar.js';
+import { nameAlias, age, sayHello } from './modules/bar.js';
 
-console.log(name);
+console.log(nameAlias);
 console.log(age);
 sayHello('hah')
