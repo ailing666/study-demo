@@ -15,5 +15,20 @@
 // console.log(age);
 
 
-import fun from './modules/fun.js'
-fun()
+// import fun from './modules/fun.js'
+// fun()
+
+if (true) {
+  // import { age } from './modules/bar.js';
+  // console.log(age);
+
+  import('./modules/bar.js')
+    .then(res => {
+      console.log("在then中的打印");
+      console.log(res.age);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
+
