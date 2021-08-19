@@ -56,17 +56,25 @@ const dirname = './loveZero';
 ]*/
 
 
-function getFiles(dirname) {
-  fs.readdir(dirname, { withFileTypes: true }, (err, files) => {
-    for (let file of files) {
-      if (file.isDirectory()) {
-        const filepath = path.resolve(dirname, file.name);
-        getFiles(filepath);
-      } else {
-        console.log(file.name);
-      }
-    }
-  });
-}
+// function getFiles(dirname) {
+//   fs.readdir(dirname, { withFileTypes: true }, (err, files) => {
+//     for (let file of files) {
+//       if (file.isDirectory()) {
+//         const filepath = path.resolve(dirname, file.name);
+//         getFiles(filepath);
+//       } else {
+//         console.log(file.name);
+//       }
+//     }
+//   });
+// }
 
-getFiles(dirname);
+// getFiles(dirname);
+
+// 文件夹重命名
+fs.rename('./oldName', './newName', err => {
+  if (err) {
+    console.error(err)
+    return
+  }
+})
