@@ -72,9 +72,9 @@ const dirname = './loveZero';
 // getFiles(dirname);
 
 // 文件夹重命名
-fs.rename('./oldName', './newName', err => {
-  if (err) {
-    console.error(err)
-    return
-  }
-})
+// fs.rename('./oldName', './newName', err => {
+//   if (err) {
+//     console.error(err)
+//     return
+//   }
+// })
