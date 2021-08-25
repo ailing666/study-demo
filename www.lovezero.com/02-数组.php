@@ -91,3 +91,48 @@ echo '<hr>';
 echo $arr[0]['name'] . ' --- ';
 echo $arr[0]['hobby'][0] . ' --- ';
 echo $arr[0]['hobby'][1];
+echo '<hr>';
+
+// 数组循环
+$arr = [
+  'you' => '你',
+  'i' => '我',
+  'she' => '她'
+];
+
+foreach ($arr as $k => $v) {
+  echo $k . ' --- ' . $v;
+}
+$arr2 = array(
+  '你',
+  '我',
+  '他'
+);
+echo '<hr>';
+foreach ($arr2 as $k => $v) {
+  echo $k . ' --- ' . $v;
+}
+echo '<hr>';
+
+
+// 循环二维数组
+$arr = [
+  [
+    'name' => '你',
+    'age'  => 14,
+  ],
+  [
+    'name' => '我',
+    'age'  => 14,
+  ],
+  [
+    'name' => '她',
+    'age'  => 14,
+  ]
+];
+foreach ($arr as $k => $v) {
+  foreach ($v as $key => $value) {
+    echo $value;
+    echo '<hr>';
+  }
+}
