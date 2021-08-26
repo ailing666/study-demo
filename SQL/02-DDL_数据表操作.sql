@@ -51,3 +51,9 @@ CREATE TABLE `user2` LIKE `user`;
 
 # 根据一个表的内容创建另一张表
 CREATE TABLE `user3` (SELECT * FROM `user`);
+
+# 修改createTime默认值为创建时间
+ALTER TABLE `user` MODIFY `createTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+# 修改updateTime默认时间为创建时间，并在更新时自动更新时间
+ALTER TABLE `user` MODIFY `updateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
