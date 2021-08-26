@@ -199,6 +199,44 @@ ALTER TABLE `user` MODIFY `updateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UP
 
 数据操作语言；可以通过DML语句对表进行：添加、删除、修改等操作；
 
+### 3.1 插入
+
+```sql
+INSERT INTO `user` VALUES (666, '易烊千玺', '66666666','2021-08-26', '2021-08-26');
+
+
+# 对应指定字段，key与val要一一对应
+INSERT INTO `user` (name, telPhone, createTime)
+      VALUES ('我', '88888888', '2021-08-27');
+
+
+INSERT INTO `user` (name, telPhone)
+      VALUES ('她', '11111111');
+
+```
+
+![3.1.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629972381286-1629972381282.png)
+
+### 3.2 删除
+
+```sql
+# 删除所有数据
+DELETE FROM `user`;
+
+# 删除符合条件的数据
+DELETE FROM `user` WHERE id = 666;
+```
+
+### 3.3 更新
+
+```sql
+# 更新所有的数据
+UPDATE `user` SET `name` = '咯喽', `createTime` = '1999-09-09';
+
+# 更新符合条件的数据
+UPDATE `user` SET name = '哈哈', `createTime` = '2020-02-02' WHERE id = 670;
+```
+
 ## 4. DQL（Data Query Language）
 
 数据查询语言；可以通过DQL从数据库中查询记录；（重点）
