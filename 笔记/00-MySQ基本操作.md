@@ -138,3 +138,39 @@ MySQL是一个关系型数据库，其实本质上就是一款软件、一个程
 > 值需要符合字段格式
 
 ![3.4](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629947026842-1629947026842.png)
+
+## 四、Navicat使用
+
+### 1.安装
+
+傻瓜式安装
+
+#### 1.1 连接
+
+![1.1.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629949265131-1629949265129.png)
+
+![1.1.2](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629949300861-1629949300860.png)
+
+![1.1.3](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629949348144-1629949348143.png)
+
+### 2.操作
+
+#### 2.1 在哪写sql
+
+![2.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629950688924-1629950688923.png)
+
+#### 2.2 数据库操作
+
+##### 2.2.1 新建数据库
+
+![2.2.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629949715690-1629949715689.png)
+
+![2.2.2](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629949800682-1629949800680.png)
+
+刷新一下
+
+![2.2.3](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629949855721-1629949855720.png)
+
+##### 2.2.2 查看数据库
+
+![2.2.2](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629950603758-1629950603757.png)
