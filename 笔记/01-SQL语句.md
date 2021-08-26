@@ -239,7 +239,24 @@ UPDATE `user` SET name = '哈哈', `createTime` = '2020-02-02' WHERE id = 670;
 
 ## 4. DQL（Data Query Language）
 
-数据查询语言；可以通过DQL从数据库中查询记录；（重点）
+数据查询语言；可以通过DQL从数据库中查询记录
+
+### 4.1 基本查询
+
+```sql
+-- 查询所有字段
+SELECT * FROM `products`;
+
+-- 查询指定字段
+SELECT title,price FROM `products`;
+```
+
+```sql
+-- 给查询结果起别名
+SELECT title as phoneTitle,price as currentPrice FROM `products`;
+```
+
+![4.1.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629974608778-1629974608769.png)
 
 ## 5. DCL（Data Control Language）
 
