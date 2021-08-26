@@ -60,26 +60,26 @@ TEXT用于存储大的字符串类型；
 #### 2.1.1 查看当前数据库
 
 ```sql
-# 查看所有的数据库
+-- 查看所有的数据库
 SHOW DATABASES;
 
-# 选择某一个数据库
+-- 选择某一个数据库
 USE lovezero;
 
-# 查看当前正在使用的数据库
+-- 查看当前正在使用的数据库
 SELECT DATABASE();
 ```
 
 #### 2.1.2 创建数据库
 
 ```sql
-# 创建一个新的数据库
+-- 创建一个新的数据库
 -- CREATE DATABASE hello;
 
-# 当这个数据库不存在时创建一个新的数据库
+-- 当这个数据库不存在时创建一个新的数据库
 CREATE DATABASE IF NOT EXISTS hello;
 
-# 当这个数据库不存在时创建一个指定编码和排序方式的数据库
+-- 当这个数据库不存在时创建一个指定编码和排序方式的数据库
 -- CREATE DATABASE IF NOT EXISTS hello DEFAULT CHARACTER SET utf8mb4
 --     COLLATE utf8mb4_0900_ai_ci;
 ```
@@ -87,14 +87,14 @@ CREATE DATABASE IF NOT EXISTS hello;
 #### 2.1.3 删除数据库
 
 ```sql
-# 如果这个数据库存在，就删除这个数据库
+-- 如果这个数据库存在，就删除这个数据库
 DROP DATABASE IF EXISTS test;
 ```
 
 #### 2.1.4 修改数据库
 
 ```sql
-# 修改数据库的编码和排序方式
+-- 修改数据库的编码和排序方式
 ALTER DATABASE hello CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
 ```
 
@@ -149,15 +149,15 @@ DESC `students`;
 
 ```sql
 CREATE TABLE IF NOT EXISTS `users` (
- # 设置为主键，自动递增
+ -- 设置为主键，自动递增
  `id` INT PRIMARY KEY AUTO_INCREMENT,
- # VARCHAR类型，长度为10，不为空
+ -- VARCHAR类型，长度为10，不为空
  `name` VARCHAR(10) NOT NULL,
- # INT类型，默认值为0
+ -- INT类型，默认值为0
  `age` INT DEFAULT 0,
- # VARCHAR类型，长度为20，唯一值
+ -- VARCHAR类型，长度为20，唯一值
  `phone` VARCHAR(20) UNIQUE,
- # TIMESTAMP类型
+ -- TIMESTAMP类型
  `createTime` 
 );
 ```
@@ -167,28 +167,28 @@ CREATE TABLE IF NOT EXISTS `users` (
 #### 2.2.6 修改表
 
 ```sql
-# 修改表名
+-- 修改表名
 ALTER TABLE `users` RENAME TO `user`;
 
-# 添加一个新列
+-- 添加一个新列
 ALTER TABLE `user` ADD `updateTime` TIMESTAMP;
 
-# 修改字段名
+-- 修改字段名
 ALTER TABLE `user` CHANGE `phone` `telPhone` VARCHAR(20) UNIQUE;
 
-# 删除字段
+-- 删除字段
 ALTER TABLE `user` DROP `age`;
 
-# 根据一个表的结构创建另一张表
+-- 根据一个表的结构创建另一张表
 CREATE TABLE `user2` LIKE `user`;
 
-# 根据一个表的内容创建另一张表
+-- 根据一个表的内容创建另一张表
 CREATE TABLE `user3` (SELECT * FROM `user`);
 
-# 修改createTime默认值为创建时间
+-- 修改createTime默认值为创建时间
 ALTER TABLE `user` MODIFY `createTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
-# 修改updateTime默认时间为创建时间，并在更新时自动更新时间
+-- 修改updateTime默认时间为创建时间，并在更新时自动更新时间
 ALTER TABLE `user` MODIFY `updateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 ```
 
@@ -205,7 +205,7 @@ ALTER TABLE `user` MODIFY `updateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UP
 INSERT INTO `user` VALUES (666, '易烊千玺', '66666666','2021-08-26', '2021-08-26');
 
 
-# 对应指定字段，key与val要一一对应
+-- 对应指定字段，key与val要一一对应
 INSERT INTO `user` (name, telPhone, createTime)
       VALUES ('我', '88888888', '2021-08-27');
 
@@ -220,20 +220,20 @@ INSERT INTO `user` (name, telPhone)
 ### 3.2 删除
 
 ```sql
-# 删除所有数据
+-- 删除所有数据
 DELETE FROM `user`;
 
-# 删除符合条件的数据
+-- 删除符合条件的数据
 DELETE FROM `user` WHERE id = 666;
 ```
 
 ### 3.3 更新
 
 ```sql
-# 更新所有的数据
+-- 更新所有的数据
 UPDATE `user` SET `name` = '咯喽', `createTime` = '1999-09-09';
 
-# 更新符合条件的数据
+-- 更新符合条件的数据
 UPDATE `user` SET name = '哈哈', `createTime` = '2020-02-02' WHERE id = 670;
 ```
 
