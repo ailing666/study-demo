@@ -24,6 +24,7 @@ MySQL是一个关系型数据库，其实本质上就是一款软件、一个程
 ![6](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629879350068-1629879350066.png)
 
 同意协议并安装
+
 ![7](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629879422827-1629879422825.png)
 
 ![8](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629879471690-1629879471688.png)
@@ -61,17 +62,21 @@ MySQL是一个关系型数据库，其实本质上就是一款软件、一个程
 #### 1.1配置环境变量
 
 ![1.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629880719980-1629880719974.png)
+
 不要忘记点击确认
 
 #### 1.2 查看版本
 
 运行`mysql --version`即可成功查看版本
+
 ![1.2](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629880847739-1629880847738.png)
 
 #### 1.3 连接数据库
 
 运行`mysql -uroot -p`
+
 输入密码，即可连接数据库
+
 ![1.3](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629881387763-1629881387762.png)
 
 ### 2. 数据库操作
@@ -79,27 +84,33 @@ MySQL是一个关系型数据库，其实本质上就是一款软件、一个程
 #### 2.1 查看现有的数据库
 
 运行`SHOW DATABASES;`
+
 > 注意：
 > 1.字母要大写
 > 2.结尾需要加分号
 
 会有四个默认数据库
+
 ![2.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629881608806-1629881608806.png)
 
 #### 2.2 创建数据库
 
 运行`CREATE DATABASE 库名;`
+
 ![2.2](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629881956169-1629881956169.png)
 
 #### 2.3 查看当前正在使用的数据库
 
 运行`SELECT DATABASE();`
+
 显示null表示没有使用任何数据库
+
 ![2.3](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629882017494-1629882017493.png)
 
 #### 2.4 使用数据库
 
 运行`USE 库名;`
+
 ![2.4](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629882100297-1629882100297.png)
 
 ### 3. 表操作
@@ -111,15 +122,19 @@ MySQL是一个关系型数据库，其实本质上就是一款软件、一个程
 #### 3.2 查看表
 
 运行`SHOW TABLES;`
+
 ![3.2](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629882512209-1629882512208.png)
 
 #### 3.3 查看表中的数据
 
 运行`SELECT * FROM 表名`
+
 ![3.3](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629946658928-1629946658925.png)
 
 #### 3.4 向表中插入数据
 
 运行`INSERT INTO 表名 (字段1,字段2) VALUES (字段1值,字段2值);`
+
 > 值需要符合字段格式
+
 ![3.4](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629947026842-1629947026842.png)
