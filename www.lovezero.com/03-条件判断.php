@@ -54,3 +54,7 @@ switch ($str) {
     echo '哈哈';
 }
 echo '<hr />';
+echo '<hr />';
+echo '<hr />';
+echo '<hr />';
+echo '<hr />';
