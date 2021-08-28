@@ -58,3 +58,15 @@ echo '<hr />';
 echo '<hr />';
 echo '<hr />';
 echo '<hr />';
+$str = '你好';
+switch ($str) {
+  case 'hello':
+    echo 'hello';
+    break;
+  case '你好':
+    echo '你好';
+    break;
+
+  default:
+    echo '哈哈';
+}
