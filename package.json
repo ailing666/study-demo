@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "jest": "^27.1.0"
+    "jest": "^27.1.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {},
   "scripts": {
