@@ -15,6 +15,7 @@ let c = new Calculaor()
 console.log(c.add(1, 2))
 
 // 函数式编程
+// 函数其实是数学上的概念 y = f(x)
 function addNum (a, b) {
   return a + b
 }
