@@ -28,7 +28,6 @@ let local = new LocalStorage();
 let userInfo = new UserInfo('loveZero', local);
 console.log(userInfo.name);
 
-
 // 当想把信息存到mysql时，只需要
 class MysqlStorage implements IStorage {
   save(key: string, value: any): void {
