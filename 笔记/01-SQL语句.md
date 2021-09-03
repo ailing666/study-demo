@@ -260,7 +260,7 @@ SELECT title as phoneTitle,price as currentPrice FROM `products`;
 
 ### 4.2 WHERE条件查询
 
-+ 比较运算符
+#### 4.2.1 比较运算符
 
 ```sql
 SELECT * FROM `products` WHERE price < 1000;
@@ -269,7 +269,7 @@ SELECT * FROM `products` WHERE brand = '华为';
 SELECT title,price FROM `products` WHERE price != 1000;
 ```
 
-+ 逻辑运算符
+#### 4.2.2 逻辑运算符
 
 ```sql
 -- 逻辑与：三种写法
@@ -282,7 +282,7 @@ SELECT * FROM `products` WHERE price BETWEEN 1099 AND 2000;
 SELECT * FROM `products` WHERE price > 5000 || brand = '华为';
 ```
 
-+ null
+#### 4.2.3 null
 
 ```sql
 
@@ -293,9 +293,19 @@ SELECT * FROM `products` WHERE url IS NULL;
 SELECT * FROM `products` WHERE url IS NOT NULL;
 ```
 
-+ 模糊查询
-  + `%`表示匹配任意个任意字符
-  + `_`表示匹配一个任意字符
+#### 4.2.4 IN
+
+```sql
+-- IN表示取多个值中的其中一个
+SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果');
+-- 效果等同与
+SELECT * FROM `products` WHERE brand = '华为' || brand = '小米' || brand = '苹果';
+```
+
+### 4.3 模糊查询
+
++ `%`表示匹配任意个任意字符
++ `_`表示匹配一个任意字符
 
 ```sql
 -- 查询包含8GB的
@@ -308,15 +318,20 @@ SELECT * FROM `products` WHERE title LIKE 'v%';
 SELECT * FROM `products` WHERE title LIKE '__M%';
 ```
 
-![4.2模糊查询](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630642113009-1630642113005.png)
+![4.3模糊查询](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630642113009-1630642113005.png)
 
-+ IN
+### 4.4 对查询结果进行排序
+
+当我们查询到结果的时候，可以使用`DRDER BY`将结果按照某种方式进行排序
+ORDER BY有两个常用的值：
+
++ ASC:升序排列；
+  
++ DESC:降序排列
 
 ```sql
--- IN表示取多个值中的其中一个
-SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果');
--- 效果等同与
-SELECT * FROM `products` WHERE brand = '华为' || brand = '小米' || brand = '苹果';
+-- 按价格升序，当价格相同时按评分降序
+SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果') ORDER BY price ASC,score DESC;
 ```
 
 ## 5. DCL（Data Control Language）

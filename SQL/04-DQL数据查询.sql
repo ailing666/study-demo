@@ -59,3 +59,6 @@ SELECT * FROM `products` WHERE title LIKE '__M%';
 SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果');
 -- 效果等同与
 SELECT * FROM `products` WHERE brand = '华为' || brand = '小米' || brand = '苹果';
+
+-- 按价格升序，当价格相同时按评分降序
+SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果') ORDER BY price ASC,score DESC;
