@@ -241,7 +241,9 @@ UPDATE `user` SET name = '哈哈', `createTime` = '2020-02-02' WHERE id = 670;
 
 数据查询语言；可以通过DQL从数据库中查询记录
 
-### 4.1 基本查询
+### 4.1 查询
+
+#### 4.1.1 基本查询
 
 ```sql
 -- 查询所有字段
@@ -258,51 +260,52 @@ SELECT title as phoneTitle,price as currentPrice FROM `products`;
 
 ![4.1.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629974608778-1629974608769.png)
 
-### 4.2 WHERE条件查询
+#### 4.1.2 WHERE条件查询
 
-#### 4.2.1 比较运算符
+1. 比较运算符
 
-```sql
-SELECT * FROM `products` WHERE price < 1000;
-SELECT * FROM `products` WHERE price >= 1000;
-SELECT * FROM `products` WHERE brand = '华为';
-SELECT title,price FROM `products` WHERE price != 1000;
-```
+      ```sql
+      SELECT * FROM `products` WHERE price < 1000;
+      SELECT * FROM `products` WHERE price >= 1000;
+      SELECT * FROM `products` WHERE brand = '华为';
+      SELECT title,price FROM `products` WHERE price != 1000;
+      ```
 
-#### 4.2.2 逻辑运算符
+2. 逻辑运算符
 
-```sql
--- 逻辑与：三种写法
-SELECT * FROM `products` WHERE price > 1000 AND price < 2000;
-SELECT * FROM `products` WHERE price > 1000 && price < 2000;
--- BETWEEN AND 包含等于
-SELECT * FROM `products` WHERE price BETWEEN 1099 AND 2000;
+      ```sql
+      -- 逻辑与：三种写法
+      SELECT * FROM `products` WHERE price > 1000 AND price < 2000;
+      SELECT * FROM `products` WHERE price > 1000 && price < 2000;
+      -- BETWEEN AND 包含等于
+      SELECT * FROM `products` WHERE price BETWEEN 1099 AND 2000;
 
--- 逻辑或
-SELECT * FROM `products` WHERE price > 5000 || brand = '华为';
-```
+      -- 逻辑或
+      SELECT * FROM `products` WHERE price > 5000 || brand = '华为';
+      SELECT * FROM
+      ```
 
-#### 4.2.3 null
+3. null
 
-```sql
+      ```sql
 
-UPDATE `products` SET url = NULL WHERE id >= 85 and id <= 88;
--- 查询某一个值为NULL
-SELECT * FROM `products` WHERE url IS NULL;
--- 查询值不为NULL
-SELECT * FROM `products` WHERE url IS NOT NULL;
-```
+      UPDATE `products` SET url = NULL WHERE id >= 85 and id <= 88;
+      -- 查询某一个值为NULL
+      SELECT * FROM `products` WHERE url IS NULL;
+      -- 查询值不为NULL
+      SELECT * FROM `products` WHERE url IS NOT NULL;
+      ```
 
-#### 4.2.4 IN
+4. IN
 
-```sql
--- IN表示取多个值中的其中一个
-SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果');
--- 效果等同与
-SELECT * FROM `products` WHERE brand = '华为' || brand = '小米' || brand = '苹果';
-```
+      ```sql
+      -- IN表示取多个值中的其中一个
+      SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果');
+      -- 效果等同与
+      SELECT * FROM `products` WHERE brand = '华为' || brand = '小米' || brand = '苹果';
+      ```
 
-### 4.3 模糊查询
+#### 4.1.3 模糊查询
 
 + `%`表示匹配任意个任意字符
 + `_`表示匹配一个任意字符
@@ -320,7 +323,7 @@ SELECT * FROM `products` WHERE title LIKE '__M%';
 
 ![4.3模糊查询](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630642113009-1630642113005.png)
 
-### 4.4 对查询结果进行排序
+#### 4.1.4 对查询结果进行排序
 
 当我们查询到结果的时候，可以使用`DRDER BY`将结果按照某种方式进行排序
 ORDER BY有两个常用的值：
@@ -334,7 +337,7 @@ ORDER BY有两个常用的值：
 SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果') ORDER BY price ASC,score DESC;
 ```
 
-### 4.5 分页查询
+#### 4.1.5 分页查询
 
 当数据库中的数据非常多时，一次性查询到所有的结果进行显示是不太现实的
 
@@ -353,6 +356,50 @@ SELECT * FROM `products` LIMIT 20 OFFSET 20;
 -- 查询10条，从40开始
 SELECT * FROM `products` LIMIT 40,10;
 ```
+
+### 4.2 聚合函数
+
+将表里的所有数据视为一组数据，进行操作
+
+#### 4.2.1 基本使用
+
+1. 求和
+
+      ```sql
+      -- 求和
+      SELECT SUM(price) FROM `products`;
+      -- 对结果起别名
+      SELECT SUM(price) totalPrice FROM `products`;
+      -- 求华为手机的总和
+      SELECT SUM(price) FROM `products` WHERE brand = '华为';
+      ```
+
+2. 求平均值
+
+      ```sql
+      -- 求平均价格
+      SELECT AVG(price) FROM `products`;
+      ```
+
+3. 求最大值和最小值
+
+      ```sql
+      -- 求最高和最低
+      SELECT MAX(price) FROM `products`;
+
+      SELECT MIN(price) FROM `products`;
+      ```
+
+4. 求总数
+
+      ```sql
+      -- 求表里总个数
+      SELECT COUNT(*) FROM `products`;
+      -- 求表里url的总个数
+      SELECT COUNT(url) FROM `products`;
+      -- 去掉重复的price
+      SELECT COUNT(DISTINCT price)  FROM `products`;
+      ```
 
 ## 5. DCL（Data Control Language）
 
