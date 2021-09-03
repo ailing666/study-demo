@@ -62,3 +62,11 @@ SELECT * FROM `products` WHERE brand = '华为' || brand = '小米' || brand = '
 
 -- 按价格升序，当价格相同时按评分降序
 SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果') ORDER BY price ASC,score DESC;
+
+-- 分页查询
+-- 查询20条，从0开始 1 - 20 
+SELECT * FROM `products` LIMIT 20 OFFSET 0;
+-- 查询20条，从20开始 21 - 40 
+SELECT * FROM `products` LIMIT 20 OFFSET 20;
+-- 查询10条，从40开始
+SELECT * FROM `products` LIMIT 40,10;

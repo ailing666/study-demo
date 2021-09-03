@@ -334,6 +334,26 @@ ORDER BY有两个常用的值：
 SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果') ORDER BY price ASC,score DESC;
 ```
 
+### 4.5 分页查询
+
+当数据库中的数据非常多时，一次性查询到所有的结果进行显示是不太现实的
+
++ 在真实开发中，用户会传入 offset、 limiti或者page等字段；
+
++ 它们的目的是让我们可以在数据库中进行分页查询；
+
++ 它的用法有[ LIMIT (offset, row_count row_ count OFFSET offset
+
+```sql
+-- 分页查询
+-- 查询20条，从0开始 1 - 20 
+SELECT * FROM `products` LIMIT 20 OFFSET 0;
+-- 查询20条，从20开始 21 - 40 
+SELECT * FROM `products` LIMIT 20 OFFSET 20;
+-- 查询10条，从40开始
+SELECT * FROM `products` LIMIT 40,10;
+```
+
 ## 5. DCL（Data Control Language）
 
 数据控制语言；对数据库、表格的权限进行相关访问控制操作；
