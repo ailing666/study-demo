@@ -258,6 +258,41 @@ SELECT title as phoneTitle,price as currentPrice FROM `products`;
 
 ![4.1.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1629974608778-1629974608769.png)
 
+### 4.2 WHERE条件查询
+
++ 比较运算符
+
+```sql
+SELECT * FROM `products` WHERE price < 1000;
+SELECT * FROM `products` WHERE price >= 1000;
+SELECT * FROM `products` WHERE brand = '华为';
+SELECT title,price FROM `products` WHERE price != 1000;
+```
+
++ 逻辑运算符
+
+```sql
+-- 逻辑与：三种写法
+SELECT * FROM `products` WHERE price > 1000 AND price < 2000;
+SELECT * FROM `products` WHERE price > 1000 && price < 2000;
+-- BETWEEN AND 包含等于
+SELECT * FROM `products` WHERE price BETWEEN 1099 AND 2000;
+
+-- 逻辑或
+SELECT * FROM `products` WHERE price > 5000 || brand = '华为';
+```
+
++ null
+
+```sql
+
+UPDATE `products` SET url = NULL WHERE id >= 85 and id <= 88;
+-- 查询某一个值为NULL
+SELECT * FROM `products` WHERE url IS NULL;
+-- 查询值不为NULL
+SELECT * FROM `products` WHERE url IS NOT NULL;
+```
+
 ## 5. DCL（Data Control Language）
 
 数据控制语言；对数据库、表格的权限进行相关访问控制操作；
