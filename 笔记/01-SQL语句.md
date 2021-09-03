@@ -361,7 +361,9 @@ SELECT * FROM `products` LIMIT 40,10;
 
 将表里的所有数据视为一组数据，进行操作
 
-#### 4.2.1 聚合函数基本使用
+#### 4.2.1 基本使用
+
+`SELECT`后面不能跟任何字段
 
 1. 求和
 
@@ -400,6 +402,34 @@ SELECT * FROM `products` LIMIT 40,10;
       -- 去掉重复的price
       SELECT COUNT(DISTINCT price)  FROM `products`;
       ```
+
+#### 4.2.2 GROUP BY
+
+GROUP BY通常和聚合函数一起使用：
+
++ 表示我们先对数据进行分组，再对每一组数据，进行聚合函数的计算
+
+`SELECT`后可以跟上分组字段
+
+```sql
+-- 根据品牌将手机分组，并计算出每组数据的平均值，总数，平均分
+SELECT brand, AVG(price), COUNT(*),AVG(score) FROM `products` GROUP BY brand;
+```
+
+![4.2.2](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630646512654-1630646512645.png)
+
+##### HAVING
+
+```sql
+-- HAVING
+-- 分组后，不支持where查询，可以用having筛选
+-- 根据品牌将手机分组，并计算出每组数据的平均值，总数，平均分，并筛选出平均价格大于2000的手机
+SELECT brand, AVG(price) avgPrice, COUNT(*),AVG(score) FROM `products` GROUP BY brand HAVING avgPrice >2000;
+-- 如果要使用where，需要在分组前
+-- 筛选出评分大于7.5分的手机，根据品牌进行分组，并计算出每组数据的平均值，总数，平均分
+SELECT brand, AVG(price) avgPrice, COUNT(*),AVG(score) FROM `products` WHERE score >7.5 GROUP BY brand;
+
+```
 
 ## 5. DCL（Data Control Language）
 
