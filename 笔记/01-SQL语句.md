@@ -434,3 +434,97 @@ SELECT brand, AVG(price) avgPrice, COUNT(*),AVG(score) FROM `products` WHERE sco
 ## 5. DCL（Data Control Language）
 
 数据控制语言；对数据库、表格的权限进行相关访问控制操作；
+
+## 6. 多表
+
+### 6.1 创建多表
+
+```sql
+-- 1.创建brand的表
+CREATE TABLE IF NOT EXISTS `brand`(
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ name VARCHAR(20) NOT NULL,
+ website VARCHAR(100),
+ phoneRank INT
+);
+
+-- 2.插入数据
+INSERT INTO `brand` (name, website, phoneRank) VALUES ('华为', 'www.huawei.com', 2);
+INSERT INTO `brand` (name, website, phoneRank) VALUES ('苹果', 'www.apple.com', 10);
+INSERT INTO `brand` (name, website, phoneRank) VALUES ('小米', 'www.mi.com', 5);
+INSERT INTO `brand` (name, website, phoneRank) VALUES ('oppo', 'www.oppo.com', 12);
+INSERT INTO `brand` (name, website, phoneRank) VALUES ('京东', 'www.jd.com', 8);
+INSERT INTO `brand` (name, website, phoneRank) VALUES ('Google', 'www.google.com', 9);
+
+
+-- 3.给brand_id设置引用brand中的id的外键约束
+-- 添加一个brand_id字段
+ALTER TABLE `products` ADD `brand_id` INT;
+
+-- 修改brand_id为外键
+ALTER TABLE `products` ADD FOREIGN KEY(brand_id) REFERENCES brand(id);
+
+-- 设置brand_id的值
+UPDATE `products` SET `brand_id` = 1 WHERE `brand` = '华为';
+UPDATE `products` SET `brand_id` = 2 WHERE `brand` = '苹果';
+UPDATE `products` SET `brand_id` = 3 WHERE `brand` = '小米';
+UPDATE `products` SET `brand_id` = 4 WHERE `brand` = 'oppo';
+
+```
+
+![6.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630652813942-1630652813935.png)
+
+#### 6.1.2 修改外键
+
+直接修改外键会报错
+![6.1.2](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630665094842-1630665094837.png)
+
+修改 on delete或者 on update的值；
+我们可以给更新或者删除时设置几个值
+
++ RESTRICT（默认属性）：当更新或删除某个记录时，会检査该记录是否有关联的外键记录，有的话会报错,不允许更新或删除
+
++ NO ACTION:和 RESTRICT是一致的，是在SQL标准中定义的
+
++ CASCADE:当更新或删除某个记录时，会检査该记录是否有关联的外键记录，有的话
+
+  + 更新：那么会更新对应的记录；
+
+  + 删除：那么关联的记录会被一起删除掉
+
++ SET NULL:当更新或删除某个记录时，会检查该记录是否有关联的外键记录，有的话，将对应的值设置为NULL
+  
+```sql
+-- 1.获取到目前的外键的名称
+SHOW CREATE TABLE `products`;
+-- 得到结果
+-- CREATE TABLE `products` (
+--   `id` int NOT NULL AUTO_INCREMENT,
+--   `brand` varchar(20) DEFAULT NULL,
+--   `title` varchar(100) NOT NULL,
+--   `price` double NOT NULL,
+--   `score` decimal(2,1) DEFAULT NULL,
+--   `voteCnt` int DEFAULT NULL,
+--   `url` varchar(100) DEFAULT NULL,
+--   `pid` int DEFAULT NULL,
+--   `brand_id` int DEFAULT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `brand_id` (`brand_id`),
+--   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`) // 外键名称products_ibfk_1
+-- ) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+-- 
+
+-- 2.根据名称将外键删除掉
+ALTER TABLE `products` DROP FOREIGN KEY products_ibfk_1;
+
+-- 3.重新添加外键约束：修改时联动，删除时默认
+ALTER TABLE `products` ADD FOREIGN KEY (brand_id) REFERENCES brand(id)
+                         ON UPDATE CASCADE 
+                         ON DELETE RESTRICT;
+
+-- 4.修改外键
+UPDATE `brand` SET `id` = 100 WHERE `id` = 1;
+```
+
+![修改前后对比](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630665397698-1630665397693.png)
+![修改成功](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630665457227-1630665457223.png)
