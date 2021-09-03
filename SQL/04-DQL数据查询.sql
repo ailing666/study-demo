@@ -44,3 +44,18 @@ UPDATE `products` SET url = NULL WHERE id >= 85 and id <= 88;
 SELECT * FROM `products` WHERE url IS NULL;
 -- 查询值不为NULL
 SELECT * FROM `products` WHERE url IS NOT NULL;
+
+
+-- 查询包含8GB的
+SELECT * FROM `products` WHERE title LIKE '%8GB%';
+
+-- 查询以v开头的
+SELECT * FROM `products` WHERE title LIKE 'v%';
+
+-- 查询带M必须是第单三个字符
+SELECT * FROM `products` WHERE title LIKE '__M%';
+
+-- IN表示取多个值中的其中一个
+SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果');
+-- 效果等同与
+SELECT * FROM `products` WHERE brand = '华为' || brand = '小米' || brand = '苹果';

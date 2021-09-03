@@ -293,6 +293,32 @@ SELECT * FROM `products` WHERE url IS NULL;
 SELECT * FROM `products` WHERE url IS NOT NULL;
 ```
 
++ 模糊查询
+  + `%`表示匹配任意个任意字符
+  + `_`表示匹配一个任意字符
+
+```sql
+-- 查询包含8GB的
+SELECT * FROM `products` WHERE title LIKE '%8GB%';
+
+-- 查询以v开头的
+SELECT * FROM `products` WHERE title LIKE 'v%';
+
+-- 查询带M必须是第单三个字符
+SELECT * FROM `products` WHERE title LIKE '__M%';
+```
+
+![4.2模糊查询](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630642113009-1630642113005.png)
+
++ IN
+
+```sql
+-- IN表示取多个值中的其中一个
+SELECT * FROM `products` WHERE brand IN ('华为','小米','苹果');
+-- 效果等同与
+SELECT * FROM `products` WHERE brand = '华为' || brand = '小米' || brand = '苹果';
+```
+
 ## 5. DCL（Data Control Language）
 
 数据控制语言；对数据库、表格的权限进行相关访问控制操作；
