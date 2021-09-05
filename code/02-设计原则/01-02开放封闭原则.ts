@@ -26,4 +26,10 @@ console.log(product.cost(vip));
 console.log(product.cost(guest));
 console.log(product.cost(superVip));
 
+console.log(product.cost(member));
+console.log(product.cost(vip));
+console.log(product.cost(guest));
+console.log(product.cost(superVip));
+
+
 
