@@ -439,6 +439,25 @@ SELECT brand, AVG(price) avgPrice, COUNT(*),AVG(score) FROM `products` WHERE sco
 
 ### 6.1 创建多表
 
+创建外键
+将两张表联系起来，我们可以将 product中的 brand_id关联到 brand中的id
+
++ 如果是创建表添加外键约束，我们需要在创建表的最后添加如下语句
+
+```sql
+
+FOREIGN KEY(brand_id)REFERENCES brand(id)
+
+```
+
++ 如果是表已经创建好，额外添加外键
+  
+```sql
+
+ALTER TABLE `products` ADD FOREIGN KEY(brand_id) REFERENCES brand(id);
+
+```
+
 ```sql
 -- 1.创建brand的表
 CREATE TABLE IF NOT EXISTS `brand`(
@@ -474,7 +493,7 @@ UPDATE `products` SET `brand_id` = 4 WHERE `brand` = 'oppo';
 
 ![6.1](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630652813942-1630652813935.png)
 
-#### 6.1.2 修改外键
+### 6.2 修改外键
 
 直接修改外键会报错
 ![6.1.2](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630665094842-1630665094837.png)
@@ -528,3 +547,5 @@ UPDATE `brand` SET `id` = 100 WHERE `id` = 1;
 
 ![修改前后对比](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630665397698-1630665397693.png)
 ![修改成功](https://cdn.jsdelivr.net/gh/ailing666/images@master/2021/1630665457227-1630665457223.png)
+
+### 6.3 多表查询
