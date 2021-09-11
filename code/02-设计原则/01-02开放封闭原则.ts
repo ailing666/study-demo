@@ -21,15 +21,6 @@ let member = new Customer('member', .8);
 let vip = new Customer('vip', .6);
 let guest = new Customer('guest');
 let superVip = new Customer('superVip', .4);
-console.log(product.cost(member));
-console.log(product.cost(vip));
-console.log(product.cost(guest));
-console.log(product.cost(superVip));
-
-console.log(product.cost(member));
-console.log(product.cost(vip));
-console.log(product.cost(guest));
-console.log(product.cost(superVip));
 
 
 
