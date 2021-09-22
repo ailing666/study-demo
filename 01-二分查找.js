@@ -28,3 +28,4 @@ const A = [3, 5, 19, 22, 25, 33, 45, 47, 57, 66, 71, 78]
 console.log(bsearch(A, 88))
 console.log(bsearch(A, 66))
 console.log(bsearch(A, 19))
+console.log(bsearch(A, 19))
