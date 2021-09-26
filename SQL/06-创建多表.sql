@@ -27,3 +27,7 @@ UPDATE `products` SET `brand_id` = 1 WHERE `brand` = '华为';
 UPDATE `products` SET `brand_id` = 2 WHERE `brand` = '苹果';
 UPDATE `products` SET `brand_id` = 3 WHERE `brand` = '小米';
 UPDATE `products` SET `brand_id` = 4 WHERE `brand` = 'oppo';
+UPDATE `products` SET `brand_id` = 1 WHERE `brand` = '华为';
+UPDATE `products` SET `brand_id` = 2 WHERE `brand` = '苹果';
+UPDATE `products` SET `brand_id` = 3 WHERE `brand` = '小米';
+UPDATE `products` SET `brand_id` = 4 WHERE `brand` = 'oppo';
