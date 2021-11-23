@@ -6,7 +6,7 @@ const server = http.createServer((req, res) => {
   res.end('hello http')
 })
 
-// 监听http请求
+// 启动服务器，监听端口号和主机
 server.listen(8888, 'localhost', () => {
   console.log('启动成功');
 })
