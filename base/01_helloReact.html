@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h2 id="text"></h2>
+  <button id="btn">改变文本</button>
+
+  <script>
+    // 命令式编程：每做一个操作都是给计算机一个命令
+    // 1.定义数据
+    let message = 'Hello World'
+
+    // 2.将数据显示h2元素中
+    const textEl = document.getElementById("text")
+    text.innerText = message
+
+    // 3.点击按钮，改变页面数据
+    const btnEl = document.getElementById("btn")
+    btnEl.addEventListener('click', () => {
+      message = 'Hello React'
+      textEl.innerText = message
+    })
+
+  </script>
+
+  <!-- -----------------React实现------------------------- -->
+
+  <div id="box">box</div>
+  <!-- 添加React的依赖 -->
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <!-- babel -->
+  <script type="text/babel">
+    let msg = "Hello World";
+
+    function btnClick() {
+      msg = "Hello React";
+      console.log(msg);
+      render();
+    }
+    function render() {
+      ReactDOM.render(
+        <div>
+          <h2>{msg}</h2>
+          <button onClick={btnClick}>改变文本</button>
+        </div>,
+        document.getElementById("box")
+      );
+    }
+
+    render();
+  </script>
+</body>
+
+</html>
