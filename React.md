@@ -135,3 +135,23 @@
     ReactDOM.render(<App />, document.getElementById("app"))
   </script>
   ```
+
+## 二、JSX语法
+
+### 1.注释
+
+`{/*注释*/}`
+
+```jsx
+      render() {
+        return (
+          <div>
+            {/*注释*/}
+          </div>
+        )
+      }
+```
+
+### 2.嵌入数据
+
+### 3.嵌入表达式

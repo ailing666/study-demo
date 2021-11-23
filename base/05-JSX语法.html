@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <!-- 添加React的依赖 -->
+  <script src="../reactJs/react.development.js"></script>
+  <script src="../reactJs/react-dom.development.js"></script>
+  <script src="../reactJs/babel.min.js"></script>
+
+  <script type="text/babel">
+    // 封装组件
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          // 1.可以正常显示
+          name: 'loveZero',// String
+          age: 18,//Number
+          list: [1, 2, 'asdf', 'abc'],//Array
+          // 2.不显示
+          test1: null,
+          test2: undefined,
+          bool: true,
+          // 3.对象不能作为jsx的子类
+          obj: {
+            id: '007'
+          }
+        }
+      }
+
+      render() {
+        return (
+          <div>
+            {/*可以正常显示*/}
+            <h2>{this.state.name}</h2>
+            <h2>{this.state.age}</h2>
+            <h2>{this.state.list}</h2>
+            {/*不显示*/}
+            <h2>{this.state.test1}</h2>
+            <h2>{this.state.test2}</h2>
+            <h2>{this.state.bool}</h2>
+            {/*可以通过转为字符串让其渲染*/}
+            <h2>{this.state.test1 + ''}</h2>
+            <h2>{this.state.test2 + ''}</h2>
+            <h2>{this.state.bool.toString()}</h2>
+            {/*对象不能作为jsx的子类*/}
+            {/*<h2>{this.state.obj}</h2>*/}
+          </div>
+        )
+      }
+    }
+
+    // 渲染组件
+    ReactDOM.render(<App />, document.getElementById("app"))
+  </script>
+
+</body>
+
+</html>
