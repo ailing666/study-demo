@@ -274,3 +274,74 @@
       }
     }
 ```
+
+### 8.条件渲染
+
+方式一：通过`if`控制
+
+```jsx
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          login: true
+        }
+      }
+
+      render() {
+        let message = null
+        let btnText = null
+        if (this.state.login) {
+          message = '您已登录'
+          btnText = '退出'
+        } else {
+          message = '请先登录'
+          btnText = '登录'
+        }
+        return (
+          <div>
+            <h2>{message}</h2>
+            <button onClick={e => this.btnClick()}>{btnText}</button>
+            <hr />
+            <div>{this.state.login && '欢迎'}</div>
+          </div >
+        )
+      }
+      btnClick() {
+        this.setState({
+          login: !this.state.login
+        })
+      }
+    }
+```
+
+方式二：通过控制`display`,类似`v-show`
+
+```jsx
+    class App extends React.Component {
+      constructor(props) {
+        super(props);
+
+        this.state = {
+          isLogin: true
+        }
+      }
+
+      render() {
+        const { isLogin } = this.state;
+        const titleDisplayValue = isLogin ? "block" : "none";
+        return (
+          <div>
+            <button onClick={e => this.loginClick()}>{isLogin ? "退出" : "登录"}</button>
+            <h2 style={{ display: titleDisplayValue }}>你好</h2>
+          </div>
+        )
+      }
+
+      loginClick() {
+        this.setState({
+          isLogin: !this.state.isLogin
+        })
+      }
+    }
+```
