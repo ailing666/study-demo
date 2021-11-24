@@ -19,6 +19,6 @@ const server = http.createServer((req, res) => {
 });
 
 // 启动服务器,并且制定端口号和主机
-server.listen(8888, '0.0.0.0', () => {
+server.listen(8000, 'localhost', () => {
   console.log("服务器启动成功~");
 });
