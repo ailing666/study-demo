@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <!-- 添加React的依赖 -->
+  <script src="../reactJs/react.development.js"></script>
+  <script src="../reactJs/react-dom.development.js"></script>
+  <script src="../reactJs/babel.min.js"></script>
+
+  <script type="text/babel">
+    // 封装组件
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          list: [110, 123, 50, 32, 55, 10, 8, 333, 1, 17]
+        }
+      }
+
+      render() {
+        return (
+          <div>
+            {/*1.全部渲染*/}
+            <h2>全部渲染</h2>
+            <ul>
+              {
+                this.state.list.map(item => <li>{item}</li>)
+              }
+            </ul>
+            {/*2.渲染大于50的*/}
+            <h2>渲染大于50</h2>
+            <ul>
+              {
+                this.state.list.filter(item => item > 50).map(item => <li>{item}</li>)
+              }
+            </ul>
+            {/*3.渲染前4条*/}
+            <h2>渲染前4条</h2>
+            <ul>
+              {
+                this.state.list.slice(0, 4).map(item => <li>{item}</li>)
+              }
+            </ul>
+          </div>
+        )
+      }
+    }
+
+    // 渲染组件
+    ReactDOM.render(<App />, document.getElementById("app"))
+  </script>
+
+</body>
+
+</html>

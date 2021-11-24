@@ -345,3 +345,37 @@
       }
     }
 ```
+
+### 9.列表渲染
+
+通过es6函数渲染
+
+```jsx
+      render() {
+        return (
+          <div>
+            {/*1.全部渲染*/}
+            <h2>全部渲染</h2>
+            <ul>
+              {
+                this.state.list.map(item => <li>{item}</li>)
+              }
+            </ul>
+            {/*2.渲染大于50的*/}
+            <h2>渲染大于50</h2>
+            <ul>
+              {
+                this.state.list.filter(item => item > 50).map(item => <li>{item}</li>)
+              }
+            </ul>
+            {/*3.渲染前4条*/}
+            <h2>渲染前4条</h2>
+            <ul>
+              {
+                this.state.list.slice(0, 4).map(item => <li>{item}</li>)
+              }
+            </ul>
+          </div>
+        )
+      }
+```
