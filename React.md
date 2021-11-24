@@ -154,4 +154,81 @@
 
 ### 2.嵌入数据
 
+```js
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          // 1.可以正常显示
+          name: 'loveZero',// String
+          age: 18,//Number
+          list: [1, 2, 'asdf', 'abc'],//Array
+          // 2.不显示
+          test1: null,
+          test2: undefined,
+          bool: true,
+          // 3.对象不能作为jsx的子类
+          obj: {
+            id: '007'
+          }
+        }
+      }
+
+      render() {
+        return (
+          <div>
+            {/*可以正常显示*/}
+            <h2>{this.state.name}</h2>
+            <h2>{this.state.age}</h2>
+            <h2>{this.state.list}</h2>
+            {/*不显示*/}
+            <h2>{this.state.test1}</h2>
+            <h2>{this.state.test2}</h2>
+            <h2>{this.state.bool}</h2>
+            {/*可以通过转为字符串让其渲染*/}
+            <h2>{this.state.test1 + ''}</h2>
+            <h2>{this.state.test2 + ''}</h2>
+            <h2>{this.state.bool.toString()}</h2>
+            {/*对象不能作为jsx的子类*/}
+            {/*<h2>{this.state.obj}</h2>*/}
+          </div>
+        )
+      }
+    }
+  ```
+
 ### 3.嵌入表达式
+
+```js
+  {/*1.运算符表达式*/}
+  <h2>{name + " " + age}</h2>
+  <h2>{20 * 50}</h2>
+
+  {/*2.三元表达式*/}
+  <h2>{bool ? "真~" : "假~"}</h2>
+
+  {/*3.进行函数调用*/}
+  <h2>{this.addNum()}</h2>
+```
+
+### 4.绑定属性
+
+```jsx
+  <img src={imgUrl} />
+  <a href={linkUrl}>百度</a>
+  <label htmlFor=""></label>
+```
+
+### 5.绑定class
+
+```jsx
+  <div className="box">box1</div>
+  {/*动态绑定class*/}
+  <div className={"box " + (active && "active")}>box2</div>
+```
+
+### 6.绑定style
+
+```jsx
+  <div style={{ color: 'red', fontWeight: 700 }}>绑定style</div>
+```

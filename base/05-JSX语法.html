@@ -38,6 +38,8 @@
       }
 
       render() {
+        const { name, age, bool } = this.state;
+
         return (
           <div>
             {/*可以正常显示*/}
@@ -54,8 +56,20 @@
             <h2>{this.state.bool.toString()}</h2>
             {/*对象不能作为jsx的子类*/}
             {/*<h2>{this.state.obj}</h2>*/}
+            {/*1.运算符表达式*/}
+            <h2>{name + " " + age}</h2>
+            <h2>{20 * 50}</h2>
+
+            {/*2.三元表达式*/}
+            <h2>{bool ? "真~" : "假~"}</h2>
+
+            {/*3.进行函数调用*/}
+            <h2>{this.addNum()}</h2>
           </div>
         )
+      }
+      addNum() {
+        return ++this.state.age;
       }
     }
 

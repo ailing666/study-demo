@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <!-- 添加React的依赖 -->
+  <script src="../reactJs/react.development.js"></script>
+  <script src="../reactJs/react-dom.development.js"></script>
+  <script src="../reactJs/babel.min.js"></script>
+
+  <script type="text/babel">
+    // 封装组件
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          imgUrl: "https://ftp.bmp.ovh/imgs/2021/11/48ffc630f43dde2e.png",
+          linkUrl: "http://www.baidu.com",
+          active: true
+        }
+      }
+
+      render() {
+        const { imgUrl, linkUrl, active } = this.state
+        return (
+          <div>
+            {/*1.绑定属性*/}
+            <img src={imgUrl} />
+            <a href={linkUrl}>百度</a>
+
+            {/*2.绑定class*/}
+            <div className="box">box1</div>
+            {/*动态绑定class*/}
+            <div className={"box " + (active && "active")}>box2</div>
+            <label htmlFor=""></label>
+            {/*3.绑定style*/}
+            <div style={{ color: 'red', fontWeight: 700 }}>绑定style</div>
+          </div>
+        )
+      }
+    }
+
+    // 渲染组件
+    ReactDOM.render(<App />, document.getElementById("app"))
+  </script>
+
+</body>
+
+</html>
