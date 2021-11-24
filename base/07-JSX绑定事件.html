@@ -22,29 +22,35 @@
       constructor() {
         super()
         this.state = {
-          imgUrl: "https://ftp.bmp.ovh/imgs/2021/11/48ffc630f43dde2e.png",
-          linkUrl: "http://www.baidu.com",
-          active: true
+          list: ["大话西游", "海王", "流浪地球", "盗梦空间"]
         }
       }
 
       render() {
-        const { imgUrl, linkUrl, active } = this.state
+        const { list } = this.state
         return (
           <div>
-            {/*1.绑定属性*/}
-            <img src={imgUrl} />
-            <a href={linkUrl}>百度</a>
-            <label htmlFor=""></label>
-
-            {/*2.绑定class*/}
-            <div className="box">box1</div>
-            {/*动态绑定class*/}
-            <div className={"box " + (active && "active")}>box2</div>
-            {/*3.绑定style*/}
-            <div style={{ color: 'red', fontWeight: 700 }}>绑定style</div>
+            <ul>
+              {
+                list.map((item, index) => {
+                  return (
+                    <li className="li"
+                      style={{ color: 'red' }}
+                      onClick={e => { this.liClick(item, index, e) }}>
+                      {item}
+                    </li>
+                  )
+                })
+              }
+            </ul>
           </div>
         )
+      }
+      liClick(item, index, e) {
+        console.log(this);
+        console.log(item);
+        console.log(index);
+        console.log(e);
       }
     }
 

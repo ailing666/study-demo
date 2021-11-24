@@ -232,3 +232,45 @@
 ```jsx
   <div style={{ color: 'red', fontWeight: 700 }}>绑定style</div>
 ```
+
+### 7.绑定事件
+
+通过箭头函数来解决`this`指向
+
+```jsx
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          list: ["大话西游", "海王", "流浪地球", "盗梦空间"]
+        }
+      }
+
+      render() {
+        const { list } = this.state
+        return (
+          <div>
+            <ul>
+              {
+                list.map((item, index) => {
+                  return (
+                    <li className="li"
+                      style={{ color: 'red' }}
+                      onClick={e => { this.liClick(item, index, e) }}>
+                      {item}
+                    </li>
+                  )
+                })
+              }
+            </ul>
+          </div>
+        )
+      }
+      liClick(item, index, e) {
+        console.log(this);
+        console.log(item);
+        console.log(index);
+        console.log(e);
+      }
+    }
+```
