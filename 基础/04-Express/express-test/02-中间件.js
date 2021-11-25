@@ -24,17 +24,17 @@ app.post('/login', (req, res, next) => {
 })
 
 app.get("/home", (req, res, next) => {
-  console.log("home path and method middleware 02");
-  next();
+  console.log("home path and method middleware 02")
+  next()
 }, (req, res, next) => {
-  console.log("home path and method middleware 03");
-  next();
+  console.log("home path and method middleware 03")
+  next()
 }, (req, res, next) => {
-  console.log("home path and method middleware 04");
-  res.end("home page");
-});
+  console.log("home path and method middleware 04")
+  res.end("home page")
+})
 
 
 app.listen(8000, () => {
-  console.log('启动成功');
+  console.log('启动成功')
 })
