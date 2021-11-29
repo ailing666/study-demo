@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Hello from '../components/Hello.vue'
 import CellDemo from '../components/CellDemo.vue'
 import NodeDemo from '../components/NodeDemo.vue'
+import EdgeDemo from '../components/EdgeDemo.vue'
 import App from '../App.vue'
 
 const originalPush = Router.prototype.push;
@@ -34,6 +35,11 @@ export default new Router({
       path: '/node',
       name: 'NodeDemo',
       component: NodeDemo
+    },
+    {
+      path: '/edge',
+      name: 'EdgeDemo',
+      component: EdgeDemo
     },
   ]
 });
