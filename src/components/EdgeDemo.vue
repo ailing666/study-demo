@@ -60,14 +60,17 @@ export default {
 
     // 创建线
     const edge = new Shape.Edge({
-      // // 源节点
+      // 方式一：节点指向节点
+      //  源节点
       // source: rect1,
-      // // 目标节点
+      //  目标节点
       // target: rect2,
 
+      //  方式二：天机链接桩的id
       // source: { cell: rect1, port: 'out-port-1' }, // 源节点和链接桩 ID
       // target: { cell: rect2, port: 'in-port-1' }, // 目标节点 ID 和链接桩 ID
 
+      // 方式三，自定义指向位置
       source: rect1, // 源节点 ID
       target: { x: 100, y: 120 }, // 目标点
     });
