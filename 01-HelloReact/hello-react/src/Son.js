@@ -43,8 +43,21 @@ function ChildFun (props) {
   return <h2>子组件展示数据: {name + ' ' + age + ' ' + height}</h2>
 }
 
+class CounterButton extends Component {
+  render () {
+    const { onClick } = this.props
+    return <button onClick={onClick}>+1</button>
+  }
+}
+
 // 父组件
 export default class Son extends Component {
+  constructor () {
+    super()
+    this.state = {
+      num: 0
+    }
+  }
   render () {
     return (
       <div>
@@ -53,7 +66,25 @@ export default class Son extends Component {
         <ChildCpn />
         <ChildFun name='loveZero' age='18' height='1.58' />
         <ChildFun name='千玺' age='20' height='1.78' />
+        <button
+          onClick={e => {
+            this.numClick()
+          }}
+        >
+          +
+        </button>
+        <h2>{this.state.num}</h2>
+        <CounterButton
+          onClick={e => {
+            this.numClick()
+          }}
+        />
       </div>
     )
+  }
+  numClick () {
+    this.setState({
+      num: this.state.num + 1
+    })
   }
 }
