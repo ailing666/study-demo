@@ -1,0 +1,7 @@
+.tab {
+  display: flex;
+}
+
+.active {
+  color: red;
+}
