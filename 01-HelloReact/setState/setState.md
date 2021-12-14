@@ -8,6 +8,9 @@
 
 ## 二、setState 时候异步还是同步
 
+- 在组件生命周期或 React 合成事件中，setState 是异步；
+- 在 setTimeout 或者原生 dom 事件中，setState 是同步；
+
 ### 1.异步
 
 通过 setState 改变数据后打印该数据，发现页面数据发生了改变，但打印的仍然是改变之前的数据，可见 setState 是异步的操作，我们并不能在执行完 setState 之后立马拿到最新的 state 的结果
@@ -74,5 +77,41 @@ export default class App extends Component {
   componentDidUpdate () {
     // 方式二: 获取异步更新的state
     console.log(this.state.message)
+  }
+```
+
+### 2.同步
+
+#### 2.1 将 setState 放入到定时器中
+
+```js
+ changeText () {
+    setTimeout(() => {
+      this.setState({
+        message: '你好'
+      })
+      console.log(this.state.message)
+    }, 0)
+  }
+```
+
+#### 2.2 原生事件中
+
+```js
+  render () {
+    return (
+      <div>
+        <button id='btn'>改变文本</button>
+      </div>
+    )
+  }
+
+  componentDidMount () {
+    document.getElementById('btn').addEventListener('click', e => {
+      this.setState({/
+        message: '你好'
+      })
+      console.log(this.state.message)
+    })
   }
 ```
