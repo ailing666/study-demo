@@ -1,7 +1,6 @@
 const Koa = require('koa');
-const multer = require('koa-multer');
-
 const app = new Koa();
+const multer = require('koa-multer');
 
 const upload = multer();
 
