@@ -18,6 +18,7 @@ const upload = multer({
   storage
 });
 
+// upload.single()里面的参数必须是传进来的文件名
 uploadRouter.post('/avatar', upload.single('avatar'), (ctx, next) => {
   console.log(ctx.req.file);
   ctx.response.body = "上传头像成功~";
