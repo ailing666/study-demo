@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 // 根组件
 import App from './App';
 
+// 通过调用ReactDOM的render方法渲染App根组件到id为root的dom节点上
 ReactDOM.render(
   <React.StrictMode>
     <App />
