@@ -23,8 +23,7 @@ function sqrt (n) {
   return (min + max) / 2
 }
 
-
-
+// 利用牛顿迭代法 => (x+a/x)/2
 function sqrt2 (n) {
   let x = n
   while (Math.abs(x * x - n) >= 0.0000000000001) {
