@@ -1,27 +1,20 @@
 import React from 'react'
 
-// 函数子组件
 function SonF (props) {
-  return <div>SonF,{props.msg}</div>
-}
-
-// 类子组件
-class SonC extends React.Component {
-  render () {
-    return <div>SonC,{this.props.msg}</div>
-  }
+  return <div>
+    <button onClick={props.appF}>SonF</button>{props.childJsx}
+  </div>
 }
 
 // 父组件
 class App extends React.Component {
-  state = {
-    msg: '父组件值'
+  appF = () => {
+    console.log(1)
   }
   render () {
     return (
       <div>
-        <SonF msg={this.state.msg}></SonF>
-        <SonC msg={this.state.msg}></SonC>
+        <SonF appF={this.appF} childJsx={<h2>父组件jsx</h2>}></SonF>
       </div>
     )
   }
