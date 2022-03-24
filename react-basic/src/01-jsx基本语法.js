@@ -1,8 +1,8 @@
-function sum(x, y) {
+function sum (x, y) {
   return x + y
 }
 
-function App() {
+function App () {
   return (
     <div className="App">
 
@@ -29,7 +29,7 @@ function App() {
       {/* 函数调用 */}
       <div>{sum(6, 1)}</div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

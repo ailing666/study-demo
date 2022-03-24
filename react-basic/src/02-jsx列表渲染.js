@@ -9,7 +9,7 @@ const list = [
   }
 ]
 
-function App() {
+function App () {
   return (
     <div className="App">
       {/* 条件渲染 */}
@@ -19,7 +19,7 @@ function App() {
         }
       </ul>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
