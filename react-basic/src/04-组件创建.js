@@ -1,8 +1,8 @@
 import React from 'react'
 // 创建组件，首字母大写，必须return一个jsx语法的结构,如果声明都不渲染需要返回null
-function HelloComponent () {
+function HelloF () {
   return (
-    <div className="HelloComponent">HelloComponent</div>
+    <div>HelloF</div>
   )
 }
 
@@ -17,7 +17,7 @@ class HelloC extends React.Component {
 function App () {
   return (
     <div className="App">
-      <HelloComponent></HelloComponent>
+      <HelloF></HelloF>
       <HelloC></HelloC>
     </div>
   )
