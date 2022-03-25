@@ -2,19 +2,19 @@ import React from 'react'
 
 function SonF (props) {
   return <div>
-    <button onClick={() => props.appF('子组件数据')}>SonF</button>
+    <button onClick={props.appF}>SonF</button>{props.childJsx}
   </div>
 }
 
 // 父组件
 class App extends React.Component {
-  appF = (sonMsg) => {
-    console.log(sonMsg)
+  appF = () => {
+    console.log(1)
   }
   render () {
     return (
       <div>
-        <SonF appF={this.appF}></SonF>
+        <SonF appF={this.appF} childJsx={<h2>父组件jsx</h2>}></SonF>
       </div>
     )
   }
