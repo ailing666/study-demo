@@ -1,9 +1,13 @@
-.yellowText {
-  color: yellow;
-  font-size: 30px;
-}
+@import '~antd/dist/antd.css';
 
-.greenText {
-  color: green;
-  font-size: 30px;
+.container {
+  width: 600px;
+  margin: 0 auto;
+}
+.search-box {
+  display: flex;
+  margin-bottom: 10px;
+}
+.input-box {
+  margin-right: 20px;
 }

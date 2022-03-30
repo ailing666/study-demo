@@ -1,43 +1,58 @@
+import { Input, Table } from 'antd'
 import React from 'react'
-class SonC extends React.Component {
-  // 卸载 - 组件销毁时候
-  componentWillUnmount () {
-    console.log('componentWillUnmount')
-  }
-  render () {
-    return (
-      <div>SonC</div>
-    )
-  }
-}
+import './App.css'
+
+const { Search } = Input
+
 class App extends React.Component {
-  // 挂载 - 只在创建组件时执行一次
-  constructor() {
-    super()
-    console.log('constructor')
-  }
-
-  // 挂载 - 在DOM渲染完成后触发
-  componentDidMount () {
-    console.log('componentDidMount')
-  }
-  // 更新 - 每次组件渲染都会触发
-  componentDidUpdate () {
-    console.log('componentDidUpdate')
-  }
   state = {
-    flag: true
+    list: [],
+    columns: [
+      {
+        title: '任务编号',
+        dataIndex: 'id',
+        key: 'id',
+      },
+      {
+        title: '任务名称',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '任务描述',
+        dataIndex: 'des',
+        key: 'des',
+      },
+      {
+        title: '操作',
+        dataIndex: 'do',
+        key: 'do',
+      },
+    ]
   }
 
-  // 挂载/更新 - 每次组件渲染都会触发
+  // 搜索
+  onSearch = (value) => {
+    console.log(value)
+  }
+  // 删除
+
+  // 加载列表
+
+
   render () {
-    let { flag } = this.state
-    console.log('render')
     return (
-      <>
-        <button onClick={() => { this.setState({ flag: !flag }) }}>{flag ? '存在' : '不存在'}</button>
-        {flag ? <SonC></SonC> : null}
-      </>
+      <div className="container">
+        <div className="search-box">
+          <Search
+            placeholder="input search text"
+            allowClear
+            enterButton="Search"
+            size="large"
+            onSearch={this.onSearch}
+          />
+        </div>
+      </div>
     )
   }
 }
