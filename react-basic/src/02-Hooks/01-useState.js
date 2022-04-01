@@ -14,7 +14,7 @@ function App () {
   return (
     <>
       <button onClick={() => { setCount(count + 1) }}>{count}</button>
-      <button onClick={() => { setFlag(!flag) }}>{flag ? "ture" : 'flase'}</button>
+      <button onClick={() => { setFlag(!flag) }}>{flag ? "true" : 'flase'}</button>
       <button onClick={() => { setList(list.filter(item => item > 2)) }}>{list}</button>
     </>
   )
