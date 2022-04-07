@@ -1,7 +1,24 @@
-## 分支说明
-## 1.promise学习  --- promise
-## 2.EventLoop学习 --- eventLoop
-## 3.node学习 --- node
-## 4.php学习 --- php
-## 5.MySQL学习 --- mysql
-## 6.react学习 --- react
+# car
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
