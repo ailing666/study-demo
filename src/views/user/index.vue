@@ -9,9 +9,6 @@ export default {
     return {
     }
   },
-  mounted () {
-    console.log()
-  },
   computed: {
     isShow () {
       return this.$route.name === 'User'

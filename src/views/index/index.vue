@@ -1,20 +1,20 @@
 <template>
   <div>
-    <car />
-    <aMap />
+    <Car />
+    <AMap />
     <router-view>
-      <user></user>
+      <User />
     </router-view>
   </div>
 </template>
 
 <script>
-import aMap from "@/views/aMap"
-import user from "@/views/user"
-import car from "@/views/car"
+import AMap from "@/views/aMap"
+import User from "@/views/user"
+import Car from "@/views/car"
 export default {
   name: "Index",
-  components: { aMap, user, car },
+  components: { AMap, User, Car },
   data () {
     return {}
   },
