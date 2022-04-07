@@ -5,7 +5,7 @@ function Foo () {
     const timerId = setInterval(() => {
       console.log('副作用函数执行了')
     }, 1000)
-    // 添加清理副作用函数    
+    // 添加清理副作用函数
     // 一旦组件被销毁，定时器也被清理
     return () => {
       clearInterval(timerId)
