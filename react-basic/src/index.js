@@ -1,14 +1,13 @@
-// react: react框架的核心代码
-import React from 'react';
-// react-dom： 完成渲染挂载的核心代码
-import ReactDOM from 'react-dom';
-// 根组件
-import App from './App';
-
-// 通过调用ReactDOM的render方法渲染App根组件到id为root的dom节点上
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import Context from './hooks/Context.js'
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* 传递的静态值，只会在初始化时渲染 */}
+    <Context.Provider value={100}>
+      <App />
+    </Context.Provider>
   </React.StrictMode>,
   document.getElementById('root')
-);
+)
