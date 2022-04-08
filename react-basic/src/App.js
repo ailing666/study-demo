@@ -1,23 +1,23 @@
-import React, { useContext } from 'react'
-import Context from './hooks/Context.js'
-function SonC () {
-  return (
-    <>
-      <div><SunC /></div>
-    </>
-  )
-}
-function SunC () {
-  const count = useContext(Context)
-  return (
-    <div>孙组件使用App传来的数据: {count}</div>
-  )
-}
+// 引入需要的组件
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+// 引入路由跳转的组件
+import Home from './pages/Home.js'
+import About from './pages/About.js'
+
 function App () {
   return (
-    <div>
-      <SonC />
-    </div>
+    // BrowserRouter包裹整个根组件
+    <BrowserRouter>
+      {/* 用于指定导航链接，完成路由跳转，会渲染成a链接 */}
+      <Link to="/">首页</Link>
+      <Link to="/about">关于</Link>
+      {/* 提供路由出口，满足条件的路由组件会渲染到组件内部，定义path和组件的对应关系 */}
+      <Routes>
+        {/* 用于指定导航链接，完成路由匹配 */}
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/about' element={<About />}></Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
