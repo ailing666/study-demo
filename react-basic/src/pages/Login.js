@@ -16,6 +16,7 @@ function Login () {
     <div>
       Login
       <button onClick={toAbout}>跳转到about</button>
+      {/* 使用传来的参数 */}
       params参数{params.id}
     </div>
   )
