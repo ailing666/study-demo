@@ -18,7 +18,8 @@ function App () {
         {/* 用于指定导航链接，完成路由匹配 */}
         <Route path='/' element={<Home />}></Route>
         <Route path='/about' element={<About />}></Route>
-        <Route path='/login' element={<Login />}></Route>
+        {/* 动态路由接收参数 */}
+        <Route path='/login/:id' element={<Login />}></Route>
       </Routes>
     </BrowserRouter>
   )
