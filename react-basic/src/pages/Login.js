@@ -5,7 +5,7 @@ function Login () {
   const navigate = useNavigate()
   const toAbout = () => {
     // navigate传入要跳转的路由
-    navigate('/about')
+    navigate('/about?id=1001&name=loveZero')
     // replace: true：表示在导航时不会向 history 添加新记录
     // navigate('/about', { replace: true })
   }
