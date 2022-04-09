@@ -11,6 +11,7 @@
 
 /* font-size */
 .fs-24 { font-size: 24px; }
+.fs-20 { font-size: 20px; }
 .fs-12 { font-size: 12px; }
 .fs-18 { font-size: 18px; }
 .fs-16 { font-size: 16px; }
@@ -22,3 +23,18 @@
 
 /* flex */
 .df { display: flex; }
+
+
+.select-car-btn {
+  display: block;
+  width: 240px;
+  height: 84px;
+  margin: 0 17px;
+  border-radius: 100px;
+  line-height: 84px;
+  text-align: center;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 300;
+  background-color: $color-main;
+}

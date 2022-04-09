@@ -1,0 +1,223 @@
+.cars-item {
+  height: 258px;
+  width: 508px;
+  margin: 0 auto;
+  padding: 26px 30px 0;
+  border-radius: 24px;
+  background-color: $color-white;
+  @include webkitB(box-shadow, 0 0 18px 0 $color-shadow-2);
+  @include webkitB(box-sizing, border-box);
+
+  header {
+    @extend %clearfix;
+    height: 48px;
+    line-height: 48px;
+    
+    .car-logo {
+      padding-left: 80px;
+      background: url("../../../assets/images/cars-logo.png") no-repeat left center;
+    }
+  }
+
+  main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 130px;
+
+    img {
+      height: 120px;
+    }
+
+    .car-electric {
+
+      li {
+        display: inline-block;
+        height: 25px;
+        width: 7px;
+        margin-right: 4px;
+        border-radius: 6px;
+        background-color: $color-border2;
+      }
+  
+      // 从1到10循环
+      @for $i from 1 to 10 {
+        &.active-#{$i} {
+          // 从第1个到第i个li标签
+          li:nth-child(-n + #{$i} ) {
+            @include webkitA(background,linear-gradient(#17a8fa,#108dd9))
+          }
+        }
+      }
+    }
+  }
+
+  footer {
+    .parking-link {
+      display: block;
+      position: relative;
+      color: $color-main;
+      text-align: left;
+      line-height: 48px;
+      opacity: 0.8;
+      border-top: 1px solid $color-border1;
+      
+      &:after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        margin-top: -8px;
+        border-top: 1px solid $color-border2;
+        border-right: 1px solid $color-border2;
+        @include webkitB(transform, rotate(45deg));
+      }
+    }
+  }
+}
+
+// 公用的样式
+.car-info {
+
+  h5 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .car-mileage {
+    margin-left: 8px;
+
+    span {
+      font-size: 12px;
+      
+      &:first-child {
+        opacity: 0.4;
+      }
+    }
+
+    .mileage-number {
+      font-size: 24px;
+      margin: 0 2px;
+      font-weight: 700;
+    }
+  }
+}
+
+.cars-detailed{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 0;
+  padding: 27px 34px 0 32px;
+
+  .cars-detailed-parking {
+    position: relative;
+    height: 26px;
+    width: 100%;
+    font-size: 18px;
+    padding-bottom: 12px;
+    color: $color-text;
+    border-bottom: 1px solid $color-border1;
+  }
+
+  .close {
+    position: absolute;
+    right: 28px;
+    top: 25px;
+    display: block;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    &:before, &:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 24px;
+        margin-left: -1px;
+        margin-top: -12px;
+        border-left: 2px solid #999c9f;
+      }
+      &:before { @include webkitB(transform, rotate(45deg)); }
+      &:after { @include webkitB(transform, rotate(-45deg)); }
+  }
+
+  .cars-electric-warp {
+    height: 38px;
+    padding: 15px;
+    margin-top: 12px;
+    border-radius: 38px;
+    @include webkitB(box-shadow, 0 0 12px 0 rgba(0, 0, 0, .1));
+    @include webkitB(box-sizing, border-box);
+
+    .cars-electric-bg {
+      position: relative;
+      height: 10px;
+      border-radius: 10px;
+      background-color: $color-bg;
+    
+      .cars-electric-high {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 10px;
+        border-radius: 10px;
+        background-color: $color-blue;
+      }
+    }
+  }
+
+  .info {
+    text-align: center;
+    color: $color-text;
+    margin: 30px 0 28px 0;
+  }
+
+  .car-rental-time {
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      height: 48px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      padding: 16px;
+      @include webkitB(box-sizing, border-box);
+      background-color: #f3f3f3;
+    }
+  }
+
+  .car-insurance {
+
+    i {
+      float: right;
+      width: 20px;
+      height: 20px;
+      border-radius: 100px;
+      background-color: #cccccc;
+      &.current {
+          background-color: $color-main;
+      }
+      &:before {
+          content: "";
+          display: block;
+          width: 8px;
+          height: 4px;
+          margin: 6px 0 0 5px;
+          border-left: 2px solid #fff;
+          border-bottom: 2px solid #fff;
+          @include webkitB(transform, rotate(-45deg));
+      }
+    }
+  }
+
+  .select-car-btn {
+    position: absolute;
+    left: 50%;
+    margin-left: -120px;
+    bottom: -42px;
+  }
+}

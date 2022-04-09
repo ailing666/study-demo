@@ -3,19 +3,19 @@
     <div class="cars-wrap">
       <swiper class="cars-swiper-container" :options="swiperOption">
         <swiper-slide>
-          <CarList />
+          <CarItem :height="`820px`" />
         </swiper-slide>
         <swiper-slide>
-          <CarList />
+          <CarItem />
         </swiper-slide>
         <swiper-slide>
-          <CarList />
+          <CarItem />
         </swiper-slide>
         <swiper-slide>
-          <CarList />
+          <CarItem />
         </swiper-slide>
         <swiper-slide>
-          <CarList />
+          <CarItem />
         </swiper-slide>
         <div class="swiper-button-prev" slot="button-prev"></div>
         <div class="swiper-button-next" slot="button-next"></div>
@@ -27,10 +27,10 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
-import CarList from '@/components/carList'
+import CarItem from './component'
 export default {
   name: 'Car',
-  components: { CarList, Swiper, SwiperSlide },
+  components: { CarItem, Swiper, SwiperSlide },
   data () {
     return {
       swiperOption: {
