@@ -4,7 +4,7 @@
   margin: 0 auto;
   padding: 26px 30px 0;
   border-radius: 24px;
-  background-color: #fff;
+  background-color: $color-white;
   @include webkitB(box-shadow, 0 0 18px 0 $color-shadow-2);
   @include webkitB(box-sizing, border-box);
 
@@ -91,7 +91,6 @@
 
   footer {
     .parking-link {
-      color: $color-main;
       display: block;
       position: relative;
       color: $color-main;
@@ -99,6 +98,7 @@
       line-height: 48px;
       opacity: 0.8;
       border-top: 1px solid $color-border1;
+      
       &:after {
         content: "";
         position: absolute;

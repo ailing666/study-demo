@@ -1,0 +1,61 @@
+.cars-wrap {
+  position: fixed;
+  left: 0;
+  bottom: 94px;
+  right: 0;
+  padding: 0 50px;
+  z-index: 11;
+}
+
+.cars-swiper-container { 
+  position: relative;
+  overflow: initial;
+  padding: 0 155px;
+
+  .swiper-button-prev,.swiper-button-next {
+    top: 50%;
+    margin-top: -51px;
+    width: 60px;
+    height: 102px;
+    background-color: $color-white;
+    border-radius: 34px;
+    @include webkitB(box-shadow, 0 0 18px 0 $color-shadow-2);
+    @include webkitB(transition, all .3s ease 0s);
+
+    &:after {
+      content: '';
+      width: 14px;
+      height: 14px;
+      border-top: 3px solid $color-black;
+    }
+
+    &:hover {
+      background-color: $color-main;
+      &:after { border-top: 3px solid $color-blue; }
+    }
+  }
+
+  .swiper-button-prev {
+    &:after {
+      border-left: 3px solid $color-black;
+      margin-left: 5px;
+      @include webkitB(transform,rotate(-45deg))
+    }
+
+    &:hover {
+      &:after { border-left: 3px solid $color-blue; }
+    }
+  }
+
+  .swiper-button-next {
+    &:after {
+      border-right: 3px solid $color-black;
+      margin-right: 5px;
+      @include webkitB(transform,rotate(45deg))
+    }
+
+    &:hover {
+      &:after { border-right: 3px solid $color-blue; }
+    }
+  }
+}
