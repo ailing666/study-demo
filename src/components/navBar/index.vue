@@ -11,7 +11,7 @@
         <a href="javascript: void(0);" class="select-car-btn">选择车辆</a>
       </li>
       <li>
-        <i class="icon icon-w-44 icon-location" @click="selfLocation"></i>
+        <i class="icon icon-w-44 icon-location"></i>
       </li>
       <li>
         <i class="icon icon-w-44 icon-user" @click="toUser"></i>

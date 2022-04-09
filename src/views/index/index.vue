@@ -3,7 +3,9 @@
     <!-- <Car /> -->
     <AMap />
     <Navbar />
-    <router-view :class="{'show-user' : isShow}" />
+    <div id="children-view" :class="{'show-user' : isShow}">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -19,7 +21,6 @@ export default {
   },
   computed: {
     isShow () {
-      console.log(this.$route.name)
       return this.$route.name === 'User'
     }
   },
