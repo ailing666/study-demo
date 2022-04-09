@@ -10,7 +10,7 @@
         </span>
       </div>
     </header>
-    <div class="user-links">
+    <div class="group-link">
       <ul>
         <router-link to="aa" tag="a">
           <i class="icon icon-user-link-1"></i>
@@ -24,7 +24,7 @@
           <i class="icon icon-user-link-3"></i>
           实名认证
         </router-link>
-        <router-link to="aa" tag="a">
+        <router-link to="/safe" tag="a">
           <i class="icon icon-user-link-4"></i>
           安全设置
         </router-link>
@@ -50,6 +50,6 @@ export default {
 }
 
 </script>
-<style lang='scss' scoped>
+<style lang='scss'>
 @import "./index.scss";
 </style>

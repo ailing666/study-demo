@@ -13,6 +13,11 @@ const routes = [
         path: "/user",
         name: "User",
         component: () => import("@/views/user"),
+      },
+      {
+        path: "/safe",
+        name: "Safe",
+        component: () => import("@/views/safe"),
       }
     ]
   },

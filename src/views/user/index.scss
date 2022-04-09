@@ -1,15 +1,7 @@
-.user {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 410px;
-  z-index: 101;
-  padding: 84px 0 80px 32px;
-  background-color: #32383c;
 
   header {
     display: flex;
+    padding: 80px 0;
     
     img {
       width: 80px;
@@ -37,25 +29,6 @@
     }
   }
 
-  .user-links {
-    margin: 76px 0;
-    a {
-      display: block;
-      margin: 0 -30px;
-      height: 64px;
-      line-height: 64px;
-      color: rgba(255, 255, 255, .4);
-      border-bottom: 1px solid rgba(255, 255, 255, .03);
-      font-size: 15px;
-    }
-
-    .icon {
-        width: 30px;
-        height: 30px;
-        margin: 0 16px -10px 32px;
-    }
-  }
-
   .login-out {
     position: absolute;
     left: 50%;
@@ -72,4 +45,3 @@
     border: none;
     outline: none;
   }
-}

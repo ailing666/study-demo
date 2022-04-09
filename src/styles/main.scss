@@ -38,3 +38,51 @@
   font-weight: 300;
   background-color: $color-main;
 }
+
+// 公共样式
+.user {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 410px;
+  z-index: 101;
+  padding: 0 30px;
+  background-color: #32383c;
+}
+
+.group-link {
+  a {
+    position: relative;
+    display: block;
+    margin: 0 -30px;
+    padding: 0 30px;
+    height: 64px;
+    line-height: 64px;
+    color: rgba(255, 255, 255, .4);
+    border-bottom: 1px solid rgba(255, 255, 255, .03);
+    font-size: 15px;
+  }
+
+  .icon {
+      width: 30px;
+      height: 30px;
+      margin: 0 16px -10px 0;
+  }
+
+  .arrow:after {
+      display: block;
+      content: "";
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      margin-top: -7px;
+      border-top: 1px solid #fff;
+      border-right: 1px solid #fff;
+      @include webkitB(box-sizing, border-box);
+      @include webkitB(transform, rotate(45deg));
+      opacity: .1;
+  }
+}

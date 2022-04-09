@@ -12,7 +12,7 @@
 <script>
 import AMap from "@/views/aMap"
 import Car from "@/views/car"
-import Navbar from '@/components/navBar'
+import Navbar from '@/components/NavBar'
 export default {
   name: "Index",
   components: { AMap, Car, Navbar },
