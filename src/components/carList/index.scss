@@ -14,15 +14,8 @@
     line-height: 48px;
     
     .car-logo {
-      float: left;
       padding-left: 80px;
-      font-size: 16px;
       background: url("../../assets/images/cars-logo.png") no-repeat left center;
-    }
-
-    .car-dec {
-      float: right;
-      opacity: 0.4;
     }
   }
 
@@ -39,47 +32,43 @@
         margin-bottom: 16px;
       }
 
-      section {
-        display: flex;
+      .car-electric {
 
-        .car-electric {
-  
-          li {
-            display: inline-block;
-            height: 25px;
-            width: 7px;
-            margin-right: 4px;
-            border-radius: 6px;
-            background-color: $color-border2;
-          }
+        li {
+          display: inline-block;
+          height: 25px;
+          width: 7px;
+          margin-right: 4px;
+          border-radius: 6px;
+          background-color: $color-border2;
+        }
 
-          // 从1到10循环
-          @for $i from 1 to 10 {
-            &.active-#{$i} {
-              // 从第1个到第i个li标签
-              li:nth-child(-n + #{$i} ) {
-                @include webkitA(background,linear-gradient(#17a8fa,#108dd9))
-              }
+        // 从1到10循环
+        @for $i from 1 to 10 {
+          &.active-#{$i} {
+            // 从第1个到第i个li标签
+            li:nth-child(-n + #{$i} ) {
+              @include webkitA(background,linear-gradient(#17a8fa,#108dd9))
             }
           }
         }
+      }
 
-        .car-mileage {
-          margin-left: 8px;
+      .car-mileage {
+        margin-left: 8px;
 
-          span {
-            font-size: 12px;
-            
-            &:first-child {
-              opacity: 0.4;
-            }
+        span {
+          font-size: 12px;
+          
+          &:first-child {
+            opacity: 0.4;
           }
+        }
 
-          .mileage-number {
-            font-size: 24px;
-            margin: 0 2px;
-            font-weight: 700;
-          }
+        .mileage-number {
+          font-size: 24px;
+          margin: 0 2px;
+          font-weight: 700;
         }
       }
     }

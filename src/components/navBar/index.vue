@@ -37,15 +37,17 @@ export default {
   bottom: 86px;
   z-index: 10;
   text-align: center;
+
   li {
     display: inline-block;
   }
+
   .icon {
     margin: 0 17px;
     vertical-align: middle;
-    cursor: pointer;
     background-color: $color-main;
     border-radius: 100px;
+    cursor: pointer;
   }
 }
 </style>
