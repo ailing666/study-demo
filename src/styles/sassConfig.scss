@@ -19,19 +19,22 @@ $color-border2:#e1e1e1;
     *height: 1%;
 }
 
-/* 属性前端 */
-@mixin webkit($type, $value) {
-    -webkit-#{$type}: $value;
-    -moz-#{$type}: $value;
-    -ms-#{$type}: $value;
-    -o-#{$type}: $value;
-    #{$type}: $value;
-}
 
-@mixin webkitA($type, $value) {  // A => after
+
+/* 属性后端 */
+@mixin webkitA($type, $value) {
     #{$type}: -webkit-#{$value};
     #{$type}: -moz-#{$value};
     #{$type}: -ms-#{$value};
     #{$type}: -o-#{$value};
     #{$type}: $value;
+}
+
+/* 属性前端 */
+@mixin webkitB($type, $value) {
+  -webkit-#{$type}: $value;
+  -moz-#{$type}: $value;
+  -ms-#{$type}: $value;
+  -o-#{$type}: $value;
+  #{$type}: $value;
 }
