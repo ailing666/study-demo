@@ -21,7 +21,6 @@
         <div class="swiper-button-next" slot="button-next"></div>
       </swiper>
     </div>
-    <!-- <button @click="toUser">路由跳转</button> -->
   </div>
 </template>
 
@@ -45,10 +44,7 @@ export default {
     }
   },
   methods: {
-    toUser () {
-      console.log('this.$router: ', this.$route)
-      this.$router.push(this.$route.name === 'Index' ? '/user' : '/')
-    }
+
   }
 }
 </script>
