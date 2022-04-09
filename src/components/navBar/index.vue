@@ -24,7 +24,7 @@ export default {
   name: "Navbar",
   methods: {
     toUser () {
-      name: this.$router.push(this.$route.name === 'Index' ? '/user' : '/')
+      this.$router.push(this.$route.name === 'Index' ? '/user' : '/')
     },
   }
 }
