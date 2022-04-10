@@ -33,7 +33,13 @@ const routes = [
         path: "/setPassword",
         name: "SetPassword",
         component: () => import("@/views/safe/SetPassword.vue"),
+      },
+      {
+        path: "/changePassword",
+        name: "ChangePassword",
+        component: () => import("@/views/safe/ChangePassword.vue"),
       }
+
     ]
   },
 ]
