@@ -20,10 +20,16 @@ const routes = [
         component: () => import("@/views/safe"),
       },
       {
-        path: "/bandCard",
-        name: "BandCard",
+        path: "/bankCard",
+        name: "BankCard",
         component: () => import("@/views/safe/BankCard.vue"),
+      },
+      {
+        path: "/addPhone",
+        name: "AddPhone",
+        component: () => import("@/views/safe/AddPhone.vue"),
       }
+
     ]
   },
 ]
