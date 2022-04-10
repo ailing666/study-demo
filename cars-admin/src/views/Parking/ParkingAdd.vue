@@ -22,7 +22,9 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item label="位置">
-      <div class="address-map"></div>
+      <div class="address-map">
+        <AMap />
+      </div>
     </el-form-item>
     <el-form-item label="经纬度">
       <el-input v-model="form.desc"></el-input>
@@ -33,8 +35,10 @@
   </el-form>
 </template>
 <script>
+import AMap from '@/components/aMap'
 export default {
   name: "ParkingAdd",
+  components: { AMap },
   data () {
     return {
       form: {
@@ -91,7 +95,7 @@ export default {
 <style lass="scss" scoped>
 .address-map {
   width: 100%;
-  height: 350px;
+  height: 550px;
   border: 1px solid #ccc;
 }
 </style>
