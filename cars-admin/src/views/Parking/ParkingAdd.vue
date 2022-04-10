@@ -4,7 +4,7 @@
       <el-input v-model="form.name"></el-input>
     </el-form-item>
     <el-form-item label="区域">
-      <el-cascader v-model="form.area" :options="options" :props="{ expandTrigger: 'hover' }"></el-cascader>
+      <AreaCascader @cityAreaValue="cityAreaValue" />
     </el-form-item>
     <el-form-item label="类型">
       <el-radio-group v-model="form.resource">
@@ -30,20 +30,22 @@
       <el-input v-model="form.desc"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="danger">确定</el-button>
+      <el-button type="danger" @click="onSubmit">确定</el-button>
     </el-form-item>
   </el-form>
 </template>
 <script>
 import AMap from '@/components/aMap'
+import AreaCascader from '@/components/AreaCascader'
 export default {
   name: "ParkingAdd",
-  components: { AMap },
+  components: { AMap, AreaCascader },
   data () {
     return {
       form: {
         name: '',
         region: '',
+        areaValue: '',
         date1: '',
         date2: '',
         delivery: false,
@@ -51,43 +53,16 @@ export default {
         resource: '',
         desc: ''
       },
-      options: [
-        {
-          value: 1111,
-          label: "广东省",
-          children: [
-            {
-              value: 1111,
-              label: "深圳市",
-            },
-            {
-              value: 1111,
-              label: "广州市",
-            }
-          ]
-        },
-        {
-          value: 1111,
-          label: "广西省",
-          children: [
-            {
-              value: 1111,
-              label: "南宁市",
-              children: [
-                {
-                  value: "2222",
-                  label: "八步镇"
-                }
-              ]
-            }
-          ]
-        }
-      ],
+
     }
   },
   methods: {
     onSubmit () {
-      console.log('submit!')
+      console.log('submit!', this.form)
+    },
+    // 修改areaValue
+    cityAreaValue (v) {
+      this.form.areaValue = v
     }
   }
 }
