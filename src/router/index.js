@@ -18,6 +18,11 @@ const routes = [
         path: "/safe",
         name: "Safe",
         component: () => import("@/views/safe"),
+      },
+      {
+        path: "/bandCard",
+        name: "BandCard",
+        component: () => import("@/views/safe/BankCard.vue"),
       }
     ]
   },
