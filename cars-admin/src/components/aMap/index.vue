@@ -8,6 +8,8 @@
 
 <script>
 import { lazyAMapApiLoaderInstance } from 'vue-amap'
+import { getLngLat } from './index'
+
 export default {
   name: "AMap",
   data () {
@@ -26,7 +28,14 @@ export default {
         // 设置缩放
         zoom: this.zoom
       })
+      this.map.on('click', (e) => {
+        let lngLatValue = getLngLat(e)
+        this.$emit('getLngLat', lngLatValue)
+      })
     })
+  },
+  methods: {
+
   },
 };
 </script>

@@ -23,11 +23,11 @@
     </el-form-item>
     <el-form-item label="位置">
       <div class="address-map">
-        <AMap />
+        <AMap @getLngLat="getLngLat" />
       </div>
     </el-form-item>
     <el-form-item label="经纬度">
-      <el-input v-model="form.desc"></el-input>
+      <el-input v-model="form.lngLat"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="danger" @click="onSubmit">确定</el-button>
@@ -51,7 +51,7 @@ export default {
         delivery: false,
         type: [],
         resource: '',
-        desc: ''
+        lngLat: ''
       },
 
     }
@@ -63,6 +63,10 @@ export default {
     // 修改areaValue
     cityAreaValue (v) {
       this.form.areaValue = v
+    },
+    // 获取经纬度
+    getLngLat (v) {
+      this.form.lngLat = v.value
     }
   }
 }
