@@ -28,8 +28,12 @@ const routes = [
         path: "/addPhone",
         name: "AddPhone",
         component: () => import("@/views/safe/AddPhone.vue"),
+      },
+      {
+        path: "/setPassword",
+        name: "SetPassword",
+        component: () => import("@/views/safe/SetPassword.vue"),
       }
-
     ]
   },
 ]
