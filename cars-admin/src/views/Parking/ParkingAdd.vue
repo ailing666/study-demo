@@ -4,7 +4,7 @@
       <el-input v-model="form.name"></el-input>
     </el-form-item>
     <el-form-item label="区域">
-      <AreaCascader @cityAreaValue="cityAreaValue" />
+      <AreaCascader @cityAreaValue="cityAreaValue" @getAddress="getAddress" />
     </el-form-item>
     <el-form-item label="类型">
       <el-radio-group v-model="form.resource">
@@ -23,7 +23,7 @@
     </el-form-item>
     <el-form-item label="位置">
       <div class="address-map">
-        <AMap @getLngLat="getLngLat" />
+        <CarMap ref="carMap" @getLngLat="getLngLat" />
       </div>
     </el-form-item>
     <el-form-item label="经纬度">
@@ -35,11 +35,11 @@
   </el-form>
 </template>
 <script>
-import AMap from '@/components/aMap'
+import CarMap from '@/components/carMap/index.vue'
 import AreaCascader from '@/components/AreaCascader'
 export default {
   name: "ParkingAdd",
-  components: { AMap, AreaCascader },
+  components: { CarMap, AreaCascader },
   data () {
     return {
       form: {
@@ -53,7 +53,6 @@ export default {
         resource: '',
         lngLat: ''
       },
-
     }
   },
   methods: {
@@ -62,11 +61,18 @@ export default {
     },
     // 修改areaValue
     cityAreaValue (v) {
+      console.log('v: ', v)
       this.form.areaValue = v
     },
     // 获取经纬度
     getLngLat (v) {
       this.form.lngLat = v.value
+    },
+
+    // 获取中文地址
+    getAddress (address) {
+      // 触发carMap组件事件
+      this.$refs.carMap.setMapCenter(address)
     }
   }
 }

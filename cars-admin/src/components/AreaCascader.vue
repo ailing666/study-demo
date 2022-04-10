@@ -10,10 +10,18 @@ export default {
   name: 'areaCascader',
   data () {
     return {
+      // 请求到的区域对象
+      areaData: {
+        area: '',
+        city: '',
+        procince: ''
+      },
+      // 选中的中文地址
+      address: '',
       props: {
         lazy: true,
         // 初始化就会执行一次
-        lazyLoad (node, resolve) {
+        lazyLoad: (node, resolve) => {
           // node 是点击的元素，value是值，level是第几层
           const { level, value } = node
 
@@ -42,16 +50,31 @@ export default {
                 leaf: level >= 2
               }
             })
+            // 储存area值
+            this.areaData[type] = result
+
             // 通过调用resolve将子节点数据返回，通知组件数据加载完成
             resolve(result)
           })
+
+          level !== 0 && this.getAddress(node)
         }
       }
     }
   },
   methods: {
+    // 级联选择器改变时触发
     areaChange (v) {
       this.$emit("cityAreaValue", v.join())
+      // 最后一个节点
+      const lastNode = this.areaData.area.find(item => item.value === v[v.length - 1])
+      this.getAddress(lastNode)
+    },
+
+    // 获取选中的中文地址
+    getAddress (node) {
+      this.address += node.label
+      this.$emit('getAddress', this.address)
     }
   }
 }

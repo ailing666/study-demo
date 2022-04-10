@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <div class="amap-wrapper">
-      <el-amap vid="amapContainer"></el-amap>
-    </div>
+  <div class="amap-wrap">
+    <el-amap vid="amapContainer"></el-amap>
   </div>
 </template>
 
 <script>
 import { lazyAMapApiLoaderInstance } from 'vue-amap'
-import { getLngLat } from './index'
+import { getLngLat, geoCode } from './index'
 
 export default {
-  name: "AMap",
+  name: "CarMap",
   data () {
     return {
       // 地图实例
@@ -28,20 +26,23 @@ export default {
         // 设置缩放
         zoom: this.zoom
       })
+
       this.map.on('click', (e) => {
-        let lngLatValue = getLngLat(e)
-        this.$emit('getLngLat', lngLatValue)
+        this.$emit('getLngLat', getLngLat(e))
       })
     })
   },
   methods: {
-
+    // 设置地图中心点
+    setMapCenter (address) {
+      // 传入中文地址和实例
+      geoCode(address, this.map)
+    }
   },
 };
 </script>
 <style lang="scss" scoped>
-.amap-wrapper {
-  width: 100vw;
-  height: 100vh;
+.amap-wrap {
+  height: 100%;
 }
 </style>
