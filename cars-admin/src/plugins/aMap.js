@@ -7,7 +7,7 @@ AMap.initAMapApiLoader({
   key: "13b914a086c6e5af342dbd21eb67197e",
   // 插件集合 （插件按需引入）
   plugin: [
-    "AMap.Geocoder",
+    "AMap.Geocoder", "AMap.Marker"
   ],
   v: "1.4.15",
   uiVersion: "1.0.11", // ui版本号

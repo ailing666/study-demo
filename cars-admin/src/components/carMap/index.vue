@@ -6,7 +6,7 @@
 
 <script>
 import { lazyAMapApiLoaderInstance } from 'vue-amap'
-import { getLngLat, geoCode } from './index'
+import { getLngLat, geoCode, addMarker } from './index'
 
 export default {
   name: "CarMap",
@@ -16,6 +16,7 @@ export default {
       map: null,
       // 缩放，值范围[3-18]
       zoom: 18,
+      lnglat: null
     }
   },
   mounted () {
@@ -28,6 +29,8 @@ export default {
       })
 
       this.map.on('click', (e) => {
+        this.lnglat = getLngLat(e)
+        this.setMarker()
         this.$emit('getLngLat', getLngLat(e))
       })
     })
@@ -37,7 +40,11 @@ export default {
     setMapCenter (address) {
       // 传入中文地址和实例
       geoCode(address, this.map)
-    }
+    },
+    // 添加地图覆盖物
+    setMarker (lnglat) {
+      addMarker(lnglat || this.lnglat, this.map)
+    },
   },
 };
 </script>
