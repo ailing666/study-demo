@@ -1,4 +1,4 @@
-import { useStore } from "./store/index"
+import { useStore } from "./index"
 import { observer } from 'mobx-react-lite'
 function App () {
   // 解构出需要用的模块
