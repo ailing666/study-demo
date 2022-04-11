@@ -1,16 +1,16 @@
 
-import {  makeAutoObservable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 class TaskStore {
   list = [
     {
-      id:1,
+      id: 1,
       name: '学习react',
       isDone: true
     },
     {
-      id:2,
+      id: 2,
       name: '搞定mobx',
-      isDone: true
+      isDone: false
     }
   ]
   constructor() {

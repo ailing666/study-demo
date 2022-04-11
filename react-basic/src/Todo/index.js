@@ -1,5 +1,8 @@
 import './index.css'
-function Task() {
+import { useStore } from '../store/index'
+function Task () {
+  // taskStore
+  const { taskStore } = useStore()
   return (
     <section className="todoapp">
       <header className="header">
@@ -19,24 +22,19 @@ function Task() {
         />
         <label htmlFor="toggle-all"></label>
         <ul className="todo-list">
-          <li
-            className="todo"
-          >
-            <div className="view">
-              <input className="toggle" type="checkbox" />
-              <label >learn react</label>
-              <button className="destroy"></button>
-            </div>
-          </li>
-          <li
-            className="todo completed"
-          >
-            <div className="view">
-              <input className="toggle" type="checkbox" defaultChecked={true}/>
-              <label >learn react</label>
-              <button className="destroy"></button>
-            </div>
-          </li>
+          {taskStore.list.map(item =>
+            <li
+              className="todo completed"
+              key={item.id}
+            >
+              <div className="view">
+                <input className="toggle" type="checkbox" defaultChecked={item.isDone} />
+                <label >{item.name}</label>
+                <button className="destroy"></button>
+              </div>
+            </li>
+          )}
+          {/* 列表 completed控制是否完成*/}
         </ul>
       </section>
     </section>
