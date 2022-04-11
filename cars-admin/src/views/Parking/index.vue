@@ -2,30 +2,46 @@
   <div>
     <div class="filter-form">
       <el-row>
-        <el-col :span="18">
+        <el-col :span="22">
           <el-form :inline="true" :model="form" class="demo-form-inline">
-            <el-form-item label="停车场名称">
-              <el-input v-model="form.parking_name" placeholder="审批人"></el-input>
-            </el-form-item>
             <el-form-item label="区域">
-              <el-cascader
-                v-model="form.area"
-                :options="options"
-                :props="{ expandTrigger: 'hover' }"
-              ></el-cascader>
+              <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" />
             </el-form-item>
             <el-form-item label="类型">
               <el-select v-model="form.type" placeholder="活动区域">
-                <el-option label="室内" value="shanghai"></el-option>
-                <el-option label="室外" value="beijing"></el-option>
+                <el-option
+                  v-for="item in $store.state.config.parking_type"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
               </el-select>
+            </el-form-item>
+            <el-form-item label="禁启用">
+              <el-select v-model="form.status" placeholder="活动区域">
+                <el-option
+                  v-for="item in $store.state.config.parking_status"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="关键字">
+              <el-select v-model="form.keyWord" placeholder="请选择" style="width:110px">
+                <el-option label="停车场名称" value="parkingName"></el-option>
+                <el-option label="详细区域" value="address"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-input placeholder="请输入关键字"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="danger">搜索</el-button>
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="2">
           <div class="pull-right">
             <router-link to="/parkingAdd">
               <el-button type="danger">新增停车场</el-button>
@@ -69,14 +85,17 @@
 </template>
 <script>
 import { ParkingList } from '../../api/common'
+import AreaCascader from '@/components/AreaCascader'
 export default {
   name: "Parking",
+  components: { AreaCascader },
   data () {
     return {
       form: {
-        parking_name: "",
         area: "",
-        type: ""
+        status: "",
+        type: "",
+        keyWord: ""
       },
       options: [
         {
