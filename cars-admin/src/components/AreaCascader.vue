@@ -65,7 +65,7 @@ export default {
   methods: {
     // 级联选择器改变时触发
     areaChange (v) {
-      this.$emit("cityAreaValue", v.join())
+      this.$emit("update:cityAreaValue", v.join())
       // 最后一个节点
       const lastNode = this.areaData.area.find(item => item.value === v[v.length - 1])
       this.getAddress(lastNode)

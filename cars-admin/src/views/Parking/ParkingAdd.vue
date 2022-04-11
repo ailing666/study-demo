@@ -1,24 +1,22 @@
 <template>
   <el-form ref="form" :model="form" label-width="120px">
     <el-form-item label="停车场名称">
-      <el-input v-model="form.name"></el-input>
+      <el-input v-model="form.parkingName"></el-input>
     </el-form-item>
     <el-form-item label="区域">
-      <AreaCascader @cityAreaValue="cityAreaValue" @getAddress="getAddress" />
+      <AreaCascader :cityAreaValue.sync="form.area" @getAddress="getAddress" />
     </el-form-item>
     <el-form-item label="类型">
-      <el-radio-group v-model="form.resource">
-        <el-radio label="室内"></el-radio>
-        <el-radio label="室外"></el-radio>
+      <el-radio-group v-model="form.type">
+        <el-radio v-for="item in parkingType" :key="item.value" :label="item.value">{{item.label}}</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="可停放车辆">
-      <el-input v-model="form.name"></el-input>
+      <el-input v-model="form.carsNumber"></el-input>
     </el-form-item>
     <el-form-item label="禁启用">
-      <el-radio-group v-model="form.resource">
-        <el-radio label="禁用"></el-radio>
-        <el-radio label="启用"></el-radio>
+      <el-radio-group v-model="form.status">
+        <el-radio v-for="item in parkingStatus" :key="item.value" :label="item.value">{{item.label}}</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="位置">
@@ -27,7 +25,7 @@
       </div>
     </el-form-item>
     <el-form-item label="经纬度">
-      <el-input v-model="form.lngLat"></el-input>
+      <el-input v-model="form.lnglat"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="danger" @click="onSubmit">确定</el-button>
@@ -43,16 +41,23 @@ export default {
   data () {
     return {
       form: {
-        name: '',
-        region: '',
-        areaValue: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        lngLat: ''
+        parkingName: "",
+        area: "",
+        address: "",
+        type: "",
+        carsNumber: "",
+        status: "",
+        lnglat: ""
       },
+    }
+  },
+
+  computed: {
+    parkingStatus () {
+      return this.$store.state.config.parking_status
+    },
+    parkingType () {
+      return this.$store.state.config.parking_type
     }
   },
   methods: {
@@ -61,16 +66,17 @@ export default {
     },
     // 修改areaValue
     cityAreaValue (v) {
-      console.log('v: ', v)
       this.form.areaValue = v
     },
+
     // 获取经纬度
     getLngLat (v) {
-      this.form.lngLat = v.value
+      this.form.lnglat = v.value
     },
 
     // 获取中文地址
     getAddress (address) {
+      this.form.address = address
       // 触发carMap组件事件
       this.$refs.carMap.setMapCenter(address)
     }
