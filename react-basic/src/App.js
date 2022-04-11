@@ -1,8 +1,8 @@
+
+import Todo from './Todo'
 function App () {
   return (
-    <div>
-      App
-    </div>
+    <Todo />
   )
 }
 export default App
