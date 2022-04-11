@@ -11,7 +11,7 @@ export function GetCity (data = {}) {
 }
 
 /**
- * 获取城市列表
+ * 添加停车场
  */
 export function ParkingAdd (data = {}) {
   return service.request({
@@ -22,7 +22,7 @@ export function ParkingAdd (data = {}) {
 }
 
 /**
- * 获取城市列表
+ * 获取停车场列表
  */
 export function ParkingList (data = {}) {
   return service.request({

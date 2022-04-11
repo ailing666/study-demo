@@ -37,16 +37,16 @@
     <!-- 表格数据 -->
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column type="selection" width="35"></el-table-column>
-      <el-table-column prop="name" label="停车场名称"></el-table-column>
+      <el-table-column prop="parkingName" label="停车场名称"></el-table-column>
       <el-table-column prop="type" label="类型"></el-table-column>
       <el-table-column prop="area" label="区域"></el-table-column>
       <el-table-column prop="carsNumber" label="可停放车辆"></el-table-column>
-      <el-table-column prop="disabled" label="禁启用">
+      <el-table-column prop="status" label="禁启用">
         <template v-slot="scope">
-          <el-switch v-model="scope.row.disabled" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+          <el-switch v-model="scope.row.status" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="address" label="查看位置"></el-table-column>
+      <el-table-column prop="lnglat" label="查看位置"></el-table-column>
       <el-table-column label="操作">
         <template v-slot>
           <el-button type="danger" size="small">编辑</el-button>
@@ -54,9 +54,21 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      class="parking-pagination"
+      background
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="paginationData.pageNumber"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="paginationData.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="paginationData.total"
+    ></el-pagination>
   </div>
 </template>
 <script>
+import { ParkingList } from '../../api/common'
 export default {
   name: "Parking",
   data () {
@@ -98,16 +110,31 @@ export default {
           ]
         }
       ],
-      tableData: [
-        {
-          name: "南山停车场",
-          type: "室外",
-          area: "广东省 深圳市 南山区",
-          carsNumber: 20,
-          disabled: 0,
-          address: "45632121,54541"
-        }
-      ]
+      tableData: [],
+      paginationData: {
+        pageNumber: 1,
+        pageSize: 10,
+        total: 0
+      }
+    }
+  },
+  beforeMount () {
+    this.getParkingList()
+  },
+  methods: {
+    getParkingList () {
+      ParkingList({ pageSize: this.paginationData.pageSize, pageNumber: this.paginationData.pageNumber }).then(res => {
+        this.tableData = res.data.data
+        this.paginationData.total = res.data.total
+      })
+    },
+    handleSizeChange (val) {
+      this.paginationData.pageSize = val
+      this.getParkingList()
+    },
+    handleCurrentChange (val) {
+      this.paginationData.pageNumber = val
+      this.getParkingList()
     }
   },
 }
