@@ -6,7 +6,7 @@
 
 <script>
 import { lazyAMapApiLoaderInstance } from 'vue-amap'
-import { getLngLat, geoCode, addMarker } from './index'
+import { getLngLat, geoCode, addMarker, removeMarker } from './index'
 
 export default {
   name: "CarMap",
@@ -45,6 +45,10 @@ export default {
     setMarker (lnglat) {
       addMarker(lnglat || this.lnglat, this.map)
     },
+    // 清除覆盖物
+    delMarker () {
+      removeMarker(this.map)
+    }
   },
 };
 </script>

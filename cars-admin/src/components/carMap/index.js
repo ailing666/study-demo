@@ -29,21 +29,25 @@ const geoCode = (address, map) => {
   })
 }
 
-
-/**
- * 添加地图覆盖物
- * @param {事件对象，不用传默认有} e 
- * @returns 返回经度，维度，和
- */
 let marker = null
-const addMarker = (lnglat, map) => {
+
+const removeMarker = (map) => {
   if (marker) {
     map.remove(marker)
     marker = null
   }
+}
+
+/**
+ * 添加地图覆盖物
+ * @param { 要添加的经纬度 } lnglat
+ * @param { 地图实例 } map
+ */
+const addMarker = (lnglat, map) => {
+  removeMarker(map)
   marker = new AMap.Marker({
     position: [lnglat.lng, lnglat.lat]
   })
   map.add(marker)
 }
-export { getLngLat, geoCode, addMarker }
+export { getLngLat, geoCode, addMarker, removeMarker }

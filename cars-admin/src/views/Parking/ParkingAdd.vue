@@ -4,7 +4,7 @@
       <el-input v-model="form.parkingName"></el-input>
     </el-form-item>
     <el-form-item prop="area" label="区域">
-      <AreaCascader :cityAreaValue.sync="form.area" @getAddress="getAddress" />
+      <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" @getAddress="getAddress" />
     </el-form-item>
     <el-form-item prop="type" label="类型">
       <el-radio-group v-model.number="form.type">
@@ -28,13 +28,14 @@
       <el-input v-model="form.lnglat"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="danger" @click="onSubmit">确定</el-button>
+      <el-button type="danger" :loading="submitLoading" @click="onSubmit">确定</el-button>
     </el-form-item>
   </el-form>
 </template>
 <script>
 import CarMap from '@/components/carMap/index.vue'
 import AreaCascader from '@/components/AreaCascader'
+import { ParkingAdd } from '@/api/common'
 export default {
   name: "ParkingAdd",
   components: { CarMap, AreaCascader },
@@ -57,7 +58,8 @@ export default {
           { type: 'number', message: '数量必须为数字' },
         ],
         lnglat: { required: true, message: '请点击地图获取经纬度', trigger: 'blur' },
-      }
+      },
+      submitLoading: false
     }
   },
 
@@ -70,18 +72,35 @@ export default {
     }
   },
   methods: {
+    // /提交表单
     onSubmit () {
-      console.log('submit!', this.form)
       this.$refs.form.validate((valid) => {
-        console.log('valid: ', valid)
         if (valid) {
-          alert('submit!')
+          this.addParking()
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
+    // 请求接口
+    addParking () {
+      this.submitLoading = true
+      ParkingAdd(this.form).then(res => {
+        if (res.resCode === 0) {
+          // 重置表单
+          this.resetForm()
+          this.submitLoading = false
+          this.$message({
+            message: res.message,
+            type: 'success'
+          })
+        }
+      }).catch(() => {
+        this.submitLoading = false
+      })
+    },
+
     // 修改areaValue
     cityAreaValue (v) {
       this.form.areaValue = v
@@ -97,6 +116,13 @@ export default {
       this.form.address = address
       // 触发carMap组件事件
       this.$refs.carMap.setMapCenter(address)
+    },
+
+    // 重置表单
+    resetForm () {
+      this.$refs.carMap.delMarker()
+      this.$refs.areaCascader.value = ''
+      this.$refs.form.resetFields()
     }
   }
 }

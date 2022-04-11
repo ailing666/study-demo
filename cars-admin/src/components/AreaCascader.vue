@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-cascader :props="props" @change="areaChange"></el-cascader>
+    <el-cascader v-model="value" :props="props" @change="areaChange"></el-cascader>
   </div>
 </template>
 
@@ -10,6 +10,7 @@ export default {
   name: 'areaCascader',
   data () {
     return {
+      value: '',
       // 请求到的区域对象
       areaData: {
         area: '',
