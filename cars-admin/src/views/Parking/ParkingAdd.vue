@@ -1,30 +1,30 @@
 <template>
-  <el-form ref="form" :model="form" label-width="120px">
-    <el-form-item label="停车场名称">
+  <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+    <el-form-item prop="parkingName" label="停车场名称">
       <el-input v-model="form.parkingName"></el-input>
     </el-form-item>
-    <el-form-item label="区域">
+    <el-form-item prop="area" label="区域">
       <AreaCascader :cityAreaValue.sync="form.area" @getAddress="getAddress" />
     </el-form-item>
-    <el-form-item label="类型">
-      <el-radio-group v-model="form.type">
+    <el-form-item prop="type" label="类型">
+      <el-radio-group v-model.number="form.type">
         <el-radio v-for="item in parkingType" :key="item.value" :label="item.value">{{item.label}}</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="可停放车辆">
-      <el-input v-model="form.carsNumber"></el-input>
+    <el-form-item prop="carsNumber" label="可停放车辆">
+      <el-input v-model.number="form.carsNumber"></el-input>
     </el-form-item>
-    <el-form-item label="禁启用">
-      <el-radio-group v-model="form.status">
+    <el-form-item prop="status" label="禁启用">
+      <el-radio-group v-model.number="form.status">
         <el-radio v-for="item in parkingStatus" :key="item.value" :label="item.value">{{item.label}}</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="位置">
+    <el-form-item prop="address" label="位置">
       <div class="address-map">
         <CarMap ref="carMap" @getLngLat="getLngLat" />
       </div>
     </el-form-item>
-    <el-form-item label="经纬度">
+    <el-form-item prop="lnglat" label="经纬度">
       <el-input v-model="form.lnglat"></el-input>
     </el-form-item>
     <el-form-item>
@@ -43,12 +43,21 @@ export default {
       form: {
         parkingName: "",
         area: "",
-        address: "",
         type: "",
         carsNumber: "",
+        address: "",
         status: "",
         lnglat: ""
       },
+      rules: {
+        parkingName: { required: true, message: '请输入停车场名称', trigger: 'blur' },
+        area: { required: true, message: '请选择区域', trigger: 'blur' },
+        carsNumber: [
+          { required: true, message: '请输入可停放车辆数量', trigger: 'change' },
+          { type: 'number', message: '数量必须为数字' },
+        ],
+        lnglat: { required: true, message: '请点击地图获取经纬度', trigger: 'blur' },
+      }
     }
   },
 
@@ -63,6 +72,15 @@ export default {
   methods: {
     onSubmit () {
       console.log('submit!', this.form)
+      this.$refs.form.validate((valid) => {
+        console.log('valid: ', valid)
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
     // 修改areaValue
     cityAreaValue (v) {
