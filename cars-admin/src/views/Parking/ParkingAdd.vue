@@ -35,7 +35,7 @@
 <script>
 import CarMap from '@/components/carMap/index.vue'
 import AreaCascader from '@/components/AreaCascader'
-import { ParkingAdd } from '@/api/common'
+import { ParkingAdd, ParkingDetailed } from '@/api/common'
 export default {
   name: "ParkingAdd",
   components: { CarMap, AreaCascader },
@@ -50,6 +50,7 @@ export default {
         status: "",
         lnglat: ""
       },
+      id: this.$route.query.id,
       rules: {
         parkingName: { required: true, message: '请输入停车场名称', trigger: 'blur' },
         area: { required: true, message: '请选择区域', trigger: 'blur' },
@@ -71,8 +72,14 @@ export default {
       return this.$store.state.config.parking_type
     }
   },
+
   methods: {
-    // /提交表单
+    // 获取详情
+    getParkingDetailed () {
+      ParkingDetailed({ id: this.id }).then(res => {
+      })
+    },
+    // 提交表单
     onSubmit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
@@ -83,6 +90,7 @@ export default {
         }
       })
     },
+
     // 请求接口
     addParking () {
       this.submitLoading = true
@@ -113,6 +121,7 @@ export default {
 
     // 获取中文地址
     getAddress (address) {
+      console.log('获取中文地址: ', address)
       this.form.address = address
       // 触发carMap组件事件
       this.$refs.carMap.setMapCenter(address)

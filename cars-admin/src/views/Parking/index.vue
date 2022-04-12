@@ -66,10 +66,14 @@
           <el-switch v-model="scope.row.status" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="lnglat" label="查看位置"></el-table-column>
+      <el-table-column prop="lnglat" label="查看位置">
+        <template v-slot="scope">
+          <el-button size="success" @click="changeDialogVisible(scope.row)">点击查看地图</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
-        <template v-slot>
-          <el-button type="danger" size="small">编辑</el-button>
+        <template v-slot="scope">
+          <el-button type="danger" size="small" @click="editParking(scope.row.id)">编辑</el-button>
           <el-button size="small">删除</el-button>
         </template>
       </el-table-column>
@@ -85,14 +89,16 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="paginationData.total"
     ></el-pagination>
+    <ShowMap :dialogVisible.sync="isShowMap" :parkingData="parkingData" />
   </div>
 </template>
 <script>
 import { ParkingList } from '../../api/common'
 import AreaCascader from '@/components/AreaCascader'
+import ShowMap from '../../components/dialog/showMap.vue'
 export default {
   name: "Parking",
-  components: { AreaCascader },
+  components: { AreaCascader, ShowMap },
   data () {
     return {
       form: {
@@ -104,6 +110,8 @@ export default {
       keyWord: "",
       keyValue: "",
       tableData: [],
+      isShowMap: false,
+      parkingData: {},
       paginationData: {
         pageNumber: 1,
         pageSize: 10,
@@ -120,6 +128,10 @@ export default {
     },
   },
   methods: {
+    changeDialogVisible (v) {
+      this.parkingData = v
+      this.isShowMap = true
+    },
     // 接口请求
     getParkingList (requestData = { pageSize: this.paginationData.pageSize, pageNumber: this.paginationData.pageNumber }) {
       ParkingList(requestData).then(res => {
@@ -146,11 +158,21 @@ export default {
       this.getParkingList(requestData)
     },
 
+    // 编辑
+    editParking (id) {
+      this.$router.push({
+        name: 'ParkingAdd',
+        query: id
+      })
+    },
+
+    // 页容量改变
     handleSizeChange (val) {
       this.paginationData.pageSize = val
       this.getParkingList()
     },
 
+    // 页码改变
     handleCurrentChange (val) {
       this.paginationData.pageNumber = val
       this.getParkingList()

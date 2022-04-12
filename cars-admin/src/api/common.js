@@ -31,3 +31,14 @@ export function ParkingList (data = {}) {
     data
   })
 }
+
+/**
+ * 获取停车场详情
+ */
+export function ParkingDetailed (data = {}) {
+  return service.request({
+    method: "post",
+    url: "/parking/detailed/",
+    data
+  })
+}

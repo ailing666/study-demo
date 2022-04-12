@@ -17,6 +17,7 @@ const getLngLat = (e) => {
  * @param {地图实例} map 
  */
 const geoCode = (address, map) => {
+  console.log('geoCode: ', address)
   const geocoder = new AMap.Geocoder()
   geocoder.getLocation(address, (status, result) => {
     if (status === "complete" && result.info == "OK") {
@@ -24,7 +25,7 @@ const geoCode = (address, map) => {
       let lng = result.geocodes[0].location.lng
       map.setCenter([lng, lat])
     } else {
-      log.error('根据地址查询位置失败')
+      console.error('根据地址查询位置失败')
     }
   })
 }
@@ -49,5 +50,6 @@ const addMarker = (lnglat, map) => {
     position: [lnglat.lng, lnglat.lat]
   })
   map.add(marker)
+  map.setFitView()
 }
 export { getLngLat, geoCode, addMarker, removeMarker }
