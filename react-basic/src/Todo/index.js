@@ -1,4 +1,5 @@
 import './index.css'
+import { observer } from 'mobx-react-lite'
 import { useStore } from '../store/index'
 function Task () {
   // taskStore
@@ -24,11 +25,11 @@ function Task () {
         <ul className="todo-list">
           {taskStore.list.map(item =>
             <li
-              className="todo completed"
+              className={item.isDone ? "todo completed" : "todo"}
               key={item.id}
             >
               <div className="view">
-                <input className="toggle" type="checkbox" defaultChecked={item.isDone} />
+                <input className="toggle" type="checkbox" defaultChecked={item.isDone} onClick={() => taskStore.setIsDone(item.id)} />
                 <label >{item.name}</label>
                 <button className="destroy"></button>
               </div>
@@ -41,4 +42,4 @@ function Task () {
   )
 }
 
-export default Task
+export default observer(Task)

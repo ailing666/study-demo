@@ -16,5 +16,11 @@ class TaskStore {
   constructor() {
     makeAutoObservable(this)
   }
+
+  // 单选功能
+  setIsDone (id) {
+    let res = this.list.find(item => item.id === id)
+    res.isDone = !res.isDone
+  }
 }
 export default TaskStore
