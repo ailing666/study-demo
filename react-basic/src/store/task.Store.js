@@ -17,8 +17,12 @@ class TaskStore {
     makeAutoObservable(this)
   }
 
+  allCheck = (e) => {
+    this.list.forEach(item => item.isDone = e.target.checked)
+  }
+
   // 单选功能
-  setIsDone (id) {
+  setIsDone = (id) => {
     let res = this.list.find(item => item.id === id)
     res.isDone = !res.isDone
   }

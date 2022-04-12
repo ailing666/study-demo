@@ -2,7 +2,6 @@ import './index.css'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../store/index'
 function Task () {
-  // taskStore
   const { taskStore } = useStore()
   return (
     <section className="todoapp">
@@ -20,8 +19,9 @@ function Task () {
           id="toggle-all"
           className="toggle-all"
           type="checkbox"
+          onChange={taskStore.allCheck}
         />
-        <label htmlFor="toggle-all"></label>
+        <label htmlFor="toggle-all" ></label>
         <ul className="todo-list">
           {taskStore.list.map(item =>
             <li
@@ -29,7 +29,7 @@ function Task () {
               key={item.id}
             >
               <div className="view">
-                <input className="toggle" type="checkbox" defaultChecked={item.isDone} onClick={() => taskStore.setIsDone(item.id)} />
+                <input className="toggle" type="checkbox" checked={item.isDone} onChange={() => taskStore.setIsDone(item.id)} />
                 <label >{item.name}</label>
                 <button className="destroy"></button>
               </div>
