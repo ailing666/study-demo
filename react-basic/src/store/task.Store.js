@@ -25,9 +25,17 @@ class TaskStore {
   ]
   constructor() { makeAutoObservable(this) }
 
+  // 获取已完成的数量
   get isFinished () {
     return this.list.filter(item => item.isDone).length
   }
+
+  // 计算是否全选中
+  get isAll () {
+    return this.list.every(item => item.isDone)
+  }
+
+  // 全选功能
   allCheck = (e) => {
     this.list.forEach(item => item.isDone = e.target.checked)
   }

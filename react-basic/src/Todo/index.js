@@ -45,6 +45,7 @@ function Task () {
           className="toggle-all"
           type="checkbox"
           onChange={taskStore.allCheck}
+          checked={taskStore.isAll}
         />
         <label htmlFor="toggle-all" ></label>
         <ul className="todo-list">
