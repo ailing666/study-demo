@@ -74,7 +74,6 @@ export default {
   methods: {
     // 初始化默认值
     initDefault (value) {
-      console.log('value: ', value)
       if (value) {
         this.initValueFlag = true
         this.initValue = value.split(",").join(" / ")

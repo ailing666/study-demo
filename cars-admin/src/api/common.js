@@ -42,3 +42,11 @@ export function ParkingDetailed (data = {}) {
     data
   })
 }
+/** 停车场修改 */
+export function ParkingEdit (data = {}) {
+  return service.request({
+    method: "post",
+    url: "/parking/edit/",
+    data
+  })
+}

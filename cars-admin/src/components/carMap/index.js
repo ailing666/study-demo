@@ -17,7 +17,6 @@ const getLngLat = (e) => {
  * @param {地图实例} map 
  */
 const geoCode = (address, map) => {
-  console.log('geoCode: ', address)
   const geocoder = new AMap.Geocoder()
   geocoder.getLocation(address, (status, result) => {
     if (status === "complete" && result.info == "OK") {

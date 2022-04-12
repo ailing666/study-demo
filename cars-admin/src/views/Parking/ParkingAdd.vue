@@ -43,7 +43,7 @@
 <script>
 import CarMap from '@/components/carMap/index.vue'
 import AreaCascader from '@/components/AreaCascader'
-import { ParkingAdd, ParkingDetailed } from '@/api/common'
+import { ParkingAdd, ParkingDetailed, ParkingEdit } from '@/api/common'
 export default {
   name: "ParkingAdd",
   components: { CarMap, AreaCascader },
@@ -72,7 +72,7 @@ export default {
         ],
         lnglat: { required: true, message: '请点击地图获取经纬度', trigger: 'blur' },
       },
-      submitLoading: false
+      submitLoading: false,
     }
   },
   methods: {
@@ -106,27 +106,44 @@ export default {
     onSubmit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.addParking()
+          this.id ? this.editParking() : this.addParking()
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
-
-    // 请求接口
+    // 请求修改停车场接口
+    editParking () {
+      let requestData = JSON.parse(JSON.stringify(this.form))
+      requestData.id = this.id
+      this.submitLoading = true
+      ParkingEdit(requestData).then(res => {
+        // 重置表单
+        this.resetForm()
+        this.submitLoading = false
+        this.$message({
+          message: res.message,
+          type: 'success'
+        })
+        this.$router.push({
+          name: "parkingIndex"
+        })
+      }).catch(() => {
+        this.submitLoading = false
+      })
+    },
+    // 请求添加停车场接口
     addParking () {
       this.submitLoading = true
       ParkingAdd(this.form).then(res => {
-        if (res.resCode === 0) {
-          // 重置表单
-          this.resetForm()
-          this.submitLoading = false
-          this.$message({
-            message: res.message,
-            type: 'success'
-          })
-        }
+        // 重置表单
+        this.resetForm()
+        this.submitLoading = false
+        this.$message({
+          message: res.message,
+          type: 'success'
+        })
       }).catch(() => {
         this.submitLoading = false
       })
@@ -144,7 +161,6 @@ export default {
 
     // 获取中文地址
     getAddress (address) {
-      console.log('获取中文地址: ', address)
       this.form.address = address
       // 触发carMap组件事件
       this.$refs.carMap.setMapCenter(address)

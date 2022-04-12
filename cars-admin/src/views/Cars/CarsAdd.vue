@@ -145,7 +145,6 @@ export default {
   },
   methods: {
     onSubmit () {
-      console.log('submit!')
     },
     /** 添加车辆属性 */
     addCarsAttr () {

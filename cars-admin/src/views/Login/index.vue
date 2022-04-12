@@ -190,7 +190,6 @@ export default {
       this.code_text = "发送中"
       this.code_loading = true
       GetCode(requestData).then(response => {
-        console.log(response)  // 这里打印拦截器返回的信息，response是自定义参数。
         this.$message({
           message: response.message,
           type: "success"
