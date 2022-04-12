@@ -74,7 +74,7 @@
       <el-table-column label="操作">
         <template v-slot="scope">
           <el-button type="danger" size="small" @click="editParking(scope.row)">编辑</el-button>
-          <el-button size="small">删除</el-button>
+          <el-button size="small" @click="delParking(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,7 +93,7 @@
   </div>
 </template>
 <script>
-import { ParkingList } from '../../api/common'
+import { ParkingList, ParkingDelete } from '../../api/common'
 import AreaCascader from '@/components/AreaCascader'
 import ShowMap from '../../components/dialog/showMap.vue'
 export default {
@@ -131,6 +131,22 @@ export default {
     changeDialogVisible (v) {
       this.parkingData = v
       this.isShowMap = true
+    },
+    // 删除
+    delParking (id) {
+      this.$confirm('确定删除此信息', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        ParkingDelete({ id }).then(response => {
+          this.$message({
+            type: 'success',
+            message: response.message
+          })
+          this.getParkingList()
+        })
+      }).catch(() => { })
     },
     // 接口请求
     getParkingList (requestData = { pageSize: this.paginationData.pageSize, pageNumber: this.paginationData.pageNumber }) {

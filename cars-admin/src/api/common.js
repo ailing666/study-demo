@@ -50,3 +50,12 @@ export function ParkingEdit (data = {}) {
     data
   })
 }
+
+/** 停车场删除 */
+export function ParkingDelete (data = {}) {
+  return service.request({
+    method: "post",
+    url: "/parking/delete/",
+    data
+  })
+}
