@@ -11,6 +11,16 @@ class TaskStore {
       id: 2,
       name: '搞定mobx',
       isDone: false
+    },
+    {
+      id: 3,
+      name: '学习react3',
+      isDone: true
+    },
+    {
+      id: 4,
+      name: '搞定mobx4',
+      isDone: false
     }
   ]
   constructor() {
@@ -25,6 +35,10 @@ class TaskStore {
   setIsDone = (id) => {
     let res = this.list.find(item => item.id === id)
     res.isDone = !res.isDone
+  }
+  // 删除功能
+  delItem = (id) =>{
+    this.list = this.list.filter(item => item.id !== id)
   }
 }
 export default TaskStore

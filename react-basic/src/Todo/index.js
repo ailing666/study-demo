@@ -31,11 +31,10 @@ function Task () {
               <div className="view">
                 <input className="toggle" type="checkbox" checked={item.isDone} onChange={() => taskStore.setIsDone(item.id)} />
                 <label >{item.name}</label>
-                <button className="destroy"></button>
+                <button className="destroy" onClick={()=>taskStore.delItem(item.id)}></button>
               </div>
             </li>
           )}
-          {/* 列表 completed控制是否完成*/}
         </ul>
       </section>
     </section>
