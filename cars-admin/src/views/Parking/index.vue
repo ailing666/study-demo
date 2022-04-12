@@ -28,16 +28,16 @@
               </el-select>
             </el-form-item>
             <el-form-item label="关键字">
-              <el-select v-model="form.keyWord" placeholder="请选择" style="width:110px">
+              <el-select v-model="keyWord" placeholder="请选择" style="width:110px">
                 <el-option label="停车场名称" value="parkingName"></el-option>
                 <el-option label="详细区域" value="address"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input placeholder="请输入关键字"></el-input>
+              <el-input v-model="keyValue" placeholder="请输入关键字"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="danger">搜索</el-button>
+              <el-button type="danger" @click="searchParking">搜索</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -99,8 +99,10 @@ export default {
         area: "",
         status: "",
         type: "",
-        keyWord: ""
       },
+      // 关键字
+      keyWord: "",
+      keyValue: "",
       tableData: [],
       paginationData: {
         pageNumber: 1,
@@ -118,16 +120,37 @@ export default {
     },
   },
   methods: {
-    getParkingList () {
-      ParkingList({ pageSize: this.paginationData.pageSize, pageNumber: this.paginationData.pageNumber }).then(res => {
+    // 接口请求
+    getParkingList (requestData = { pageSize: this.paginationData.pageSize, pageNumber: this.paginationData.pageNumber }) {
+      ParkingList(requestData).then(res => {
         this.tableData = res.data.data
         this.paginationData.total = res.data.total
       })
     },
+
+    // 搜索
+    searchParking () {
+      const requestData = {
+        pageSize: this.paginationData.pageSize,
+        pageNumber: this.paginationData.pageNumber
+      }
+      let filterData = JSON.parse(JSON.stringify(this.form))
+
+      // 如果筛选条件有变动再添加进来
+      for (let key in filterData) {
+        if (filterData[key]) { requestData[key] = filterData[key] }
+      }
+
+      // 关键字
+      if (this.keyWord && this.keyValue) requestData[this.keyWord] = this.keyValue
+      this.getParkingList(requestData)
+    },
+
     handleSizeChange (val) {
       this.paginationData.pageSize = val
       this.getParkingList()
     },
+
     handleCurrentChange (val) {
       this.paginationData.pageNumber = val
       this.getParkingList()

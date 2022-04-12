@@ -120,6 +120,7 @@ export default {
 
     // 重置表单
     resetForm () {
+      this.form.address = ""
       this.$refs.carMap.delMarker()
       this.$refs.areaCascader.value = ''
       this.$refs.form.resetFields()

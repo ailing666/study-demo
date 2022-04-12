@@ -18,7 +18,7 @@ export default {
         procince: ''
       },
       // 选中的中文地址
-      address: '',
+      address: [],
       props: {
         lazy: true,
         // 初始化就会执行一次
@@ -74,8 +74,11 @@ export default {
 
     // 获取选中的中文地址
     getAddress (node) {
-      this.address += node.label
-      this.$emit('getAddress', this.address)
+      this.address.push(node.label)
+      if (this.address.length === 3) {
+        this.$emit('getAddress', this.address.join(''))
+        this.address = []
+      }
     }
   }
 }
