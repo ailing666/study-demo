@@ -52,6 +52,7 @@ export default {
     // 地图加载完成
     mapLoad () {
       if (this.options && this.options.mapLoad) {
+        console.log('加载晚上')
         this.$emit("mapLoad")
       }
     },

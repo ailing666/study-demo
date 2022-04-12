@@ -1,6 +1,12 @@
 <template>
   <div>
-    <el-cascader v-model="value" :props="props" @change="areaChange"></el-cascader>
+    <el-cascader
+      :class="{ 'cascader-input': initValueFlag }"
+      :placeholder="initValue"
+      v-model="value"
+      :props="props"
+      @change="areaChange"
+    ></el-cascader>
   </div>
 </template>
 
@@ -60,10 +66,20 @@ export default {
 
           level !== 0 && this.getAddress(node)
         }
-      }
+      },
+      initValueFlag: false,
+      initValue: ''
     }
   },
   methods: {
+    // 初始化默认值
+    initDefault (value) {
+      console.log('value: ', value)
+      if (value) {
+        this.initValueFlag = true
+        this.initValue = value.split(",").join(" / ")
+      }
+    },
     // 级联选择器改变时触发
     areaChange (v) {
       this.$emit("update:cityAreaValue", v.join())

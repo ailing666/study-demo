@@ -8,7 +8,11 @@
     </el-form-item>
     <el-form-item prop="type" label="类型">
       <el-radio-group v-model.number="form.type">
-        <el-radio v-for="item in parkingType" :key="item.value" :label="item.value">{{item.label}}</el-radio>
+        <el-radio
+          v-for="item in $store.state.config.parking_type"
+          :key="item.value"
+          :label="item.value"
+        >{{item.label}}</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item prop="carsNumber" label="可停放车辆">
@@ -16,12 +20,16 @@
     </el-form-item>
     <el-form-item prop="status" label="禁启用">
       <el-radio-group v-model.number="form.status">
-        <el-radio v-for="item in parkingStatus" :key="item.value" :label="item.value">{{item.label}}</el-radio>
+        <el-radio
+          v-for="item in $store.state.config.radio_disabled"
+          :key="item.value"
+          :label="item.value"
+        >{{item.label}}</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item prop="address" label="位置">
       <div class="address-map">
-        <CarMap ref="carMap" @getLngLat="getLngLat" />
+        <CarMap ref="carMap" @getLngLat="getLngLat" :options="option_map" @mapLoad="mapLoad" />
       </div>
     </el-form-item>
     <el-form-item prop="lnglat" label="经纬度">
@@ -41,6 +49,10 @@ export default {
   components: { CarMap, AreaCascader },
   data () {
     return {
+      // 地图配置
+      option_map: {
+        mapLoad: true
+      },
       form: {
         parkingName: "",
         area: "",
@@ -63,20 +75,31 @@ export default {
       submitLoading: false
     }
   },
-
-  computed: {
-    parkingStatus () {
-      return this.$store.state.config.parking_status
-    },
-    parkingType () {
-      return this.$store.state.config.parking_type
-    }
-  },
-
   methods: {
+    // 地图加载完成再获取接口
+    mapLoad () {
+      this.getParkingDetailed()
+    },
     // 获取详情
     getParkingDetailed () {
+      // id不存在返回
+      if (!this.id) return
+
       ParkingDetailed({ id: this.id }).then(res => {
+        Object.keys(this.form).map(item => {
+          this.form[item] = res.data[item]
+        })
+
+        // 设置覆盖物
+        const splitLnglat = res.data.lnglat.split(",")
+        const lnglat = {
+          lng: splitLnglat[0],
+          lat: splitLnglat[1]
+        }
+        this.$refs.carMap.setMarker(lnglat)
+
+        // 初始化省市区
+        this.$refs.areaCascader.initDefault(res.data.region)
       })
     },
     // 提交表单

@@ -73,7 +73,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template v-slot="scope">
-          <el-button type="danger" size="small" @click="editParking(scope.row.id)">编辑</el-button>
+          <el-button type="danger" size="small" @click="editParking(scope.row)">编辑</el-button>
           <el-button size="small">删除</el-button>
         </template>
       </el-table-column>
@@ -159,10 +159,10 @@ export default {
     },
 
     // 编辑
-    editParking (id) {
+    editParking (query) {
       this.$router.push({
         name: 'ParkingAdd',
-        query: id
+        query
       })
     },
 
