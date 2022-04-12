@@ -23,9 +23,7 @@ class TaskStore {
       isDone: false
     }
   ]
-  constructor() {
-    makeAutoObservable(this)
-  }
+  constructor() { makeAutoObservable(this) }
 
   allCheck = (e) => {
     this.list.forEach(item => item.isDone = e.target.checked)
@@ -36,9 +34,15 @@ class TaskStore {
     let res = this.list.find(item => item.id === id)
     res.isDone = !res.isDone
   }
+
   // 删除功能
-  delItem = (id) =>{
+  delItem = (id) => {
     this.list = this.list.filter(item => item.id !== id)
+  }
+
+  // 添加todo项
+  addTodo = (v) => {
+    this.list.push(v)
   }
 }
 export default TaskStore

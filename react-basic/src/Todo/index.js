@@ -1,8 +1,30 @@
 import './index.css'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../store/index'
+import { useState } from 'react'
+import uuid from 'react-uuid'
 function Task () {
+  const [taskValue, setTaskValue] = useState('')
   const { taskStore } = useStore()
+  // 添加项
+  const addTodo = () => {
+    taskStore.addTodo({
+      id: uuid(),
+      name: taskValue,
+      isDone: false
+    })
+  }
+
+  // 键盘弹起事件
+  const keyUpHandler = (e) => {
+    if (e.keyCode === 13) {
+      addTodo()
+      setTaskValue('')
+    }
+  }
+
+  // 改变input值
+  const changeValue = (e) => setTaskValue(e.target.value)
   return (
     <section className="todoapp">
       <header className="header">
@@ -11,7 +33,10 @@ function Task () {
           className="new-todo"
           autoFocus
           autoComplete="off"
+          value={taskValue}
           placeholder="What needs to be done?"
+          onKeyUp={keyUpHandler}
+          onChange={changeValue}
         />
       </header>
       <section className="main">
@@ -31,7 +56,7 @@ function Task () {
               <div className="view">
                 <input className="toggle" type="checkbox" checked={item.isDone} onChange={() => taskStore.setIsDone(item.id)} />
                 <label >{item.name}</label>
-                <button className="destroy" onClick={()=>taskStore.delItem(item.id)}></button>
+                <button className="destroy" onClick={() => taskStore.delItem(item.id)}></button>
               </div>
             </li>
           )}
