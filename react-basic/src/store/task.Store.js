@@ -25,6 +25,9 @@ class TaskStore {
   ]
   constructor() { makeAutoObservable(this) }
 
+  get isFinished () {
+    return this.list.filter(item => item.isDone).length
+  }
   allCheck = (e) => {
     this.list.forEach(item => item.isDone = e.target.checked)
   }
