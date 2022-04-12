@@ -54,7 +54,11 @@
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column type="selection" width="35"></el-table-column>
       <el-table-column prop="parkingName" label="停车场名称"></el-table-column>
-      <el-table-column prop="type" label="类型"></el-table-column>
+      <el-table-column prop="type" label="类型">
+        <template v-slot="scope">
+          <span>{{setType(scope.row.type)}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="area" label="区域"></el-table-column>
       <el-table-column prop="carsNumber" label="可停放车辆"></el-table-column>
       <el-table-column prop="status" label="禁启用">
@@ -97,38 +101,6 @@ export default {
         type: "",
         keyWord: ""
       },
-      options: [
-        {
-          value: 1111,
-          label: "广东省",
-          children: [
-            {
-              value: 1111,
-              label: "深圳市",
-            },
-            {
-              value: 1111,
-              label: "广州市",
-            }
-          ]
-        },
-        {
-          value: 1111,
-          label: "广西省",
-          children: [
-            {
-              value: 1111,
-              label: "南宁市",
-              children: [
-                {
-                  value: "2222",
-                  label: "八步镇"
-                }
-              ]
-            }
-          ]
-        }
-      ],
       tableData: [],
       paginationData: {
         pageNumber: 1,
@@ -139,6 +111,11 @@ export default {
   },
   beforeMount () {
     this.getParkingList()
+  },
+  computed: {
+    setType () {
+      return (value) => this.$store.state.config.parking_type.find(item => item.value == value).label
+    },
   },
   methods: {
     getParkingList () {
