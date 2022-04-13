@@ -1,5 +1,5 @@
 import { Layout, Menu, Popconfirm } from 'antd'
-import { Outlet } from 'react-router-dom'
+import { Outlet, Link, useLocation } from 'react-router-dom'
 import {
   HomeOutlined,
   DiffOutlined,
@@ -9,8 +9,8 @@ import {
 import './index.scss'
 
 const { Header, Sider } = Layout
-
 const GeekLayout = () => {
+  const location = useLocation()
   return (
     <Layout>
       <Header className="header">
@@ -26,20 +26,22 @@ const GeekLayout = () => {
       </Header>
       <Layout>
         <Sider width={200} className="site-layout-background">
+          {/* location.pathname就是当前路由地址 */}
           <Menu
             mode="inline"
             theme="dark"
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={[location.pathname]}
             style={{ height: '100%', borderRight: 0 }}
           >
-            <Menu.Item icon={<HomeOutlined />} key="1">
-              数据概览
+            {/* key匹配上就会高亮 */}
+            <Menu.Item icon={<HomeOutlined />} key="/">
+              <Link to={'/'}>数据概览</Link>
             </Menu.Item>
-            <Menu.Item icon={<DiffOutlined />} key="2">
-              内容管理
+            <Menu.Item icon={<DiffOutlined />} key="/article">
+              <Link to={'/article'}>内容管理</Link>
             </Menu.Item>
-            <Menu.Item icon={<EditOutlined />} key="3">
-              发布文章
+            <Menu.Item icon={<EditOutlined />} key="/publish">
+              <Link to={'/publish'}>发布文章</Link>
             </Menu.Item>
           </Menu>
         </Sider>
