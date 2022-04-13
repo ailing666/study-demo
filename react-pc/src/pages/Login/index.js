@@ -1,11 +1,14 @@
 import { Card, Form, Input, Button, Checkbox } from 'antd'
 import logo from '@/assets/logo.png'
 import './index.scss'
-
+import { useStore } from '@/store/index'
 const Login = () => {
+  const { loginStore } = useStore()
   // 表单校验通过触发
-  const onFinish = (values) => {
-    console.log('Success:', values)
+  const onFinish = async (values) => {
+    const { mobile, code } = values
+    // 获取token
+    await loginStore.getToken({ mobile, code })
   }
   // 表单校验失败触发
   const onFinishFailed = (errorInfo) => {
@@ -25,14 +28,14 @@ const Login = () => {
         >
           {/* pattern:匹配正则，validateTrigger：触发方式，需要在Form中添加该方式 */}
           <Form.Item
-            name="phoneNumber"
+            name="mobile"
             rules={[{ required: true, message: '请输入手机号!' }, { pattern: /^1[3-9]\d{9}$/, message: '手机号格式有误!', validateTrigger: 'onBlur' }]}
           >
             <Input />
           </Form.Item>
 
           <Form.Item
-            name="password"
+            name="code"
             rules={[{ required: true, message: '请输入密码!' }, { len: 6, message: '密码6个字符', validateTrigger: 'onBlur' }]}
           >
             <Input.Password maxLength={6} />
