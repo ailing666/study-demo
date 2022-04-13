@@ -54,7 +54,14 @@
     <TableData ref="table" :tableConfig="tableConfig">
       <!-- status插槽名称要一样，slotData为整行数据，比scope.row多一层data -->
       <template v-slot:status="slotData">
-        <el-switch v-model="slotData.data.status" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+        <!-- 当前id等于switchDisabled时禁用 -->
+        <el-switch
+          :disabled="slotData.data.id === switchDisabled"
+          @change="switchStastus(slotData.data)"
+          v-model="slotData.data.status"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
+        ></el-switch>
       </template>
       <template v-slot:lnglat="slotData">
         <el-button size="success" @click="changeDialogVisible(slotData.data)">点击查看地图</el-button>
@@ -68,7 +75,7 @@
   </div>
 </template>
 <script>
-import { ParkingDelete } from '@/api/common'
+import { ParkingDelete, ParkingStatus } from '@/api/common'
 import { parkingType, parkingAddress } from '@/utils/common'
 import AreaCascader from '@/components/AreaCascader'
 import ShowMap from '@/components/dialog/showMap.vue'
@@ -103,7 +110,8 @@ export default {
         { label: "操作", type: 'slot', slotName: "operation" },
         ],
         url: "/parking/list/",
-      }
+      },
+      switchDisabled: ''
     }
   },
   methods: {
@@ -118,10 +126,10 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        ParkingDelete({ id }).then(response => {
+        ParkingDelete({ id }).then(res => {
           this.$message({
             type: 'success',
-            message: response.message
+            message: res.message
           })
           // 请求组件数据
           this.$refs.table.requestData()
@@ -156,6 +164,25 @@ export default {
         query
       })
     },
+
+    // 修改状态
+    switchStastus (data) {
+      let requestData = {
+        id: data.id,
+        status: data.status
+      }
+      this.switchDisabled = data.id
+      ParkingStatus(requestData).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.message
+        })
+        this.switchDisabled = ''
+
+      }).catch(() => {
+        this.switchDisabled = ''
+      })
+    }
   },
 }
 </script>

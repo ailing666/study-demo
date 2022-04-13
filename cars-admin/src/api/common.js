@@ -59,3 +59,12 @@ export function ParkingDelete (data = {}) {
     data
   })
 }
+/** 停车场状态修改 */
+export function ParkingStatus (data = {}) {
+  return service.request({
+    method: "post",
+    url: "/parking/status/",
+    data
+  })
+}
+
