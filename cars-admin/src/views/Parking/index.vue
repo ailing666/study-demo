@@ -75,7 +75,7 @@
   </div>
 </template>
 <script>
-import { ParkingDelete, ParkingStatus } from '@/api/common'
+import { ParkingDelete, ParkingStatus } from '@/api/parking'
 import { parkingType, parkingAddress } from '@/utils/common'
 import AreaCascader from '@/components/AreaCascader'
 import ShowMap from '@/components/dialog/showMap.vue'

@@ -43,7 +43,7 @@
 <script>
 import CarMap from '@/components/carMap/index.vue'
 import AreaCascader from '@/components/AreaCascader'
-import { ParkingAdd, ParkingDetailed, ParkingEdit } from '@/api/common'
+import { ParkingAdd, ParkingDetailed, ParkingEdit } from '@/api/parking'
 export default {
   name: "ParkingAdd",
   components: { CarMap, AreaCascader },

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { ParkingList } from '@/api/common'
+import { ParkingList } from '@/api/parking'
 export default {
   name: 'TableData',
   props: {
