@@ -50,6 +50,7 @@
         </el-col>
       </el-row>
     </div>
+    <TableData :tableConfig="tableConfig" />
     <!-- 表格数据 -->
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column type="selection" width="35"></el-table-column>
@@ -96,9 +97,10 @@
 import { ParkingList, ParkingDelete } from '../../api/common'
 import AreaCascader from '@/components/AreaCascader'
 import ShowMap from '../../components/dialog/showMap.vue'
+import TableData from '../../components/TableData.vue'
 export default {
   name: "Parking",
-  components: { AreaCascader, ShowMap },
+  components: { AreaCascader, ShowMap, TableData },
   data () {
     return {
       form: {
@@ -116,6 +118,16 @@ export default {
         pageNumber: 1,
         pageSize: 10,
         total: 0
+      },
+      // 表格配置
+      tableConfig: {
+        thead: [{ prop: "parkingName", label: "停车场名称" },
+        { prop: "type", label: "类型" },
+        { prop: "area", label: "区域" },
+        { prop: "carsNumber", label: "可停放车辆" },
+        { prop: "status", label: "禁启用" },
+        { prop: "lnglat", label: "查看位置" },
+        ],
       }
     }
   },
