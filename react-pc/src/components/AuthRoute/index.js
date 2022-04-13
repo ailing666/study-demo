@@ -6,7 +6,7 @@ const AuthRoute = ({ children }) => {
   const token = getToken()
   return (
     // token存在则渲染组件，否则就重定向到login页
-    token ? <>{children}</> : <Navigate to="/" replace />
+    token ? <>{children}</> : <Navigate to="/login" replace />
   )
 }
 export default AuthRoute

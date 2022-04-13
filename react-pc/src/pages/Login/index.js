@@ -12,7 +12,7 @@ const Login = () => {
     // 获取token
     await loginStore.getToken({ mobile, code })
     // 跳转到layout
-    navigate('/layout', { replace: true })
+    navigate('/', { replace: true })
   }
   // 表单校验失败触发
   const onFinishFailed = (errorInfo) => {
