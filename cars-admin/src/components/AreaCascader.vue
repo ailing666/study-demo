@@ -68,7 +68,7 @@ export default {
         }
       },
       initValueFlag: false,
-      initValue: ''
+      initValue: '请选择区域'
     }
   },
   methods: {

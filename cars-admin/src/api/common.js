@@ -24,11 +24,11 @@ export function ParkingAdd (data = {}) {
 /**
  * 获取停车场列表
  */
-export function ParkingList (data = {}) {
+export function ParkingList (params = {}) {
   return service.request({
     method: "post",
-    url: "/parking/list/",
-    data
+    url: params.url,
+    data: params.data
   })
 }
 

@@ -51,7 +51,7 @@
       </el-row>
     </div>
     <!-- 表格数据 -->
-    <TableData :tableConfig="tableConfig">
+    <TableData ref="table" :tableConfig="tableConfig">
       <!-- status插槽名称要一样，slotData为整行数据，比scope.row多一层data -->
       <template v-slot:status="slotData">
         <el-switch v-model="slotData.data.status" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
@@ -64,27 +64,15 @@
         <el-button size="small" @click="delParking(slotData.data.id)">删除</el-button>
       </template>
     </TableData>
-
-    <el-pagination
-      class="parking-pagination"
-      background
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="paginationData.pageNumber"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="paginationData.pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="paginationData.total"
-    ></el-pagination>
     <ShowMap :dialogVisible.sync="isShowMap" :parkingData="parkingData" />
   </div>
 </template>
 <script>
-import { ParkingList, ParkingDelete } from '../../api/common'
+import { ParkingDelete } from '@/api/common'
 import { parkingType, parkingAddress } from '@/utils/common'
 import AreaCascader from '@/components/AreaCascader'
-import ShowMap from '../../components/dialog/showMap.vue'
-import TableData from '../../components/TableData.vue'
+import ShowMap from '@/components/dialog/showMap.vue'
+import TableData from '@/components/TableData.vue'
 export default {
   name: "Parking",
   components: { AreaCascader, ShowMap, TableData },
@@ -98,14 +86,8 @@ export default {
       // 关键字
       keyWord: "",
       keyValue: "",
-      tableData: [],
       isShowMap: false,
       parkingData: {},
-      paginationData: {
-        pageNumber: 1,
-        pageSize: 10,
-        total: 0
-      },
       // 表格配置
       tableConfig: {
         thead: [{ prop: "parkingName", label: "停车场名称" },
@@ -120,16 +102,9 @@ export default {
         { prop: "lnglat", label: "查看位置", type: 'slot', slotName: "lnglat" },
         { label: "操作", type: 'slot', slotName: "operation" },
         ],
+        url: "/parking/list/",
       }
     }
-  },
-  beforeMount () {
-    this.getParkingList()
-  },
-  computed: {
-    setType () {
-      return (value) => this.$store.state.config.parking_type.find(item => item.value == value).label
-    },
   },
   methods: {
     changeDialogVisible (v) {
@@ -148,23 +123,17 @@ export default {
             type: 'success',
             message: response.message
           })
-          this.getParkingList()
+          // 请求组件数据
+          this.$refs.table.requestData()
         })
       }).catch(() => { })
-    },
-    // 接口请求
-    getParkingList (requestData = { pageSize: this.paginationData.pageSize, pageNumber: this.paginationData.pageNumber }) {
-      ParkingList(requestData).then(res => {
-        this.tableData = res.data.data
-        this.paginationData.total = res.data.total
-      })
     },
 
     // 搜索
     searchParking () {
       const requestData = {
-        pageSize: this.paginationData.pageSize,
-        pageNumber: this.paginationData.pageNumber
+        pageSize: 10,
+        pageNumber: 1
       }
       let filterData = JSON.parse(JSON.stringify(this.form))
 
@@ -175,7 +144,8 @@ export default {
 
       // 关键字
       if (this.keyWord && this.keyValue) requestData[this.keyWord] = this.keyValue
-      this.getParkingList(requestData)
+      // 将参数传入，请求组件数据
+      this.$refs.table.requestData(requestData)
     },
 
     // 编辑
@@ -186,18 +156,6 @@ export default {
         query
       })
     },
-
-    // 页容量改变
-    handleSizeChange (val) {
-      this.paginationData.pageSize = val
-      this.getParkingList()
-    },
-
-    // 页码改变
-    handleCurrentChange (val) {
-      this.paginationData.pageNumber = val
-      this.getParkingList()
-    }
   },
 }
 </script>
