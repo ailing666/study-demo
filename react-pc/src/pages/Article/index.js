@@ -80,24 +80,24 @@ const Article = () => {
     per_page: 10
   })
 
-  // 请求频道数据
+  // 请求并设置频道列表
   const getChannels = async () => {
     let res = await http.get('/channels')
     setChannels(res.data.channels)
   }
 
+  // 请求并设置文章列表
+  const getArticleList = async (params) => {
+    const res = await http.get('/mp/articles', { params })
+    const { results, total_count } = res.data
+    setArticleList({ list: results, count: total_count })
+  }
+
   // 初始化时请求频道数据
   useEffect(() => { getChannels() }, [])
 
-  // 请求文章数据，由于要依赖 params 值，所以需要将请求函数写在useEffect内部
-  useEffect(() => {
-    const getArticleList = async () => {
-      const res = await http.get('/mp/articles', { params })
-      const { results, total_count } = res.data
-      setArticleList({ list: results, count: total_count })
-    }
-    getArticleList()
-  }, [params])
+  // 请求文章数据，需要依赖 params 值
+  useEffect(() => { getArticleList(params) }, [params])
 
   return (
     <div>
@@ -126,7 +126,6 @@ const Article = () => {
           <Form.Item label="频道" name="channel_id">
             <Select
               placeholder="请选择文章频道"
-              defaultValue="lucy"
               style={{ width: 120 }}
             >
               {channelsList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
@@ -148,6 +147,7 @@ const Article = () => {
       <div>
         <Card title={`根据筛选条件共查询到 ${articleList.count} 条结果：`}>
           <Table
+            rowKey="article"
             dataSource={articleList.list}
             columns={columns}
           />
