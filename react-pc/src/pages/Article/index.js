@@ -12,7 +12,6 @@ const { Option } = Select
 const { RangePicker } = DatePicker
 
 const Article = () => {
-  const [channels, setChannels] = useState([])
   const columns = [
     {
       title: '封面',
@@ -66,27 +65,39 @@ const Article = () => {
     }
   ]
 
-  const data = [
-    {
-      id: '8218',
-      comment_count: 0,
-      cover: {
-        images: ['http://geek.itheima.net/resources/images/15.jpg'],
-      },
-      like_count: 0,
-      pubdate: '2019-03-11 09:00:00',
-      read_count: 2,
-      status: 2,
-      title: 'wkwebview离线化加载h5资源解决方案'
-    }
-  ]
+  // 频道列表管理
+  const [channelsList, setChannels] = useState([])
+
+  // 文章列表数据管理
+  const [articleList, setArticleList] = useState({
+    list: [],
+    count: 0
+  })
+
+  // 分页管理
+  const [params, setParams] = useState({
+    page: 1,
+    per_page: 10
+  })
+
   // 请求频道数据
   const getChannels = async () => {
     let res = await http.get('/channels')
     setChannels(res.data.channels)
   }
+
   // 初始化时请求频道数据
   useEffect(() => { getChannels() }, [])
+
+  // 请求文章数据，由于要依赖 params 值，所以需要将请求函数写在useEffect内部
+  useEffect(() => {
+    const getArticleList = async () => {
+      const res = await http.get('/mp/articles', { params })
+      const { results, total_count } = res.data
+      setArticleList({ list: results, count: total_count })
+    }
+    getArticleList()
+  }, [params])
 
   return (
     <div>
@@ -118,7 +129,7 @@ const Article = () => {
               defaultValue="lucy"
               style={{ width: 120 }}
             >
-              {channels.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+              {channelsList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
             </Select>
           </Form.Item>
 
@@ -135,8 +146,11 @@ const Article = () => {
         </Form>
       </Card>
       <div>
-        <Card title={`根据筛选条件共查询到 count 条结果：`}>
-          <Table rowKey="id" columns={columns} dataSource={data} />
+        <Card title={`根据筛选条件共查询到 ${articleList.count} 条结果：`}>
+          <Table
+            dataSource={articleList.list}
+            columns={columns}
+          />
         </Card>
       </div>
     </div>
