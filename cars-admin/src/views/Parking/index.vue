@@ -50,35 +50,21 @@
         </el-col>
       </el-row>
     </div>
-    <TableData :tableConfig="tableConfig" />
     <!-- 表格数据 -->
-    <el-table :data="tableData" border style="width: 100%">
-      <el-table-column type="selection" width="35"></el-table-column>
-      <el-table-column prop="parkingName" label="停车场名称"></el-table-column>
-      <el-table-column prop="type" label="类型">
-        <template v-slot="scope">
-          <span>{{setType(scope.row.type)}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="area" label="区域"></el-table-column>
-      <el-table-column prop="carsNumber" label="可停放车辆"></el-table-column>
-      <el-table-column prop="status" label="禁启用">
-        <template v-slot="scope">
-          <el-switch v-model="scope.row.status" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-        </template>
-      </el-table-column>
-      <el-table-column prop="lnglat" label="查看位置">
-        <template v-slot="scope">
-          <el-button size="success" @click="changeDialogVisible(scope.row)">点击查看地图</el-button>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作">
-        <template v-slot="scope">
-          <el-button type="danger" size="small" @click="editParking(scope.row)">编辑</el-button>
-          <el-button size="small" @click="delParking(scope.row.id)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <TableData :tableConfig="tableConfig">
+      <!-- status插槽名称要一样，slotData为整行数据，比scope.row多一层data -->
+      <template v-slot:status="slotData">
+        <el-switch v-model="slotData.data.status" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+      </template>
+      <template v-slot:lnglat="slotData">
+        <el-button size="success" @click="changeDialogVisible(slotData.data)">点击查看地图</el-button>
+      </template>
+      <template v-slot:operation="slotData">
+        <el-button type="danger" size="small" @click="editParking(slotData.data)">编辑</el-button>
+        <el-button size="small" @click="delParking(slotData.data.id)">删除</el-button>
+      </template>
+    </TableData>
+
     <el-pagination
       class="parking-pagination"
       background
@@ -95,6 +81,7 @@
 </template>
 <script>
 import { ParkingList, ParkingDelete } from '../../api/common'
+import { parkingType, parkingAddress } from '@/utils/common'
 import AreaCascader from '@/components/AreaCascader'
 import ShowMap from '../../components/dialog/showMap.vue'
 import TableData from '../../components/TableData.vue'
@@ -122,11 +109,16 @@ export default {
       // 表格配置
       tableConfig: {
         thead: [{ prop: "parkingName", label: "停车场名称" },
-        { prop: "type", label: "类型" },
-        { prop: "area", label: "区域" },
+        {
+          prop: "type", label: "类型", type: "function", callback: (row, prop) => parkingType(row[prop])
+        },
+        {
+          prop: "address", label: "区域", type: "function", callback: (row, prop) => parkingAddress(row[prop])
+        },
         { prop: "carsNumber", label: "可停放车辆" },
-        { prop: "status", label: "禁启用" },
-        { prop: "lnglat", label: "查看位置" },
+        { prop: "status", label: "禁启用", type: 'slot', slotName: "status" },
+        { prop: "lnglat", label: "查看位置", type: 'slot', slotName: "lnglat" },
+        { label: "操作", type: 'slot', slotName: "operation" },
         ],
       }
     }
@@ -188,6 +180,7 @@ export default {
 
     // 编辑
     editParking (query) {
+      console.log('query: ', query)
       this.$router.push({
         name: 'ParkingAdd',
         query
