@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { http, setToken, getToken } from '@/utils'
+import { http, setToken, getToken, removeToken } from '@/utils'
 class LoginStore {
   token = getToken() || ''
   constructor() {
@@ -12,9 +12,12 @@ class LoginStore {
     this.token = res.data.token
     // 存入localStorage
     setToken(this.token)
-    console.log('%cthis.token: ', 'color: #e0120f;', this.token)
   }
-
+  // 退出登录
+  loginOut = () => {
+    this.token = ''
+    removeToken()
+  }
 }
 
 export default LoginStore
