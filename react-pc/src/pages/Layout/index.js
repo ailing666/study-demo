@@ -1,4 +1,4 @@
-function Layout() {
+const Layout = () => {
   return (
     <div>Layout</div>
   )
