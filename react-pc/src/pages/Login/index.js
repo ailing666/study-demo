@@ -1,14 +1,18 @@
 import { Card, Form, Input, Button, Checkbox } from 'antd'
 import logo from '@/assets/logo.png'
 import './index.scss'
+import { useNavigate } from 'react-router-dom'
 import { useStore } from '@/store/index'
 const Login = () => {
   const { loginStore } = useStore()
+  const navigate = useNavigate()
   // 表单校验通过触发
   const onFinish = async (values) => {
     const { mobile, code } = values
     // 获取token
     await loginStore.getToken({ mobile, code })
+    // 跳转到layout
+    navigate('/layout', { replace: true })
   }
   // 表单校验失败触发
   const onFinishFailed = (errorInfo) => {
@@ -21,7 +25,7 @@ const Login = () => {
         {/* 登录表单 */}
         <Form
           name="basic"
-          initialValues={{ isChecked: true }}
+          initialValues={{ mobile: '13811111111', code: '246810', isChecked: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           validateTrigger={['onBlur']}
