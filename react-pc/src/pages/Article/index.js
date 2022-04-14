@@ -69,16 +69,10 @@ const Article = () => {
   const [channelsList, setChannels] = useState([])
 
   // 文章列表数据管理
-  const [articleList, setArticleList] = useState({
-    list: [],
-    count: 0
-  })
+  const [articleList, setArticleList] = useState({ list: [], count: 0 })
 
   // 分页管理
-  const [params, setParams] = useState({
-    page: 1,
-    per_page: 10
-  })
+  const [params, setParams] = useState({ page: 1, per_page: 10 })
 
   // 请求并设置频道列表
   const getChannels = async () => {
@@ -99,6 +93,18 @@ const Article = () => {
   // 请求文章数据，需要依赖 params 值
   useEffect(() => { getArticleList(params) }, [params])
 
+  // 表单提交
+  const onFinish = (values) => {
+    const { status, channel_id, date } = values
+    const data = {
+      ...params,
+      status: status !== -1 && status,
+      channel_id: channel_id,
+      begin_pubdate: date && date[0].format('YYYY-MM-DD'),
+      end_pubdate: date && date[1].format('YYYY-MM-DD')
+    }
+    setParams(data)
+  }
   return (
     <div>
       <Card
@@ -112,7 +118,7 @@ const Article = () => {
         }
         style={{ marginBottom: 20 }}
       >
-        <Form initialValues={{ status: -1 }}>
+        <Form initialValues={{ status: -1 }} onFinish={onFinish}>
           <Form.Item label="状态" name="status">
             <Radio.Group>
               <Radio value={-1}>全部</Radio>
@@ -147,7 +153,7 @@ const Article = () => {
       <div>
         <Card title={`根据筛选条件共查询到 ${articleList.count} 条结果：`}>
           <Table
-            rowKey="article"
+            rowKey="id"
             dataSource={articleList.list}
             columns={columns}
           />
