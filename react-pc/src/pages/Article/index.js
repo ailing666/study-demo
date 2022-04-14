@@ -1,6 +1,6 @@
 import 'moment/locale/zh-cn'
 import { Link } from 'react-router-dom'
-import { Card, Table, Tag, Space, Breadcrumb, Form, Button, Radio, DatePicker, Select } from 'antd'
+import { Card, Table, Tag, Space, Breadcrumb, Form, Button, Radio, DatePicker, Select  } from 'antd'
 import locale from 'antd/es/date-picker/locale/zh_CN'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '@/assets/error.png'
@@ -105,6 +105,14 @@ const Article = () => {
     }
     setParams(data)
   }
+
+  // 分液器
+  const pageChange = (page) =>{
+    setParams({
+      ...params,
+      page
+    })
+  }
   return (
     <div>
       <Card
@@ -156,6 +164,12 @@ const Article = () => {
             rowKey="id"
             dataSource={articleList.list}
             columns={columns}
+            pagination={{
+              position: ['bottomRight'],
+              current: params.page,
+              pageSize: params.per_page,
+              onChange: pageChange
+            }}
           />
         </Card>
       </div>
