@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CarForm :formConfig="formConfig">
+    <CarForm :formConfig="formConfig" :formButton="formButton">
       <template v-slot:city>
         <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" @getAddress="getAddress" />
       </template>
@@ -75,6 +75,15 @@ export default {
         { type: 'solt', slotName: 'address', label: '位置' },
         { type: 'input', label: '经纬度', prop: 'lnglat', width: '200px', disabled: true },
       ],
+      formButton: [
+        {
+          label: "确定",
+          key: "submit",
+          type: "danger",
+          handler: () => this.formValidate()
+        },
+        { label: "重置", key: "reset", handler: () => this.resetForm() }
+      ],
       form: {
         parkingName: "",
         area: "",
@@ -98,6 +107,10 @@ export default {
     }
   },
   methods: {
+    // 表单校验
+    formValidate () {
+      console.log(123)
+    },
     // 地图加载完成再获取接口
     mapLoad () {
       this.getParkingDetailed()
