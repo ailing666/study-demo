@@ -1,6 +1,6 @@
 import 'moment/locale/zh-cn'
 import { Link } from 'react-router-dom'
-import { Card, Table, Tag, Space, Breadcrumb, Form, Button, Radio, DatePicker, Select  } from 'antd'
+import { Card, Table, Tag, Space, Breadcrumb, Form, Button, Radio, DatePicker, Select, Popconfirm } from 'antd'
 import locale from 'antd/es/date-picker/locale/zh_CN'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '@/assets/error.png'
@@ -29,7 +29,7 @@ const Article = () => {
     {
       title: '状态',
       dataIndex: 'status',
-      render: data => <Tag color="green">审核通过</Tag>
+      render: () => <Tag color="green">审核通过</Tag>
     },
     {
       title: '发布时间',
@@ -53,12 +53,19 @@ const Article = () => {
         return (
           <Space size="middle">
             <Button type="primary" shape="circle" icon={<EditOutlined />} />
-            <Button
-              type="primary"
-              danger
-              shape="circle"
-              icon={<DeleteOutlined />}
-            />
+            <Popconfirm
+              title="确认删除该条文章吗?"
+              onConfirm={() => delArticle(data)}
+              okText="确认"
+              cancelText="取消"
+            >
+              <Button
+                type="primary"
+                danger
+                shape="circle"
+                icon={<DeleteOutlined />}
+              />
+            </Popconfirm>
           </Space>
         )
       }
@@ -74,6 +81,9 @@ const Article = () => {
   // 分页管理
   const [params, setParams] = useState({ page: 1, per_page: 10 })
 
+  // 表格加载状态管理
+  const [loading, setLoading] = useState(false)
+
   // 请求并设置频道列表
   const getChannels = async () => {
     let res = await http.get('/channels')
@@ -82,7 +92,9 @@ const Article = () => {
 
   // 请求并设置文章列表
   const getArticleList = async (params) => {
+    setLoading(true)
     const res = await http.get('/mp/articles', { params })
+    setLoading(false)
     const { results, total_count } = res.data
     setArticleList({ list: results, count: total_count })
   }
@@ -106,11 +118,21 @@ const Article = () => {
     setParams(data)
   }
 
-  // 分液器
-  const pageChange = (page) =>{
+  // 分页器
+  const pageChange = (page) => {
     setParams({
       ...params,
       page
+    })
+  }
+
+  // 删除文章
+  const delArticle = async (data) => {
+    await http.delete(`/mp/articles/${data.id}`)
+    // 更新列表
+    setParams({
+      page: 1,
+      per_page: 10
     })
   }
   return (
@@ -164,11 +186,13 @@ const Article = () => {
             rowKey="id"
             dataSource={articleList.list}
             columns={columns}
+            loading={loading}
             pagination={{
               position: ['bottomRight'],
               current: params.page,
               pageSize: params.per_page,
-              onChange: pageChange
+              onChange: pageChange,
+              total: articleList.count,
             }}
           />
         </Card>
