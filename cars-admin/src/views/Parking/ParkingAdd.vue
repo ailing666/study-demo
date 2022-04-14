@@ -108,7 +108,6 @@ export default {
         if (valid) {
           this.id ? this.editParking() : this.addParking()
         } else {
-          console.log('error submit!!')
           return false
         }
       })

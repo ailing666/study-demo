@@ -1,4 +1,4 @@
-import service from "../utils/request"
+import service from "@/utils/request"
 /** 标志 */
 export function BrandLogo (data = {}) {
   return service.request({

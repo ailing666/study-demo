@@ -214,7 +214,6 @@ export default {
           // 三元运算
           this.currentTab === 'login' ? this.login() : this.register()
         } else {
-          console.log('error submit!!')
           return false
         }
       })

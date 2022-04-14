@@ -119,23 +119,6 @@ export default {
       this.parkingData = v
       this.isShowMap = true
     },
-    // 删除
-    delParking (id) {
-      this.$confirm('确定删除此信息', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        ParkingDelete({ id }).then(res => {
-          this.$message({
-            type: 'success',
-            message: res.message
-          })
-          // 请求组件数据
-          this.$refs.table.requestData()
-        })
-      }).catch(() => { })
-    },
 
     // 搜索
     searchParking () {
@@ -156,9 +139,26 @@ export default {
       this.$refs.table.requestData(requestData)
     },
 
+    // 删除
+    delParking (id) {
+      this.$confirm('确定删除此信息', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        ParkingDelete({ id }).then(res => {
+          this.$message({
+            type: 'success',
+            message: res.message
+          })
+          // 请求组件数据
+          this.$refs.table.requestData()
+        })
+      }).catch(() => { })
+    },
+
     // 编辑
     editParking (query) {
-      console.log('query: ', query)
       this.$router.push({
         name: 'ParkingAdd',
         query

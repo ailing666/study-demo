@@ -24,58 +24,118 @@
         </el-col>
         <el-col :span="6">
           <div class="pull-right">
-            <el-button type="danger" @click="dialog_show = true">新增车辆品牌</el-button>
+            <el-button type="danger" @click="showDialog = true">新增车辆品牌</el-button>
           </div>
         </el-col>
       </el-row>
     </div>
     <!-- 表格数据 -->
-    <el-table :data="tableData" border style="width: 100%">
-      <el-table-column type="selection" width="35"></el-table-column>
-      <el-table-column prop="name" label="LOGO"></el-table-column>
-      <el-table-column prop="type" label="车辆品牌"></el-table-column>
-      <el-table-column prop="area" label="品牌型号"></el-table-column>
-      <el-table-column prop="disabled" label="禁启用">
-        <template v-slot="scope">
-          <el-switch v-model="scope.row.disabled" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作">
-        <template v-slot>
-          <el-button type="danger" size="small">编辑</el-button>
-          <el-button size="small">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <AddCarsBrand :isVisible.sync="dialog_show" />
+    <TableData :tableConfig="tableConfig">
+      <template v-slot:status="slotData">
+        <!-- 当前id等于switchDisabled时禁用 -->
+        <el-switch
+          :disabled="slotData.data.id === switchDisabled"
+          @change="switchStastus(slotData.data)"
+          v-model="slotData.data.status"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
+        ></el-switch>
+      </template>
+      <template v-slot:operation="slotData">
+        <el-button type="danger" size="small" @click="editParking(slotData.data)">编辑</el-button>
+        <el-button size="small" @click="delParking(slotData.data.id)">删除</el-button>
+      </template>
+    </TableData>
+    <AddCarsBrand :isVisible.sync="showDialog" :data="brandData" />
   </div>
 </template>
 <script>
 import AddCarsBrand from "@c/dialog/addCarsBrand"
+import TableData from '@/components/TableData.vue'
+import { BrandDelete, BrandStatus } from '@/api/brand'
 export default {
   name: "CarBrand",
-  components: { AddCarsBrand },
+  components: { AddCarsBrand, TableData },
   data () {
     return {
       // 弹窗标记
-      dialog_show: false,
+      showDialog: false,
+      brandData: {},
       form: {
         parking_name: "",
         area: "",
         type: ""
       },
-      tableData: [
-        {
-          name: "南山停车场",
-          type: "室外",
-          area: "广东省 深圳市 南山区",
-          carsNumber: 20,
-          disabled: 0,
-          address: "45632121,54541"
-        }
-      ]
+      tableConfig: {
+        thead: [
+          {
+            label: "LOGO",
+            prop: "imgUrl",
+            type: "image",
+            width: 150,
+          },
+          {
+            label: "车辆品牌",
+            prop: "nameCh",
+            type: "function",
+            callback: (row, prop) => `${row.nameCh}/${row.nameEn}`
+          },
+          { prop: "status", label: "禁启用", type: 'slot', slotName: "status" },
+          {
+            label: "操作",
+            type: "slot",
+            width: 200,
+            slotName: "operation"
+          }
+        ],
+        url: "/brand/list/",
+      },
+      switchDisabled: ''
     }
-  }
+  },
+  methods: {
+    // 删除
+    delParking (id) {
+      this.$confirm('确定删除此信息', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        BrandDelete({ id }).then(res => {
+          this.$message({
+            type: 'success',
+            message: res.message
+          })
+          // 请求组件数据
+          this.$refs.table.requestData()
+        })
+      }).catch(() => { })
+    },
+
+    // 编辑
+    editParking (query) {
+      this.brandData = JSON.parse(JSON.stringify(query))
+      this.showDialog = true
+    },
+
+    // 修改状态
+    switchStastus (data) {
+      let requestData = {
+        id: data.id,
+        status: data.status
+      }
+      this.switchDisabled = data.id
+      BrandStatus(requestData).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.message
+        })
+        this.switchDisabled = ''
+      }).catch(() => {
+        this.switchDisabled = ''
+      })
+    }
+  },
 };
 </script>
 <style lass="scss" scoped></style>
