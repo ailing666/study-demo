@@ -6,6 +6,7 @@
         :key="item.prop"
         :label="item.label"
         :prop="item.prop"
+        :rules="item.rules"
       >
         <!-- input框 -->
         <el-input
@@ -27,7 +28,7 @@
           v-for="item in formButton"
           :key="item.key"
           :type="item.type"
-          @click="item.handler"
+          @click="item.handler&&item.handler()"
         >{{item.label}}</el-button>
       </el-form-item>
     </el-form>
@@ -60,12 +61,32 @@ export default {
     }
   },
   methods: {
+    // 初始化form
     initFormData () {
       const formData = {}
       this.formConfig.forEach(item => {
-        if (item.prop) { formData[item.prop] = item.value || null }
+        // 传入的prop存在就储存到formData
+        if (item.prop) formData[item.prop] = item.value || null
+
+        // 传入必填就添加到rules
+        if (item.required) this.rules(item)
+
+        // 如果有自定义校验
+        if (item.validator) item.rules = item.validator
       })
       this.form = formData
+    },
+    // 校验规则
+    rules (item) {
+      const typeMsg = {
+        input: "请输入",
+        radio: "请选择",
+      }
+      // 外部传入了就用外部的，否则就自己拼接
+      const msg = item.rulesMsg || `${typeMsg[item.type]}${item.label}`
+      const requiredRule = [{ required: true, message: msg, trigger: 'blur' }]
+      // 如果有其他规则就拼接，否者就只有必填
+      item.rules = item.rules ? requiredRule.concat(item.rules) : requiredRule
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CarForm :formConfig="formConfig" :formButton="formButton">
+    <CarForm ref="carForm" :formConfig="formConfig" :formButton="formButton">
       <template v-slot:city>
         <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" @getAddress="getAddress" />
       </template>
@@ -61,17 +61,28 @@ export default {
   name: "ParkingAdd",
   components: { CarMap, AreaCascader, CarForm },
   data () {
+    // 自定义校验
+    const validateNumber = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请输入可停放车辆数量'))
+      } else {
+        if (!Number(value)) {
+          callback(new Error('车辆必须是数字'))
+        }
+        callback()
+      }
+    }
     return {
       // 地图配置
       option_map: {
         mapLoad: true
       },
       formConfig: [
-        { type: 'input', label: '停车场名称', prop: 'parkingName', placeholder: '请输入停车场名称', width: '200px' },
+        { type: 'input', label: '停车场名称', prop: 'parkingName', placeholder: '请输入停车场名称', width: '200px', required: true, rules: [{ min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }] },
         { type: 'solt', slotName: 'city', label: '区域' },
-        { type: 'radio', label: '类型', prop: 'type', options: this.$store.state.config.parking_type },
-        { type: 'input', label: '可停放车辆', prop: 'carsNumber', placeholder: '可停放车辆数', width: '200px' },
-        { type: 'radio', label: '禁启用', prop: 'status', options: this.$store.state.config.radio_disabled },
+        { type: 'radio', label: '类型', prop: 'type', options: this.$store.state.config.parking_type, required: true },
+        { type: 'input', label: '可停放车辆', prop: 'carsNumber', placeholder: '可停放车辆数', width: '200px', required: true, validator: [{ validator: validateNumber, trigger: 'blur' }] },
+        { type: 'radio', label: '禁启用', prop: 'status', options: this.$store.state.config.radio_disabled, required: true, rulesMsg: '请选择禁用或启用' },
         { type: 'solt', slotName: 'address', label: '位置' },
         { type: 'input', label: '经纬度', prop: 'lnglat', width: '200px', disabled: true },
       ],
@@ -82,7 +93,7 @@ export default {
           type: "danger",
           handler: () => this.formValidate()
         },
-        { label: "重置", key: "reset", handler: () => this.resetForm() }
+        { label: "重置", key: "reset" }
       ],
       form: {
         parkingName: "",
@@ -109,7 +120,13 @@ export default {
   methods: {
     // 表单校验
     formValidate () {
-      console.log(123)
+      this.$refs.carForm.$refs.form.validate((valid) => {
+        if (valid) {
+          console.log(1)
+        } else {
+          return false
+        }
+      })
     },
     // 地图加载完成再获取接口
     mapLoad () {
