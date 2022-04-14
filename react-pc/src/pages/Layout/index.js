@@ -14,8 +14,8 @@ import './index.scss'
 
 const { Header, Sider } = Layout
 const GeekLayout = () => {
-  const location = useLocation()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const { userStore, loginStore } = useStore()
 
   // 请求用户信息
@@ -47,7 +47,8 @@ const GeekLayout = () => {
           <Menu
             mode="inline"
             theme="dark"
-            defaultSelectedKeys={[location.pathname]}
+            defaultSelectedKeys={pathname}
+            selectedKeys={pathname}
             style={{ height: '100%', borderRight: 0 }}
           >
             {/* key匹配上就会高亮 */}

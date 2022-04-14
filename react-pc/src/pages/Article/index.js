@@ -5,6 +5,7 @@ import locale from 'antd/es/date-picker/locale/zh_CN'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '@/assets/error.png'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { http } from '@/utils'
 import './index.scss'
 
@@ -12,6 +13,7 @@ const { Option } = Select
 const { RangePicker } = DatePicker
 
 const Article = () => {
+  const navigate = useNavigate()
   const columns = [
     {
       title: '封面',
@@ -52,7 +54,7 @@ const Article = () => {
       render: data => {
         return (
           <Space size="middle">
-            <Button type="primary" shape="circle" icon={<EditOutlined />} />
+            <Button type="primary" shape="circle" onClick={()=>navigate(`/publish?id=${data.id}`)} icon={<EditOutlined />} />
             <Popconfirm
               title="确认删除该条文章吗?"
               onConfirm={() => delArticle(data)}
