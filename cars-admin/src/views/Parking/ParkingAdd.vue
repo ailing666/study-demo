@@ -1,58 +1,80 @@
 <template>
-  <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-    <el-form-item prop="parkingName" label="停车场名称">
-      <el-input v-model="form.parkingName"></el-input>
-    </el-form-item>
-    <el-form-item prop="area" label="区域">
-      <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" @getAddress="getAddress" />
-    </el-form-item>
-    <el-form-item prop="type" label="类型">
-      <el-radio-group v-model.number="form.type">
-        <el-radio
-          v-for="item in $store.state.config.parking_type"
-          :key="item.value"
-          :label="item.value"
-        >{{item.label}}</el-radio>
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item prop="carsNumber" label="可停放车辆">
-      <el-input v-model.number="form.carsNumber"></el-input>
-    </el-form-item>
-    <el-form-item prop="status" label="禁启用">
-      <el-radio-group v-model.number="form.status">
-        <el-radio
-          v-for="item in $store.state.config.radio_disabled"
-          :key="item.value"
-          :label="item.value"
-        >{{item.label}}</el-radio>
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item prop="address" label="位置">
-      <div class="address-map">
-        <CarMap ref="carMap" @getLngLat="getLngLat" :options="option_map" @mapLoad="mapLoad" />
-      </div>
-    </el-form-item>
-    <el-form-item prop="lnglat" label="经纬度">
-      <el-input v-model="form.lnglat"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="danger" :loading="submitLoading" @click="onSubmit">确定</el-button>
-    </el-form-item>
-  </el-form>
+  <div>
+    <CarForm :formConfig="formConfig">
+      <template v-slot:city>
+        <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" @getAddress="getAddress" />
+      </template>
+      <template v-slot:address>
+        <div class="address-map">
+          <CarMap ref="carMap" @getLngLat="getLngLat" :options="option_map" @mapLoad="mapLoad" />
+        </div>
+      </template>
+    </CarForm>
+    <!-- <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+      <el-form-item prop="parkingName" label="停车场名称">
+        <el-input v-model="form.parkingName"></el-input>
+      </el-form-item>
+      <el-form-item prop="area" label="区域">
+        <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" @getAddress="getAddress" />
+      </el-form-item>
+      <el-form-item prop="type" label="类型">
+        <el-radio-group v-model.number="form.type">
+          <el-radio
+            v-for="item in $store.state.config.parking_type"
+            :key="item.value"
+            :label="item.value"
+          >{{item.label}}</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item prop="carsNumber" label="可停放车辆">
+        <el-input v-model.number="form.carsNumber"></el-input>
+      </el-form-item>
+      <el-form-item prop="status" label="禁启用">
+        <el-radio-group v-model.number="form.status">
+          <el-radio
+            v-for="item in $store.state.config.radio_disabled"
+            :key="item.value"
+            :label="item.value"
+          >{{item.label}}</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item prop="address" label="位置">
+        <div class="address-map">
+          <CarMap ref="carMap" @getLngLat="getLngLat" :options="option_map" @mapLoad="mapLoad" />
+        </div>
+      </el-form-item>
+      <el-form-item prop="lnglat" label="经纬度">
+        <el-input v-model="form.lnglat"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="danger" :loading="submitLoading" @click="onSubmit">确定</el-button>
+      </el-form-item>
+    </el-form>-->
+  </div>
 </template>
 <script>
 import CarMap from '@/components/carMap/index.vue'
 import AreaCascader from '@/components/AreaCascader'
+import CarForm from '@/components/CarForm'
 import { ParkingAdd, ParkingDetailed, ParkingEdit } from '@/api/parking'
 export default {
   name: "ParkingAdd",
-  components: { CarMap, AreaCascader },
+  components: { CarMap, AreaCascader, CarForm },
   data () {
     return {
       // 地图配置
       option_map: {
         mapLoad: true
       },
+      formConfig: [
+        { type: 'input', label: '停车场名称', prop: 'parkingName', placeholder: '请输入停车场名称', width: '200px' },
+        { type: 'solt', slotName: 'city', label: '区域' },
+        { type: 'radio', label: '类型', prop: 'type', options: this.$store.state.config.parking_type },
+        { type: 'input', label: '可停放车辆', prop: 'carsNumber', placeholder: '可停放车辆数', width: '200px' },
+        { type: 'radio', label: '禁启用', prop: 'status', options: this.$store.state.config.radio_disabled },
+        { type: 'solt', slotName: 'address', label: '位置' },
+        { type: 'input', label: '经纬度', prop: 'lnglat', width: '200px', disabled: true },
+      ],
       form: {
         parkingName: "",
         area: "",
