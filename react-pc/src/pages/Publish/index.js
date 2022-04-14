@@ -12,13 +12,14 @@ import {
 import { PlusOutlined } from '@ant-design/icons'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-
+import { useStore } from '@/store/index'
 import { Link } from 'react-router-dom'
 import './index.scss'
 
 const { Option } = Select
 
 const Publish = () => {
+  const { channelStore } = useStore()
   return (
     <div className="publish">
       <Card
@@ -49,7 +50,7 @@ const Publish = () => {
             rules={[{ required: true, message: '请选择文章频道' }]}
           >
             <Select placeholder="请选择文章频道" style={{ width: 400 }}>
-              <Option value={0}>推荐</Option>
+              {channelStore.channelList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
             </Select>
           </Form.Item>
 
@@ -94,7 +95,7 @@ const Publish = () => {
           </Form.Item>
         </Form>
       </Card>
-    </div>
+    </div >
   )
 }
 

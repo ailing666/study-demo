@@ -7,6 +7,7 @@ import img404 from '@/assets/error.png'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { http } from '@/utils'
+import { useStore } from '@/store/index'
 import './index.scss'
 
 const { Option } = Select
@@ -14,6 +15,7 @@ const { RangePicker } = DatePicker
 
 const Article = () => {
   const navigate = useNavigate()
+  const { channelStore } = useStore()
   const columns = [
     {
       title: '封面',
@@ -54,7 +56,7 @@ const Article = () => {
       render: data => {
         return (
           <Space size="middle">
-            <Button type="primary" shape="circle" onClick={()=>navigate(`/publish?id=${data.id}`)} icon={<EditOutlined />} />
+            <Button type="primary" shape="circle" onClick={() => navigate(`/publish?id=${data.id}`)} icon={<EditOutlined />} />
             <Popconfirm
               title="确认删除该条文章吗?"
               onConfirm={() => delArticle(data)}
@@ -74,9 +76,6 @@ const Article = () => {
     }
   ]
 
-  // 频道列表管理
-  const [channelsList, setChannels] = useState([])
-
   // 文章列表数据管理
   const [articleList, setArticleList] = useState({ list: [], count: 0 })
 
@@ -86,12 +85,6 @@ const Article = () => {
   // 表格加载状态管理
   const [loading, setLoading] = useState(false)
 
-  // 请求并设置频道列表
-  const getChannels = async () => {
-    let res = await http.get('/channels')
-    setChannels(res.data.channels)
-  }
-
   // 请求并设置文章列表
   const getArticleList = async (params) => {
     setLoading(true)
@@ -100,9 +93,6 @@ const Article = () => {
     const { results, total_count } = res.data
     setArticleList({ list: results, count: total_count })
   }
-
-  // 初始化时请求频道数据
-  useEffect(() => { getChannels() }, [])
 
   // 请求文章数据，需要依赖 params 值
   useEffect(() => { getArticleList(params) }, [params])
@@ -166,7 +156,7 @@ const Article = () => {
               placeholder="请选择文章频道"
               style={{ width: 120 }}
             >
-              {channelsList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+              {channelStore.channelList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
             </Select>
           </Form.Item>
 

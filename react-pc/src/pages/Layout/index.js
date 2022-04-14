@@ -16,12 +16,13 @@ const { Header, Sider } = Layout
 const GeekLayout = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const { userStore, loginStore } = useStore()
+  const { userStore, loginStore, channelStore } = useStore()
 
   // 请求用户信息
   useEffect(() => {
     userStore.getUserInfo()
-  }, [userStore])
+    channelStore.getChannels()
+  }, [userStore, channelStore])
 
   // 退出登录
   const onLogout = () => {
