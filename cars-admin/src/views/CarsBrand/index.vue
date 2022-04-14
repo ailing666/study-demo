@@ -5,20 +5,10 @@
         <el-col :span="18">
           <el-form :inline="true" :model="form" class="demo-form-inline" label-width="100px">
             <el-form-item label="车辆品牌：">
-              <el-select v-model="form.type" placeholder="选择品牌">
-                <el-option label="福特" value="shanghai"></el-option>
-                <el-option label="红旗" value="shanghai"></el-option>
-                <el-option label="奔驰" value="shanghai"></el-option>
-                <el-option label="宝马" value="shanghai"></el-option>
-                <el-option label="五菱宏光" value="shanghai"></el-option>
-                <el-option label="林肯" value="shanghai"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="品牌型号：">
-              <el-input v-model="form.parking_name" placeholder="审批人"></el-input>
+              <el-input v-model="form.brand" placeholder="请输入品牌"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="danger">搜索</el-button>
+              <el-button type="danger" @click="search">搜索</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -62,9 +52,7 @@ export default {
       showDialog: false,
       brandData: {},
       form: {
-        parking_name: "",
-        area: "",
-        type: ""
+        brand: "",
       },
       tableConfig: {
         thead: [
@@ -134,6 +122,26 @@ export default {
       }).catch(() => {
         this.switchDisabled = ''
       })
+    },
+
+    // 搜索
+    search () {
+      const requestData = {
+        pageSize: 10,
+        pageNumber: 1
+      }
+
+      let filterData = JSON.parse(JSON.stringify(this.form))
+
+      // 如果筛选条件有变动再添加进来
+      for (let key in filterData) {
+        if (filterData[key] !== '') requestData[key] = filterData[key]
+      }
+
+      // 关键字
+      if (this.keyWord && this.keyValue) requestData[this.keyWord] = this.keyValue
+      // 将参数传入，请求组件数据
+      this.$refs.table.requestData(requestData)
     }
   },
 };
