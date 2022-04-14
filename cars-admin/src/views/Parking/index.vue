@@ -20,7 +20,7 @@
             <el-form-item label="禁启用">
               <el-select v-model="form.status" placeholder="活动区域">
                 <el-option
-                  v-for="item in $store.state.config.parking_status"
+                  v-for="item in $store.state.config.radio_disabled"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -126,11 +126,12 @@ export default {
         pageSize: 10,
         pageNumber: 1
       }
+
       let filterData = JSON.parse(JSON.stringify(this.form))
 
       // 如果筛选条件有变动再添加进来
       for (let key in filterData) {
-        if (filterData[key]) { requestData[key] = filterData[key] }
+        if (filterData[key] !== '') requestData[key] = filterData[key]
       }
 
       // 关键字
