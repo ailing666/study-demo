@@ -27,6 +27,20 @@ const Publish = () => {
     const rawValue = e.target.value
     setImageCount(rawValue)
   }
+
+  const [fileList, setFileList] = useState([])
+  // 上传成功回调
+  const onUploadChange = info => {
+    const fileList = info.fileList.map(file => {
+      if (file.response) {
+        return {
+          url: file.response.data.url
+        }
+      }
+      return file
+    })
+    setFileList(fileList)
+  }
   return (
     <div className="publish">
       <Card
@@ -74,8 +88,10 @@ const Publish = () => {
               className="avatar-uploader"
               showUploadList
               action="http://geek.itheima.net/v1_0/upload"
-              multiple={imgCount > 1}
+              fileList={fileList}
+              onChange={onUploadChange}
               maxCount={imgCount}
+              multiple={imgCount > 1}
             >
               <div style={{ marginTop: 8 }}>
                 <PlusOutlined />
