@@ -7,15 +7,8 @@
     @opened="opened"
     :close-on-click-modal="false"
   >
-    <!--内容区-->
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="品牌中文" prop="nameCh">
-        <el-input v-model="form.nameCh"></el-input>
-      </el-form-item>
-      <el-form-item label="品牌英文" prop="nameEn">
-        <el-input v-model="form.nameEn"></el-input>
-      </el-form-item>
-      <el-form-item label="LOGO" prop="imgUrl">
+    <CarForm ref="carForm" :formConfig="formConfig" :formData="formData" :formButton="formButton">
+      <template v-slot:logo>
         <div class="upload-img-wrap">
           <div class="upload-img">
             <img v-show="logoCurrent" :src="logoCurrent" />
@@ -26,32 +19,17 @@
             </li>
           </ul>
         </div>
-      </el-form-item>
-      <el-form-item label="禁启用" prop="status">
-        <el-radio-group v-model="form.status">
-          <el-radio
-            v-for="item in radioDisabled"
-            :key="item.id"
-            :label="item.value"
-          >{{ item.label }}</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="danger" @click="submit">确定</el-button>
-      </el-form-item>
-    </el-form>
-    <!-- <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-    </div>-->
+      </template>
+    </CarForm>
   </el-dialog>
 </template>
 
 <script>
+import CarForm from '@/components/CarForm'
 import { BrandLogo, BrandAdd, BrandEdit } from "@/api/brand"
 export default {
   name: "AddCarsBrand",
-  components: {},
+  components: { CarForm },
   props: {
     isVisible: {
       type: Boolean,
@@ -66,14 +44,30 @@ export default {
     return {
       // 弹窗显示/关闭标记
       dialogVisible: false,
-      // 表单
-      form: {
+      // 表单数据
+      formData: {
         nameCh: "",
         nameEn: "",
         imgUrl: "",
         status: "",
         content: ""
       },
+      // 表单配置
+      formConfig: [
+        { type: 'input', label: '品牌中文', prop: 'nameCh', required: true, rules: [{ min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }] },
+        { type: 'input', label: '品牌英文', prop: 'nameEn', },
+        { type: 'solt', slotName: 'logo', label: 'LOGO', prop: 'imgUrl', placeholder: '可停放车辆数', width: '200px', required: true },
+        { type: 'radio', label: '禁启用', prop: 'status', options: this.$store.state.config.radio_disabled, required: true, rulesMsg: '请选择禁用或启用' },
+      ],
+      // 表单按钮
+      formButton: [
+        {
+          label: "确定",
+          key: "submit",
+          type: "danger",
+          handler: () => this.submit()
+        },
+      ],
       // 状态
       radioDisabled: this.$store.state.config.radio_disabled,
       // 选中的LOGO
@@ -107,22 +101,21 @@ export default {
 
     // 获取详情
     getDetailed () {
-      this.form = this.data
+      this.formData = this.data
       this.logoCurrent = this.data.imgUrl
-      this.form.imgUrl = this.data.imgUrl
+      this.formData.imgUrl = this.data.imgUrl
     },
 
     // 表单提交
     submit () {
-      this.add()
       // 根据是否有id判断是修改还是新增
       this.data.id ? this.edit() : this.add()
     },
 
     // 添加
     add () {
-      this.form.imgUrl = this.logoCurrent
-      BrandAdd(this.form).then(response => {
+      this.formData.imgUrl = this.logoCurrent
+      BrandAdd(this.formData).then(response => {
         this.$message({
           type: "success",
           message: response.message
@@ -134,8 +127,8 @@ export default {
 
     // 修改
     edit () {
-      this.form.imgUrl = this.logoCurrent
-      const requestData = JSON.parse(JSON.stringify(this.form))
+      this.formData.imgUrl = this.logoCurrent
+      const requestData = JSON.parse(JSON.stringify(this.formData))
       BrandEdit(requestData).then(response => {
         this.$message({
           type: "success",
