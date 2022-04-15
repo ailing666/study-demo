@@ -1,8 +1,12 @@
 <template>
   <div>
-    <CarForm ref="carForm" :formConfig="formConfig" :formButton="formButton">
+    <CarForm ref="carForm" :formConfig="formConfig" :formData="formData" :formButton="formButton">
       <template v-slot:city>
-        <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" @getAddress="getAddress" />
+        <AreaCascader
+          ref="areaCascader"
+          :cityAreaValue.sync="formData.area"
+          @getAddress="getAddress"
+        />
       </template>
       <template v-slot:address>
         <div class="address-map">
@@ -10,46 +14,6 @@
         </div>
       </template>
     </CarForm>
-    <!-- <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-      <el-form-item prop="parkingName" label="停车场名称">
-        <el-input v-model="form.parkingName"></el-input>
-      </el-form-item>
-      <el-form-item prop="area" label="区域">
-        <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" @getAddress="getAddress" />
-      </el-form-item>
-      <el-form-item prop="type" label="类型">
-        <el-radio-group v-model.number="form.type">
-          <el-radio
-            v-for="item in $store.state.config.parking_type"
-            :key="item.value"
-            :label="item.value"
-          >{{item.label}}</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item prop="carsNumber" label="可停放车辆">
-        <el-input v-model.number="form.carsNumber"></el-input>
-      </el-form-item>
-      <el-form-item prop="status" label="禁启用">
-        <el-radio-group v-model.number="form.status">
-          <el-radio
-            v-for="item in $store.state.config.radio_disabled"
-            :key="item.value"
-            :label="item.value"
-          >{{item.label}}</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item prop="address" label="位置">
-        <div class="address-map">
-          <CarMap ref="carMap" @getLngLat="getLngLat" :options="option_map" @mapLoad="mapLoad" />
-        </div>
-      </el-form-item>
-      <el-form-item prop="lnglat" label="经纬度">
-        <el-input v-model="form.lnglat"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="danger" :loading="submitLoading" @click="onSubmit">确定</el-button>
-      </el-form-item>
-    </el-form>-->
   </div>
 </template>
 <script>
@@ -95,7 +59,7 @@ export default {
         },
         { label: "重置", key: "reset" }
       ],
-      form: {
+      formData: {
         parkingName: "",
         area: "",
         type: "",
@@ -105,41 +69,34 @@ export default {
         lnglat: ""
       },
       id: this.$route.query.id,
-      rules: {
-        parkingName: { required: true, message: '请输入停车场名称', trigger: 'blur' },
-        area: { required: true, message: '请选择区域', trigger: 'blur' },
-        carsNumber: [
-          { required: true, message: '请输入可停放车辆数量', trigger: 'change' },
-          { type: 'number', message: '数量必须为数字' },
-        ],
-        lnglat: { required: true, message: '请点击地图获取经纬度', trigger: 'blur' },
-      },
       submitLoading: false,
     }
   },
   methods: {
-    // 表单校验
+    // 提交表单
     formValidate () {
       this.$refs.carForm.$refs.form.validate((valid) => {
         if (valid) {
-          console.log(1)
+          this.id ? this.editParking() : this.addParking()
         } else {
           return false
         }
       })
     },
+
     // 地图加载完成再获取接口
     mapLoad () {
       this.getParkingDetailed()
     },
+
     // 获取详情
     getParkingDetailed () {
       // id不存在返回
       if (!this.id) return
 
       ParkingDetailed({ id: this.id }).then(res => {
-        Object.keys(this.form).map(item => {
-          this.form[item] = res.data[item]
+        Object.keys(this.formData).map(item => {
+          this.formData[item] = res.data[item]
         })
 
         // 设置覆盖物
@@ -148,25 +105,17 @@ export default {
           lng: splitLnglat[0],
           lat: splitLnglat[1]
         }
+
         this.$refs.carMap.setMarker(lnglat)
 
         // 初始化省市区
         this.$refs.areaCascader.initDefault(res.data.region)
       })
     },
-    // 提交表单
-    onSubmit () {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          this.id ? this.editParking() : this.addParking()
-        } else {
-          return false
-        }
-      })
-    },
+
     // 请求修改停车场接口
     editParking () {
-      let requestData = JSON.parse(JSON.stringify(this.form))
+      let requestData = JSON.parse(JSON.stringify(this.formData))
       requestData.id = this.id
       this.submitLoading = true
       ParkingEdit(requestData).then(res => {
@@ -178,22 +127,26 @@ export default {
           type: 'success'
         })
         this.$router.push({
-          name: "parkingIndex"
+          name: "ParkingIndex"
         })
       }).catch(() => {
         this.submitLoading = false
       })
     },
+
     // 请求添加停车场接口
     addParking () {
       this.submitLoading = true
-      ParkingAdd(this.form).then(res => {
+      ParkingAdd(this.formData).then(res => {
         // 重置表单
         this.resetForm()
         this.submitLoading = false
         this.$message({
           message: res.message,
           type: 'success'
+        })
+        this.$router.push({
+          name: "ParkingIndex"
         })
       }).catch(() => {
         this.submitLoading = false
@@ -202,28 +155,29 @@ export default {
 
     // 修改areaValue
     cityAreaValue (v) {
-      this.form.areaValue = v
+      this.formData.areaValue = v
     },
 
     // 获取经纬度
     getLngLat (v) {
-      this.form.lnglat = v.value
+      this.formData.lnglat = v.value
     },
 
     // 获取中文地址
     getAddress (address) {
-      this.form.address = address
+      this.formData.address = address
       // 触发carMap组件事件
       this.$refs.carMap.setMapCenter(address)
     },
 
     // 重置表单
     resetForm () {
-      this.form.address = ""
+      this.$refs.carForm.$refs.form.resetFields()
+      // 清除 cityAray 的值
+      this.$refs.areaCascader.clear()
+      // 清除地图覆盖物
       this.$refs.carMap.delMarker()
-      this.$refs.areaCascader.value = ''
-      this.$refs.form.resetFields()
-    }
+    },
   }
 }
 </script>

@@ -94,6 +94,9 @@ export default {
         this.$emit('getAddress', this.address.join(''))
         this.address = []
       }
+    },
+    clear () {
+      this.value = ""
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="120px">
+    <el-form ref="form" :model="formData" label-width="120px">
       <el-form-item
         v-for="item in formConfig"
         :key="item.prop"
@@ -13,13 +13,13 @@
           v-if="item.type === 'input'"
           :placeholder="item.placeholder"
           :style="{width:item.width}"
-          v-model.trim="form[item.prop]"
+          v-model.trim="formData[item.prop]"
           :disabled="item.disabled"
         ></el-input>
         <!-- 具名插槽，slotName要对应 ，data就是整行的数据-->
         <slot v-else-if="item.type === 'solt'" :name="item.slotName"></slot>
         <!-- 按钮 -->
-        <el-radio-group v-if="item.type === 'radio'" v-model="form[item.prop]">
+        <el-radio-group v-if="item.type === 'radio'" v-model="formData[item.prop]">
           <el-radio v-for="v in item.options" :key="v.value" :label="v.value">{{v.label}}</el-radio>
         </el-radio-group>
       </el-form-item>
@@ -46,11 +46,15 @@ export default {
     formButton: {
       type: Array,
       default: () => []
+    },
+    formData: {
+      type: Object,
+      default: () => { }
     }
   },
   data () {
     return {
-      form: {}
+
     }
   },
   watch: {
@@ -63,18 +67,13 @@ export default {
   methods: {
     // 初始化form
     initFormData () {
-      const formData = {}
       this.formConfig.forEach(item => {
-        // 传入的prop存在就储存到formData
-        if (item.prop) formData[item.prop] = item.value || null
-
         // 传入必填就添加到rules
         if (item.required) this.rules(item)
 
         // 如果有自定义校验
         if (item.validator) item.rules = item.validator
       })
-      this.form = formData
     },
     // 校验规则
     rules (item) {
