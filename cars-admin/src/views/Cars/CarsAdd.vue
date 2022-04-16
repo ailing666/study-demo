@@ -1,81 +1,84 @@
 <template>
-  <div class="parking-add">
-    <CarForm ref="vuForm" :formData="formData" :formConfig="formConfig" :formButton="formButton">
-      <template v-slot:maintain>
-        <el-row :gutter="30">
-          <el-col :span="6">
-            <el-input v-model="formData.maintainDate"></el-input>
+  <CarForm ref="vuForm" :formData="formData" :formConfig="formConfig" :formButton="formButton">
+    <template v-slot:maintain>
+      <el-row :gutter="30">
+        <el-col :span="6">
+          <el-input v-model="formData.maintainDate"></el-input>
+        </el-col>
+        <el-col :span="6">下次保养日期：2020-12-12</el-col>
+      </el-row>
+    </template>
+    <template v-slot:energy>
+      <el-radio-group v-model="formData.energyType">
+        <el-radio :label="1">电</el-radio>
+        <el-radio :label="2">油</el-radio>
+        <el-radio :label="3">混合动力</el-radio>
+      </el-radio-group>
+      <div class="progress-bar-wrap" v-if="formData.energyType == 3 || formData.energyType == 1">
+        <span class="label-text">电量：</span>
+        <el-row :gutter="20">
+          <el-col :span="5">
+            <div class="progress-bar">
+              <span style="width: 50%;">
+                <label>{{formData.electric}}%</label>
+              </span>
+            </div>
           </el-col>
-          <el-col :span="6">下次保养日期：2020-12-12</el-col>
+          <el-col :span="2">
+            <el-input size="small" value="100" v-model="formData.electric"></el-input>
+          </el-col>
         </el-row>
-      </template>
-      <template v-slot:energy>
-        <el-radio-group v-model="formData.energyType">
-          <el-radio :label="1">电</el-radio>
-          <el-radio :label="2">油</el-radio>
-          <el-radio :label="3">混合动力</el-radio>
-        </el-radio-group>
-        <div class="progress-bar-wrap" v-if="formData.energyType == 3 || formData.energyType == 1">
-          <span class="label-text">电量：</span>
-          <el-row :gutter="20">
-            <el-col :span="5">
-              <div class="progress-bar">
-                <span style="width: 50%;">
-                  <label>{{formData.electric}}%</label>
-                </span>
-              </div>
-            </el-col>
-            <el-col :span="2">
-              <el-input size="small" value="100" v-model="formData.electric"></el-input>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="progress-bar-wrap" v-if="formData.energyType == 3 || formData.energyType == 2">
-          <span class="label-text">油量：</span>
-          <el-row :gutter="20">
-            <el-col :span="5">
-              <div class="progress-bar">
-                <span style="width: 50%;">
-                  <label>{{formData.oil}}%</label>
-                </span>
-              </div>
-            </el-col>
-            <el-col :span="2">
-              <el-input size="small" value="100" v-model="formData.oil"></el-input>
-            </el-col>
-          </el-row>
-        </div>
-      </template>
-      <template v-slot:carsAttr>
-        <div class="cars-attr-list" v-for="(item, index) in carsAttrList" :key="item.key">
-          <el-row :gutter="10">
-            <el-col :span="2">
-              <el-input value="100"></el-input>
-            </el-col>
-            <el-col :span="3">
-              <el-input value="100"></el-input>
-            </el-col>
-            <el-col :span="6">
-              <el-button type="primary" v-if="index == 0" @click="addCarsAttr">+</el-button>
-              <el-button v-else>-</el-button>
-            </el-col>
-          </el-row>
-        </div>
-      </template>
-    </CarForm>
-  </div>
+      </div>
+      <div class="progress-bar-wrap" v-if="formData.energyType == 3 || formData.energyType == 2">
+        <span class="label-text">油量：</span>
+        <el-row :gutter="20">
+          <el-col :span="5">
+            <div class="progress-bar">
+              <span style="width: 50%;">
+                <label>{{formData.oil}}%</label>
+              </span>
+            </div>
+          </el-col>
+          <el-col :span="2">
+            <el-input size="small" value="100" v-model="formData.oil"></el-input>
+          </el-col>
+        </el-row>
+      </div>
+    </template>
+    <template v-slot:carsAttr>
+      <div class="cars-attr-list" v-for="(item, index) in carsAttrList" :key="item.key">
+        <el-row :gutter="10">
+          <el-col :span="2">
+            <el-input value="100"></el-input>
+          </el-col>
+          <el-col :span="3">
+            <el-input value="100"></el-input>
+          </el-col>
+          <el-col :span="6">
+            <el-button type="primary" v-if="index == 0" @click="addCarsAttr">+</el-button>
+            <el-button v-else>-</el-button>
+          </el-col>
+        </el-row>
+      </div>
+    </template>
+    <template v-slot:content>
+      <div ref="editorDom" style="text-align: left;"></div>
+    </template>
+  </CarForm>
 </template>
 <script>
-// 组件
+// 富文本编辑器
+import E from 'wangeditor'
 import CarForm from "@c/CarForm"
-// API
 import { GetCarsBrand, GetParking } from "@/api/common"
 
 export default {
-  name: "ParkingAdd",
+  name: "CarsAdd",
   components: { CarForm },
   data () {
     return {
+      // 富文本对象
+      editor: null,
       carsAttrList: [
         { key1: 111, value1: 222 },
         { key2: 111, value2: 222 },
@@ -163,6 +166,12 @@ export default {
           prop: "carsAttr",
           label: "车辆属性"
         },
+        {
+          type: "slot",
+          slotName: "content",
+          prop: "content",
+          label: "车辆描述"
+        },
       ],
       formButton: [
         { label: "确定", key: "submit", type: "danger", handler: () => this.formValidate() },
@@ -193,6 +202,9 @@ export default {
     this.getCarsBrandList()
     this.getParkingList()
   },
+  mounted () {
+    this.createEditor()
+  },
   methods: {
     formValidate () {
       console.log("submit!", this.formData)
@@ -220,6 +232,13 @@ export default {
     /** 添加车辆属性 */
     addCarsAttr () {
       this.carsAttrList.push({ key4: 111, value4: 222 })
+    },
+    createEditor () {
+      const editor = new E(this.$refs.editorDom)
+      editor.customConfig.onchange = html => {
+        this.formData.content = html
+      }
+      editor.create()
     },
   }
 };
