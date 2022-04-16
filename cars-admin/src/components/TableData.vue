@@ -45,7 +45,33 @@
             />
           </template>
         </el-table-column>
-
+        <!-- 按钮 -->
+        <el-table-column
+          v-else-if="item.type === 'operation'"
+          :key="item.prop"
+          :prop="item.prop"
+          :label="item.label"
+          :width="item.width"
+        >
+          <template v-slot="scope">
+            <!-- 删除 -->
+            <el-button
+              size="small"
+              v-if="item.default && item.default.delButton"
+              :loading="scope.row.id == rowId"
+              @click="del(scope.row.id)"
+            >删除</el-button>
+            <!-- 路由跳转的修改 -->
+            <el-button
+              type="danger"
+              size="small"
+              v-if="item.default && item.default.editButton"
+              @click="edit(scope.row[item.default.id || 'id'],item.default.editLink)"
+            >编辑2</el-button>
+            <!-- 额外的 -->
+            <slot v-if="item.slotName" :name="item.slotName" :data="scope.row"></slot>
+          </template>
+        </el-table-column>
         <!-- 渲染文本 -->
         <el-table-column
           v-else
@@ -71,7 +97,7 @@
 </template>
 
 <script>
-import { ParkingList } from '@/api/parking'
+import { ParkingList, Delete } from '@/api/common'
 export default {
   name: 'TableData',
   props: {
@@ -103,7 +129,8 @@ export default {
           pageNumber: 1,
         }
       },
-      total: 0
+      total: 0,
+      rowId: ''
     }
   },
   watch: {
@@ -162,6 +189,39 @@ export default {
     handleCurrentChange (val) {
       this.configData.requestData.pageNumber = val
       this.loadData()
+    },
+
+    // 删除
+    del (id) {
+      this.$confirm('确定删除此信息', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.rowId = id
+        let requestData = {
+          url: this.tableConfig.url + "Delete",
+          data: { id },
+        }
+        Delete(requestData).then(res => {
+          this.$message({
+            type: 'success',
+            message: res.message
+          })
+          this.rowId = ''
+          // 请求组件数据
+          this.requestData()
+        }).catch(() => {
+          this.rowId = ''
+        })
+      })
+    },
+    // 编辑
+    edit (id, link) {
+      this.$router.push({
+        name: link,
+        query: { id }
+      })
     }
   }
 }

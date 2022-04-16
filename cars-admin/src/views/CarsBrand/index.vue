@@ -3,9 +3,17 @@
     <div class="filter-form">
       <el-row>
         <el-col :span="18">
-          <el-form :inline="true" :model="form" class="demo-form-inline" label-width="100px">
+          <el-form
+            :inline="true"
+            :model="form"
+            class="demo-form-inline"
+            label-width="100px"
+          >
             <el-form-item label="车辆品牌：">
-              <el-input v-model="form.brand" placeholder="请输入品牌"></el-input>
+              <el-input
+                v-model="form.brand"
+                placeholder="请输入品牌"
+              ></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="danger" @click="search">搜索</el-button>
@@ -14,7 +22,9 @@
         </el-col>
         <el-col :span="6">
           <div class="pull-right">
-            <el-button type="danger" @click="showDialog = true">新增车辆品牌</el-button>
+            <el-button type="danger" @click="showDialog = true"
+              >新增车辆品牌</el-button
+            >
           </div>
         </el-col>
       </el-row>
@@ -32,19 +42,23 @@
         ></el-switch>
       </template>
       <template v-slot:operation="slotData">
-        <el-button type="danger" size="small" @click="editParking(slotData.data)">编辑</el-button>
-        <el-button size="small" @click="delParking(slotData.data.id)">删除</el-button>
+        <el-button
+          type="danger"
+          size="small"
+          @click="editParking(slotData.data)"
+          >编辑</el-button
+        >
       </template>
     </TableData>
     <AddCarsBrand :isVisible.sync="showDialog" :data="brandData" />
   </div>
 </template>
 <script>
-import AddCarsBrand from "@c/dialog/addCarsBrand"
+import AddCarsBrand from '@c/dialog/addCarsBrand'
 import TableData from '@/components/TableData.vue'
-import { BrandDelete, BrandStatus } from '@/api/brand'
+import { BrandStatus } from '@/api/brand'
 export default {
-  name: "CarBrand",
+  name: 'CarBrand',
   components: { AddCarsBrand, TableData },
   data () {
     return {
@@ -52,54 +66,38 @@ export default {
       showDialog: false,
       brandData: {},
       form: {
-        brand: "",
+        brand: ''
       },
       tableConfig: {
         thead: [
           {
-            label: "LOGO",
-            prop: "imgUrl",
-            type: "image",
-            width: 150,
+            label: 'LOGO',
+            prop: 'imgUrl',
+            type: 'image',
+            width: 150
           },
           {
-            label: "车辆品牌",
-            prop: "nameCh",
-            type: "function",
+            label: '车辆品牌',
+            prop: 'nameCh',
+            type: 'function',
             callback: (row, prop) => `${row.nameCh}/${row.nameEn}`
           },
-          { prop: "status", label: "禁启用", type: 'slot', slotName: "status" },
+          { prop: 'status', label: '禁启用', type: 'slot', slotName: 'status' },
           {
-            label: "操作",
-            type: "slot",
-            width: 200,
-            slotName: "operation"
+            label: '操作',
+            type: 'operation',
+            default: {
+              delButton: true
+            },
+            slotName: 'operation'
           }
         ],
-        url: "/brand/list/",
+        url: 'brandList'
       },
       switchDisabled: ''
     }
   },
   methods: {
-    // 删除
-    delParking (id) {
-      this.$confirm('确定删除此信息', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        BrandDelete({ id }).then(res => {
-          this.$message({
-            type: 'success',
-            message: res.message
-          })
-          // 请求组件数据
-          this.$refs.table.requestData()
-        })
-      }).catch(() => { })
-    },
-
     // 编辑
     editParking (query) {
       this.brandData = JSON.parse(JSON.stringify(query))
@@ -113,15 +111,17 @@ export default {
         status: data.status
       }
       this.switchDisabled = data.id
-      BrandStatus(requestData).then(res => {
-        this.$message({
-          type: 'success',
-          message: res.message
+      BrandStatus(requestData)
+        .then(res => {
+          this.$message({
+            type: 'success',
+            message: res.message
+          })
+          this.switchDisabled = ''
         })
-        this.switchDisabled = ''
-      }).catch(() => {
-        this.switchDisabled = ''
-      })
+        .catch(() => {
+          this.switchDisabled = ''
+        })
     },
 
     // 搜索
@@ -139,11 +139,12 @@ export default {
       }
 
       // 关键字
-      if (this.keyWord && this.keyValue) requestData[this.keyWord] = this.keyValue
+      if (this.keyWord && this.keyValue)
+        requestData[this.keyWord] = this.keyValue
       // 将参数传入，请求组件数据
       this.$refs.table.requestData(requestData)
     }
-  },
-};
+  }
+}
 </script>
 <style lass="scss" scoped></style>

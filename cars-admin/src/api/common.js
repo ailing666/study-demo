@@ -1,4 +1,5 @@
 import service from "../utils/request"
+import requestUrl from "./requestUrl"
 /**
  * 获取城市列表
  */
@@ -29,5 +30,25 @@ export function GetParking (data = {}) {
     method: "post",
     url: "/common/getParking/",
     data
+  })
+}
+/**
+ * 获取停车场列表
+ */
+export function ParkingList (params = {}) {
+  return service.request({
+    method: "post",
+    url: requestUrl[params.url],
+    data: params.data
+  })
+}
+/**
+ * 删除列表
+ */
+export function Delete (params = {}) {
+  return service.request({
+    method: "post",
+    url: requestUrl[params.url],
+    data: params.data
   })
 }

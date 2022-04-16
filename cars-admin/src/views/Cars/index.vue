@@ -5,7 +5,10 @@
         <el-col :span="22">
           <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="区域">
-              <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" />
+              <AreaCascader
+                ref="areaCascader"
+                :cityAreaValue.sync="form.area"
+              />
             </el-form-item>
             <el-form-item label="类型">
               <el-select v-model="form.type" placeholder="活动区域">
@@ -28,13 +31,20 @@
               </el-select>
             </el-form-item>
             <el-form-item label="关键字">
-              <el-select v-model="keyWord" placeholder="请选择" style="width:110px">
+              <el-select
+                v-model="keyWord"
+                placeholder="请选择"
+                style="width:110px"
+              >
                 <el-option label="停车场名称" value="parkingName"></el-option>
                 <el-option label="详细区域" value="address"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input v-model="keyValue" placeholder="请输入关键字"></el-input>
+              <el-input
+                v-model="keyValue"
+                placeholder="请输入关键字"
+              ></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="danger">搜索</el-button>
@@ -64,77 +74,82 @@
       </template>
       <!-- 操作 -->
       <template v-slot:operation="slotData">
-        <el-button type="danger" size="small" @click="editCars(slotData.data)">编辑</el-button>
-        <el-button size="small" @click="delCars(slotData.data.id)">删除</el-button>
+        <el-button type="danger" size="small" @click="editCars(slotData.data)"
+          >编辑</el-button
+        >
       </template>
     </TableData>
   </div>
 </template>
 <script>
-import { CarsDelete, CarsStatus } from '@/api/cars'
+import { CarsStatus } from '@/api/cars'
 import { yearCheckType, energyType, parkingAddress } from '@/utils/common'
 import AreaCascader from '@/components/AreaCascader'
 import TableData from '@/components/TableData.vue'
 export default {
-  name: "CarIndex",
+  name: 'CarIndex',
   components: { AreaCascader, TableData },
   data () {
     return {
       form: {
-        area: "",
-        status: "",
-        type: "",
+        area: '',
+        status: '',
+        type: ''
       },
       // 关键字
-      keyWord: "",
-      keyValue: "",
+      keyWord: '',
+      keyValue: '',
       parkingData: {},
       // 表格配置
       tableConfig: {
         thead: [
-          { label: "车牌号", prop: "carsMode" },
-          { label: "车辆品牌", prop: "nameCh" },
+          { label: '车牌号', prop: 'carsMode' },
+          { label: '车辆品牌', prop: 'nameCh' },
           {
-            label: "车辆LOGO",
-            prop: "imgUrl",
-            type: "image"
+            label: '车辆LOGO',
+            prop: 'imgUrl',
+            type: 'image'
           },
           {
-            label: "年检",
-            prop: "yearCheck",
-            type: "function",
+            label: '年检',
+            prop: 'yearCheck',
+            type: 'function',
             callback: (row, prop) => yearCheckType(row[prop]),
-            width: "100px"
+            width: '100px'
           },
           {
-            label: "能源类型",
-            prop: "energyType",
-            type: "function",
+            label: '能源类型',
+            prop: 'energyType',
+            type: 'function',
             callback: (row, prop) => energyType(row[prop]),
-            width: "100px"
+            width: '100px'
           },
           {
-            label: "禁启用",
-            prop: "status",
-            type: "slot",
-            slotName: "status",
-            width: "100px"
+            label: '禁启用',
+            prop: 'status',
+            type: 'slot',
+            slotName: 'status',
+            width: '100px'
           },
-          { label: "停车场", prop: "parkingName" },
+          { label: '停车场', prop: 'parkingName' },
           {
-            label: "区域",
-            prop: "address",
-            type: "function",
+            label: '区域',
+            prop: 'address',
+            type: 'function',
             callback: (row, prop) => parkingAddress(row[prop])
           },
           {
-            label: "操作",
-            type: "slot",
-            slotName: "operation",
-            prop: "operation",
+            label: '操作',
+            type: 'operation',
+            default: {
+              delButton: true,
+              editButton: true,
+              editLink: 'CarsAdd',
+              editQuery: 'id'
+            }
           }
         ],
-        url: "/cars/list/",
+        url: 'carsList',
         data: {
           pageSize: 10,
           pageNumber: 1
@@ -144,32 +159,6 @@ export default {
     }
   },
   methods: {
-    // 删除
-    delCars (id) {
-      this.$confirm('确定删除此信息', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        CarsDelete({ id }).then(res => {
-          this.$message({
-            type: 'success',
-            message: res.message
-          })
-          // 请求组件数据
-          this.$refs.table.requestData()
-        })
-      })
-    },
-
-    // 编辑
-    editCars (query) {
-      this.$router.push({
-        name: 'CarsAdd',
-        query
-      })
-    },
-
     // 修改状态
     switchStastus (data) {
       let requestData = {
@@ -177,19 +166,19 @@ export default {
         status: data.status
       }
       this.switchDisabled = data.id
-      CarsStatus(requestData).then(res => {
-        this.$message({
-          type: 'success',
-          message: res.message
+      CarsStatus(requestData)
+        .then(res => {
+          this.$message({
+            type: 'success',
+            message: res.message
+          })
+          this.switchDisabled = ''
         })
-        this.switchDisabled = ''
-
-      }).catch(() => {
-        this.switchDisabled = ''
-      })
+        .catch(() => {
+          this.switchDisabled = ''
+        })
     }
-  },
+  }
 }
 </script>
-<style lass="scss" scoped>
-</style>
+<style lass="scss" scoped></style>
