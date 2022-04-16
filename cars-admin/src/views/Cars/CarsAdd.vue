@@ -3,60 +3,52 @@
     <template v-slot:maintain>
       <el-row :gutter="30">
         <el-col :span="6">
-          <el-input v-model="formData.maintainDate"></el-input>
+          <el-date-picker
+            v-model="formData.maintainDate"
+            value-format="yyyy-MM-dd"
+            type="date"
+            placeholder="选择日期"
+          ></el-date-picker>
         </el-col>
         <el-col :span="6">下次保养日期：2020-12-12</el-col>
       </el-row>
     </template>
     <template v-slot:energy>
-      <el-radio-group v-model="formData.energyType">
+      <el-radio-group v-model="formData.energyType" @change="changeEnergyType">
         <el-radio :label="1">电</el-radio>
         <el-radio :label="2">油</el-radio>
         <el-radio :label="3">混合动力</el-radio>
       </el-radio-group>
       <div class="progress-bar-wrap" v-if="formData.energyType == 3 || formData.energyType == 1">
         <span class="label-text">电量：</span>
+
         <el-row :gutter="20">
-          <el-col :span="5">
-            <div class="progress-bar">
-              <span style="width: 50%;">
-                <label>{{formData.electric}}%</label>
-              </span>
-            </div>
-          </el-col>
-          <el-col :span="2">
-            <el-input size="small" value="100" v-model="formData.electric"></el-input>
+          <el-col :span="10">
+            <el-slider v-model="formData.electric" show-input></el-slider>
           </el-col>
         </el-row>
       </div>
       <div class="progress-bar-wrap" v-if="formData.energyType == 3 || formData.energyType == 2">
         <span class="label-text">油量：</span>
         <el-row :gutter="20">
-          <el-col :span="5">
-            <div class="progress-bar">
-              <span style="width: 50%;">
-                <label>{{formData.oil}}%</label>
-              </span>
-            </div>
-          </el-col>
-          <el-col :span="2">
-            <el-input size="small" value="100" v-model="formData.oil"></el-input>
+          <el-col :span="10">
+            <el-slider v-model="formData.oil" show-input></el-slider>
           </el-col>
         </el-row>
       </div>
     </template>
     <template v-slot:carsAttr>
-      <div class="cars-attr-list" v-for="(item, index) in carsAttrList" :key="item.key">
+      <el-button type="primary" @click="addCarsAttr">添加属性</el-button>
+      <div class="cars-attr-list" v-for="item in carsAttrList" :key="item.key">
         <el-row :gutter="10">
           <el-col :span="2">
-            <el-input value="100"></el-input>
+            <el-input v-model="item.attrKey"></el-input>
           </el-col>
           <el-col :span="3">
-            <el-input value="100"></el-input>
+            <el-input v-model="item.attrValue"></el-input>
           </el-col>
           <el-col :span="6">
-            <el-button type="primary" v-if="index == 0" @click="addCarsAttr">+</el-button>
-            <el-button v-else>-</el-button>
+            <el-button type="primary" @click="delCarsAttr(item.attrKey)">删除属性</el-button>
           </el-col>
         </el-row>
       </div>
@@ -71,6 +63,7 @@
 import E from 'wangeditor'
 import CarForm from "@c/CarForm"
 import { GetCarsBrand, GetParking } from "@/api/common"
+import { CarsAdd } from "@/api/car"
 
 export default {
   name: "CarsAdd",
@@ -79,12 +72,7 @@ export default {
     return {
       // 富文本对象
       editor: null,
-      carsAttrList: [
-        { key1: 111, value1: 222 },
-        { key2: 111, value2: 222 },
-        { key3: 111, value3: 222 },
-        { key4: 111, value4: 222 }
-      ],
+      carsAttrList: [],
       formConfig: [
         {
           type: "select",
@@ -174,7 +162,7 @@ export default {
         },
       ],
       formButton: [
-        { label: "确定", key: "submit", type: "danger", handler: () => this.formValidate() },
+        { label: "确定", key: "submit", type: "danger", handler: () => this.formSubmit() },
         { label: "重置", key: "reset" },
       ],
       formData: {
@@ -185,11 +173,11 @@ export default {
         carsFrameNumber: "",
         engineNumber: "",
         yearCheck: true,
-        gear: true,
-        energyType: "",
-        electric: "",
-        oil: "",
-        carsAttr: "",
+        gear: 2,
+        energyType: 2,
+        electric: 0,
+        oil: 0,
+        carsAttr: {},
         content: "",
         maintainDate: "",
         status: true
@@ -206,9 +194,16 @@ export default {
     this.createEditor()
   },
   methods: {
-    formValidate () {
-      console.log("submit!", this.formData)
+    // 提交表单
+    async formSubmit () {
+      this.setCarsAttr()
+      const res = await CarsAdd(this.formData)
+      this.$message({
+        message: res.message,
+        type: 'success'
+      })
     },
+
     // 获取车辆品牌
     async getCarsBrandList () {
       const res = await GetCarsBrand()
@@ -219,6 +214,7 @@ export default {
         carsBrand.length > 0 && (carsBrand[0].options = data)
       }
     },
+
     // 获取停车场
     async getParkingList () {
       const res = await GetParking()
@@ -229,10 +225,29 @@ export default {
         parking.length > 0 && (parking[0].options = data)
       }
     },
-    /** 添加车辆属性 */
-    addCarsAttr () {
-      this.carsAttrList.push({ key4: 111, value4: 222 })
+
+    // 设置carsAttr格式
+    setCarsAttr () {
+      const obj = {}
+      this.carsAttrList.forEach(item => item.attrKey && (obj[item.attrKey] = item.attrValue))
+      this.formData.carsAttr = JSON.stringify(obj)
     },
+
+    // 添加车辆属性
+    addCarsAttr () {
+      this.carsAttrList.push({ attrKey: '', attrValue: '' })
+    },
+
+    // 删除属性
+    delCarsAttr (key) {
+      this.carsAttrList = this.carsAttrList.filter(item => item.attrKey !== key)
+    },
+    // 改变能源类型清空值
+    changeEnergyType () {
+      this.formData.electric = 0
+      this.formData.oil = 0
+    },
+    // 富文本
     createEditor () {
       const editor = new E(this.$refs.editorDom)
       editor.customConfig.onchange = html => {
