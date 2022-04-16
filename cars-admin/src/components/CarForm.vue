@@ -16,8 +16,32 @@
           v-model.trim="formData[item.prop]"
           :disabled="item.disabled"
         ></el-input>
+        <!-- 下拉框 -->
+        <el-select
+          v-if="item.type === 'select'"
+          :aaaa="item.options"
+          v-model.trim="formData[item.prop]"
+          :placeholder="item.placeholder"
+          :style="{width: item.width}"
+          :disabled="item.disabled"
+        >
+          <el-option
+            v-for="selectItem in item.options"
+            :key="selectItem.value || selectItem[item.select_vlaue]"
+            :value="selectItem.value || selectItem[item.select_vlaue]"
+            :label="selectItem.label || selectItem[item.select_label]"
+          ></el-option>
+        </el-select>
+        <!-- 禁启用 -->
+        <el-radio-group v-if="item.type === 'disabled'" v-model="formData[item.prop]">
+          <el-radio
+            v-for="radio in radio_disabled"
+            :label="radio.value"
+            :key="radio.value"
+          >{{ radio.label }}</el-radio>
+        </el-radio-group>
         <!-- 具名插槽，slotName要对应 ，data就是整行的数据-->
-        <slot v-else-if="item.type === 'solt'" :name="item.slotName"></slot>
+        <slot v-else-if="item.type === 'slot'" :name="item.slotName"></slot>
         <!-- 按钮 -->
         <el-radio-group v-if="item.type === 'radio'" v-model="formData[item.prop]">
           <el-radio v-for="v in item.options" :key="v.value" :label="v.value">{{v.label}}</el-radio>
@@ -54,7 +78,8 @@ export default {
   },
   data () {
     return {
-
+      // 禁启用数据 
+      radio_disabled: this.$store.state.config.radio_disabled,
     }
   },
   watch: {

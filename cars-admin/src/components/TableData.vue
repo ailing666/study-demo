@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table :data="tableData" v-loading="tableLoading" border style="width: 100%">
-      <el-table-column v-if="configData.checkbox" type="selection" width="35"></el-table-column>
+      <el-table-column v-if="configData.checkbox" type="selection" width="40"></el-table-column>
       <template v-for="item in tableConfig.thead">
         <!-- 渲染回调函数 -->
         <el-table-column
@@ -137,11 +137,13 @@ export default {
         this.tableLoading = false
       })
     },
+
     // 页容量改变
     handleSizeChange (val) {
       this.configData.requestData.pageSize = val
       this.loadData()
     },
+
     // 页码改变
     handleCurrentChange (val) {
       this.configData.requestData.pageNumber = val

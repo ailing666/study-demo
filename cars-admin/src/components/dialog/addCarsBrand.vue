@@ -56,7 +56,7 @@ export default {
       formConfig: [
         { type: 'input', label: '品牌中文', prop: 'nameCh', required: true, rules: [{ min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }] },
         { type: 'input', label: '品牌英文', prop: 'nameEn', },
-        { type: 'solt', slotName: 'logo', label: 'LOGO', prop: 'imgUrl', placeholder: '可停放车辆数', width: '200px', required: true },
+        { type: 'slot', slotName: 'logo', label: 'LOGO', prop: 'imgUrl', placeholder: '可停放车辆数', width: '200px', required: true },
         { type: 'radio', label: '禁启用', prop: 'status', options: this.$store.state.config.radio_disabled, required: true, rulesMsg: '请选择禁用或启用' },
       ],
       // 表单按钮

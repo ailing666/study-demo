@@ -43,11 +43,11 @@ export default {
       },
       formConfig: [
         { type: 'input', label: '停车场名称', prop: 'parkingName', placeholder: '请输入停车场名称', width: '200px', required: true, rules: [{ min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }] },
-        { type: 'solt', slotName: 'city', label: '区域' },
+        { type: 'slot', slotName: 'city', label: '区域' },
         { type: 'radio', label: '类型', prop: 'type', options: this.$store.state.config.parking_type, required: true },
         { type: 'input', label: '可停放车辆', prop: 'carsNumber', placeholder: '可停放车辆数', width: '200px', required: true, validator: [{ validator: validateNumber, trigger: 'blur' }] },
         { type: 'radio', label: '禁启用', prop: 'status', options: this.$store.state.config.radio_disabled, required: true, rulesMsg: '请选择禁用或启用' },
-        { type: 'solt', slotName: 'address', label: '位置' },
+        { type: 'slot', slotName: 'address', label: '位置' },
         { type: 'input', label: '经纬度', prop: 'lnglat', width: '200px', disabled: true },
       ],
       formButton: [
