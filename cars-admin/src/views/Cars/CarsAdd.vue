@@ -1,5 +1,11 @@
 <template>
-  <CarForm ref="vuForm" :formData="formData" :formConfig="formConfig" :formButton="formButton">
+  <CarForm
+    ref="carForm"
+    :formLoading="formLoading"
+    :formData="formData"
+    :formConfig="formConfig"
+    :formButton="formButton"
+  >
     <template v-slot:maintain>
       <el-row :gutter="30">
         <el-col :span="6">
@@ -53,25 +59,20 @@
         </el-row>
       </div>
     </template>
-    <template v-slot:content>
-      <div ref="editorDom" style="text-align: left;"></div>
-    </template>
   </CarForm>
 </template>
 <script>
-// 富文本编辑器
-import E from 'wangeditor'
+
 import CarForm from "@c/CarForm"
 import { GetCarsBrand, GetParking } from "@/api/common"
-import { CarsAdd } from "@/api/car"
+import { CarsAdd, CarsEdit, CarsDetailed } from "@/api/cars"
 
 export default {
   name: "CarsAdd",
   components: { CarForm },
   data () {
     return {
-      // 富文本对象
-      editor: null,
+      id: this.$route.query.id,
       carsAttrList: [],
       formConfig: [
         {
@@ -155,15 +156,14 @@ export default {
           label: "车辆属性"
         },
         {
-          type: "slot",
-          slotName: "content",
+          type: "editor",
           prop: "content",
           label: "车辆描述"
         },
       ],
       formButton: [
         { label: "确定", key: "submit", type: "danger", handler: () => this.formSubmit() },
-        { label: "重置", key: "reset" },
+        { label: "重置", key: "reset", handler: () => this.resetForm() },
       ],
       formData: {
         parkingId: "",
@@ -172,9 +172,9 @@ export default {
         carsNumber: "",
         carsFrameNumber: "",
         engineNumber: "",
-        yearCheck: true,
-        gear: 2,
-        energyType: 2,
+        yearCheck: false,
+        gear: 1,
+        energyType: 1,
         electric: 0,
         oil: 0,
         carsAttr: {},
@@ -183,7 +183,8 @@ export default {
         status: true
       },
       // 车辆品牌列表
-      carsBrandList: []
+      carsBrandList: [],
+      formLoading: false
     }
   },
   beforeMount () {
@@ -191,17 +192,86 @@ export default {
     this.getParkingList()
   },
   mounted () {
-    this.createEditor()
+    this.getCarsDetailed()
   },
   methods: {
-    // 提交表单
-    async formSubmit () {
-      this.setCarsAttr()
-      const res = await CarsAdd(this.formData)
-      this.$message({
-        message: res.message,
-        type: 'success'
+    // 获取详情
+    getCarsDetailed () {
+      // id不存在返回
+      if (!this.id) return
+      CarsDetailed({ id: this.id }).then(res => {
+        Object.keys(this.formData).map(item => {
+          this.formData[item] = res.data[item]
+        })
+        this.setCarsAttrList(res.data.carsAttr)
       })
+    },
+    // 还原carsAttrList
+    setCarsAttrList (value) {
+      const carsAttr = JSON.parse(value)
+      const arr = []
+      const json = {}
+      for (let key in carsAttr) {
+        json.attrKey = key
+        json.attrValue = carsAttr[key]
+        arr.push(json)
+      }
+      this.carsAttrList = arr
+    },
+
+    // 提交表单
+    formSubmit () {
+      this.setCarsAttr()
+      this.id ? this.editCar() : this.addCar()
+    },
+
+    // 编辑车辆
+    editCar () {
+      let requestData = JSON.parse(JSON.stringify(this.formData))
+      requestData.id = this.id
+      this.formLoading = true
+      CarsEdit(requestData).then(res => {
+        // 重置表单
+        this.resetForm()
+        this.formLoading = false
+        this.$message({
+          message: res.message,
+          type: 'success'
+        })
+        this.$router.push({
+          name: "CarsIndex"
+        })
+      }).catch(() => {
+        this.formLoading = false
+      })
+    },
+
+    // 添加车辆
+    addCar () {
+      this.formLoading = true
+      CarsAdd(this.formData).then(res => {
+        // 重置表单
+        this.resetForm()
+        this.formLoading = false
+        this.$message({
+          message: res.message,
+          type: 'success'
+        })
+        this.$router.push({
+          name: "CarsIndex"
+        })
+      }).catch(() => {
+        this.formLoading = false
+      })
+    },
+
+    // 重置表单
+    resetForm () {
+      // form表单重置
+      this.$refs.carForm.reset()
+      // 车辆属性
+      this.carsAttrList = []
+      console.log(this.formData)
     },
 
     // 获取车辆品牌
@@ -242,19 +312,14 @@ export default {
     delCarsAttr (key) {
       this.carsAttrList = this.carsAttrList.filter(item => item.attrKey !== key)
     },
+
     // 改变能源类型清空值
     changeEnergyType () {
       this.formData.electric = 0
       this.formData.oil = 0
     },
-    // 富文本
-    createEditor () {
-      const editor = new E(this.$refs.editorDom)
-      editor.customConfig.onchange = html => {
-        this.formData.content = html
-      }
-      editor.create()
-    },
+
+
   }
 };
 </script>

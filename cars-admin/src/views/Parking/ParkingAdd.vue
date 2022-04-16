@@ -1,20 +1,24 @@
 <template>
-  <div>
-    <CarForm ref="carForm" :formConfig="formConfig" :formData="formData" :formButton="formButton">
-      <template v-slot:city>
-        <AreaCascader
-          ref="areaCascader"
-          :cityAreaValue.sync="formData.area"
-          @getAddress="getAddress"
-        />
-      </template>
-      <template v-slot:address>
-        <div class="address-map">
-          <CarMap ref="carMap" @getLngLat="getLngLat" :options="option_map" @mapLoad="mapLoad" />
-        </div>
-      </template>
-    </CarForm>
-  </div>
+  <CarForm
+    ref="carForm"
+    :formConfig="formConfig"
+    :formData="formData"
+    :formLoading="formLoading"
+    :formButton="formButton"
+  >
+    <template v-slot:city>
+      <AreaCascader
+        ref="areaCascader"
+        :cityAreaValue.sync="formData.area"
+        @getAddress="getAddress"
+      />
+    </template>
+    <template v-slot:address>
+      <div class="address-map">
+        <CarMap ref="carMap" @getLngLat="getLngLat" :options="option_map" @mapLoad="mapLoad" />
+      </div>
+    </template>
+  </CarForm>
 </template>
 <script>
 import CarMap from '@/components/carMap/index.vue'
@@ -69,7 +73,7 @@ export default {
         lnglat: ""
       },
       id: this.$route.query.id,
-      submitLoading: false,
+      formLoading: false,
     }
   },
   methods: {
@@ -117,11 +121,11 @@ export default {
     editParking () {
       let requestData = JSON.parse(JSON.stringify(this.formData))
       requestData.id = this.id
-      this.submitLoading = true
+      this.formLoading = true
       ParkingEdit(requestData).then(res => {
         // 重置表单
         this.resetForm()
-        this.submitLoading = false
+        this.formLoading = false
         this.$message({
           message: res.message,
           type: 'success'
@@ -130,17 +134,17 @@ export default {
           name: "ParkingIndex"
         })
       }).catch(() => {
-        this.submitLoading = false
+        this.formLoading = false
       })
     },
 
     // 请求添加停车场接口
     addParking () {
-      this.submitLoading = true
+      this.formLoading = true
       ParkingAdd(this.formData).then(res => {
         // 重置表单
         this.resetForm()
-        this.submitLoading = false
+        this.formLoading = false
         this.$message({
           message: res.message,
           type: 'success'
@@ -149,7 +153,7 @@ export default {
           name: "ParkingIndex"
         })
       }).catch(() => {
-        this.submitLoading = false
+        this.formLoading = false
       })
     },
 

@@ -9,6 +9,7 @@
           :key="item.prop"
           :prop="item.prop"
           :label="item.label"
+          :width="item.width"
         >
           <template slot-scope="scope">
             <span v-html="item.callback && item.callback(scope.row, item.prop)"></span>
@@ -20,6 +21,7 @@
           :key="item.prop"
           :prop="item.prop"
           :label="item.label"
+          :width="item.width"
         >
           <template slot-scope="scope">
             <!-- 具名插槽，slotName要对应 ，data就是整行的数据-->
@@ -35,11 +37,23 @@
           :width="item.width"
         >
           <template slot-scope="scope">
-            <img :src="scope.row.imgUrl" :width="item.imgWidth || 50" alt />
+            <img
+              :src="scope.row.imgUrl"
+              :width="item.imgWidth || 50"
+              :height="item.imgHeight || 50"
+              alt
+            />
           </template>
         </el-table-column>
+
         <!-- 渲染文本 -->
-        <el-table-column v-else :key="item.prop" :prop="item.prop" :label="item.label"></el-table-column>
+        <el-table-column
+          v-else
+          :key="item.prop"
+          :prop="item.prop"
+          :label="item.label"
+          :width="item.width"
+        ></el-table-column>
       </template>
     </el-table>
     <el-pagination

@@ -1,67 +1,80 @@
 <template>
-  <div>
-    <el-form ref="form" :model="formData" label-width="120px">
-      <el-form-item
-        v-for="item in formConfig"
-        :key="item.prop"
-        :label="item.label"
-        :prop="item.prop"
-        :rules="item.rules"
+  <el-form
+    ref="form"
+    v-loading="loading"
+    element-loading-text="提交中..."
+    :model="formData"
+    label-width="120px"
+  >
+    <el-form-item
+      v-for="item in formConfig"
+      :key="item.prop"
+      :label="item.label"
+      :prop="item.prop"
+      :rules="item.rules"
+    >
+      <!-- input框 -->
+      <el-input
+        v-if="item.type === 'input'"
+        :placeholder="item.placeholder"
+        :style="{width:item.width}"
+        v-model.trim="formData[item.prop]"
+        :disabled="item.disabled"
+      ></el-input>
+      <!-- 下拉框 -->
+      <el-select
+        v-if="item.type === 'select'"
+        :aaaa="item.options"
+        v-model.trim="formData[item.prop]"
+        :placeholder="item.placeholder"
+        :style="{width: item.width}"
+        :disabled="item.disabled"
       >
-        <!-- input框 -->
-        <el-input
-          v-if="item.type === 'input'"
-          :placeholder="item.placeholder"
-          :style="{width:item.width}"
-          v-model.trim="formData[item.prop]"
-          :disabled="item.disabled"
-        ></el-input>
-        <!-- 下拉框 -->
-        <el-select
-          v-if="item.type === 'select'"
-          :aaaa="item.options"
-          v-model.trim="formData[item.prop]"
-          :placeholder="item.placeholder"
-          :style="{width: item.width}"
-          :disabled="item.disabled"
-        >
-          <el-option
-            v-for="selectItem in item.options"
-            :key="selectItem.value || selectItem[item.select_vlaue]"
-            :value="selectItem.value || selectItem[item.select_vlaue]"
-            :label="selectItem.label || selectItem[item.select_label]"
-          ></el-option>
-        </el-select>
-        <!-- 禁启用 -->
-        <el-radio-group v-if="item.type === 'disabled'" v-model="formData[item.prop]">
-          <el-radio
-            v-for="radio in radio_disabled"
-            :label="radio.value"
-            :key="radio.value"
-          >{{ radio.label }}</el-radio>
-        </el-radio-group>
-        <!-- 具名插槽，slotName要对应 ，data就是整行的数据-->
-        <slot v-else-if="item.type === 'slot'" :name="item.slotName"></slot>
-        <!-- 按钮 -->
-        <el-radio-group v-if="item.type === 'radio'" v-model="formData[item.prop]">
-          <el-radio v-for="v in item.options" :key="v.value" :label="v.value">{{v.label}}</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          v-for="item in formButton"
-          :key="item.key"
-          :type="item.type"
-          @click="item.handler&&item.handler()"
-        >{{item.label}}</el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+        <el-option
+          v-for="selectItem in item.options"
+          :key="selectItem.value || selectItem[item.select_vlaue]"
+          :value="selectItem.value || selectItem[item.select_vlaue]"
+          :label="selectItem.label || selectItem[item.select_label]"
+        ></el-option>
+      </el-select>
+      <!-- 禁启用 -->
+      <el-radio-group v-if="item.type === 'disabled'" v-model="formData[item.prop]">
+        <el-radio
+          v-for="radio in radio_disabled"
+          :label="radio.value"
+          :key="radio.value"
+        >{{ radio.label }}</el-radio>
+      </el-radio-group>
+      <!-- 具名插槽，slotName要对应 ，data就是整行的数据-->
+      <slot v-else-if="item.type === 'slot'" :name="item.slotName"></slot>
+      <!-- 文本编辑器 -->
+      <Wangeditor
+        ref="editor"
+        v-else-if="item.type === 'editor'"
+        :context.sync="formData[item.prop]"
+        v-model="formData[item.prop]"
+      ></Wangeditor>
+      <!-- 按钮 -->
+      <el-radio-group v-if="item.type === 'radio'" v-model="formData[item.prop]">
+        <el-radio v-for="v in item.options" :key="v.value" :label="v.value">{{v.label}}</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item>
+      <el-button
+        v-for="item in formButton"
+        :key="item.key"
+        :type="item.type"
+        @click="item.handler&&item.handler()"
+      >{{item.label}}</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
+import Wangeditor from '@/components/CarWangeditor.vue'
 export default {
   name: 'CarForm',
+  components: { Wangeditor },
   props: {
     formConfig: {
       type: Array,
@@ -74,10 +87,15 @@ export default {
     formData: {
       type: Object,
       default: () => { }
+    },
+    formLoading: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
+      loading: false,
       // 禁启用数据 
       radio_disabled: this.$store.state.config.radio_disabled,
     }
@@ -87,6 +105,9 @@ export default {
       handler () {
         this.initFormData()
       }, immediate: true
+    },
+    formLoading (newV) {
+      this.loading = newV
     }
   },
   methods: {
@@ -111,6 +132,11 @@ export default {
       const requiredRule = [{ required: true, message: msg, trigger: 'blur' }]
       // 如果有其他规则就拼接，否者就只有必填
       item.rules = item.rules ? requiredRule.concat(item.rules) : requiredRule
+    },
+    // 重置表单
+    reset () {
+      this.$refs.form.resetFields()
+      this.$refs.editor[0].clear()
     }
   }
 }
