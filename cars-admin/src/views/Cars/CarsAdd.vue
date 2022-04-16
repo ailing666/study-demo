@@ -82,6 +82,7 @@ export default {
           prop: "carsBrandId",
           select_vlaue: "id",   // 自有的私有属性
           select_label: "nameCh",
+          required: true,
           options: []
         },
         {
@@ -91,6 +92,7 @@ export default {
           select_vlaue: "id",   // 自有的私有属性
           select_label: "parkingName",
           prop: "parkingId",
+          required: true,
           options: []
         },
         {
@@ -98,62 +100,71 @@ export default {
           label: "车辆型号",
           placeholder: "请输入车辆型号",
           prop: "carsMode",
+          required: true,
         },
         {
           type: "input",
           label: "车牌号",
           placeholder: "请输入车牌号",
           prop: "carsNumber",
+          required: true,
         },
         {
           type: "input",
           label: "车架号",
           placeholder: "请输入车架号",
           prop: "carsFrameNumber",
+          required: true,
         },
         {
           type: "input",
           label: "发动机号",
           placeholder: "请输入发动机号",
           prop: "engineNumber",
+          required: true,
         },
         {
           type: "radio",
           label: "年检",
           placeholder: "请选择年检",
           prop: "yearCheck",
-          options: this.$store.state.config.year_check
+          options: this.$store.state.config.year_check,
+          required: true,
         },
         {
           type: "slot",
           slotName: "maintain",
           prop: "maintainDate",
-          label: "保养日期"
+          label: "保养日期",
+          required: true,
         },
         {
           type: "radio",
           label: "档位",
           placeholder: "请选择档位",
           prop: "gear",
-          options: this.$store.state.config.gear
+          options: this.$store.state.config.gear,
+          required: true,
         },
         {
           type: "slot",
           slotName: "energy",
           prop: "energyType",
-          label: "能源类型"
+          label: "能源类型",
+          required: true,
         },
         {
           type: "disabled",
           label: "禁启用",
           placeholder: "请选择禁启用",
-          prop: "status"
+          prop: "status",
+          required: true,
         },
         {
           type: "slot",
           slotName: "carsAttr",
           prop: "carsAttr",
-          label: "车辆属性"
+          label: "车辆属性",
         },
         {
           type: "editor",
