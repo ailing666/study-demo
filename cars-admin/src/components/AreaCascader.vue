@@ -95,6 +95,8 @@ export default {
         this.address = []
       }
     },
+
+    // 清除
     clear() {
       this.value = ''
     }

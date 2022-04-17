@@ -1,5 +1,11 @@
 <template>
   <div>
+    <SearchForm
+      :formButton="searchConfig.formButton"
+      :formConfig="searchConfig.formConfig"
+      :config="searchConfig.config"
+      @search="search"
+    ></SearchForm>
     <el-table :data="tableData" v-loading="tableLoading" border style="width: 100%">
       <el-table-column v-if="configData.checkbox" type="selection" width="40"></el-table-column>
       <template v-for="item in tableConfig.thead">
@@ -94,6 +100,7 @@
 </template>
 
 <script>
+import SearchForm from '@/components/SearchForm'
 import { ParkingList, Delete } from '@/api/common'
 export default {
   name: 'TableData',
@@ -102,8 +109,13 @@ export default {
     tableConfig: {
       type: Object,
       default: () => ({})
+    },
+    searchConfig: {
+      type: Object,
+      default: () => ({})
     }
   },
+  components: { SearchForm },
   data() {
     return {
       // table数据
@@ -151,7 +163,15 @@ export default {
       // 加载表格数据
       this.loadData()
     },
-
+    // 搜索
+    search(data) {
+      const searchData = {
+        ...data,
+        pageNumber: 1,
+        pageSize: 10
+      }
+      this.requestData(searchData)
+    },
     // 供外部组件调用的请求方法
     requestData(params = '') {
       // 如果外部组件传入params就用外部的，否则就用默认的

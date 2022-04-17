@@ -29,6 +29,10 @@ const state = {
     { label: '电', value: 1 },
     { label: '油', value: 2 },
     { label: '混合动力', value: 3 }
+  ],
+  keyword_options: [
+    { label: '停车场名称', value: 'parkingName' },
+    { label: '详细区域', value: 'address' }
   ]
 }
 export default {

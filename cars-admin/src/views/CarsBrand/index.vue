@@ -1,26 +1,7 @@
 <template>
   <div>
-    <div class="filter-form">
-      <el-row>
-        <el-col :span="18">
-          <el-form :inline="true" :model="form" class="demo-form-inline" label-width="100px">
-            <el-form-item label="车辆品牌：">
-              <el-input v-model="form.brand" placeholder="请输入品牌"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="danger" @click="search">搜索</el-button>
-            </el-form-item>
-          </el-form>
-        </el-col>
-        <el-col :span="6">
-          <div class="pull-right">
-            <el-button type="danger" @click="showDialog = true">新增车辆品牌</el-button>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
     <!-- 表格数据 -->
-    <TableData :tableConfig="tableConfig">
+    <TableData :tableConfig="tableConfig" :searchConfig="searchConfig">
       <template v-slot:status="slotData">
         <!-- 当前id等于switchDisabled时禁用 -->
         <el-switch
@@ -50,9 +31,6 @@ export default {
       // 弹窗标记
       showDialog: false,
       brandData: {},
-      form: {
-        brand: ''
-      },
       tableConfig: {
         thead: [
           {
@@ -78,6 +56,28 @@ export default {
           }
         ],
         url: 'brandList'
+      },
+      searchConfig: {
+        formConfig: [
+          {
+            label: '车辆品牌',
+            prop: 'brand',
+            type: 'input',
+            width: '150px',
+            placeholder: '请输入车辆品牌'
+          }
+        ],
+        formButton: [
+          {
+            label: '新增',
+            key: 'add',
+            type: 'success',
+            handler: () => (this.showDialog = true)
+          }
+        ],
+        config: {
+          resetButton: false
+        }
       },
       switchDisabled: ''
     }
@@ -107,26 +107,6 @@ export default {
         .catch(() => {
           this.switchDisabled = ''
         })
-    },
-
-    // 搜索
-    search() {
-      const requestData = {
-        pageSize: 10,
-        pageNumber: 1
-      }
-
-      let filterData = JSON.parse(JSON.stringify(this.form))
-
-      // 如果筛选条件有变动再添加进来
-      for (let key in filterData) {
-        if (filterData[key] !== '') requestData[key] = filterData[key]
-      }
-
-      // 关键字
-      if (this.keyWord && this.keyValue) requestData[this.keyWord] = this.keyValue
-      // 将参数传入，请求组件数据
-      this.$refs.table.requestData(requestData)
     }
   }
 }
