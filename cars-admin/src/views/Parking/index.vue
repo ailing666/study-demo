@@ -5,10 +5,7 @@
         <el-col :span="22">
           <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="区域">
-              <AreaCascader
-                ref="areaCascader"
-                :cityAreaValue.sync="form.area"
-              />
+              <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" />
             </el-form-item>
             <el-form-item label="类型">
               <el-select v-model="form.type" placeholder="活动区域">
@@ -31,20 +28,13 @@
               </el-select>
             </el-form-item>
             <el-form-item label="关键字">
-              <el-select
-                v-model="keyWord"
-                placeholder="请选择"
-                style="width:110px"
-              >
+              <el-select v-model="keyWord" placeholder="请选择" style="width:110px">
                 <el-option label="停车场名称" value="parkingName"></el-option>
                 <el-option label="详细区域" value="address"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input
-                v-model="keyValue"
-                placeholder="请输入关键字"
-              ></el-input>
+              <el-input v-model="keyValue" placeholder="请输入关键字"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="danger" @click="searchParking">搜索</el-button>
@@ -74,9 +64,7 @@
         ></el-switch>
       </template>
       <template v-slot:lnglat="slotData">
-        <el-button size="success" @click="changeDialogVisible(slotData.data)"
-          >点击查看地图</el-button
-        >
+        <el-button size="success" @click="changeDialogVisible(slotData.data)">点击查看地图</el-button>
       </template>
     </TableData>
     <ShowMap :dialogVisible.sync="isShowMap" :parkingData="parkingData" />
@@ -91,7 +79,7 @@ import TableData from '@/components/TableData.vue'
 export default {
   name: 'Parking',
   components: { AreaCascader, ShowMap, TableData },
-  data () {
+  data() {
     return {
       form: {
         area: '',
@@ -144,13 +132,13 @@ export default {
     }
   },
   methods: {
-    changeDialogVisible (v) {
+    changeDialogVisible(v) {
       this.parkingData = v
       this.isShowMap = true
     },
 
     // 搜索
-    searchParking () {
+    searchParking() {
       const requestData = {
         pageSize: 10,
         pageNumber: 1
@@ -164,14 +152,13 @@ export default {
       }
 
       // 关键字
-      if (this.keyWord && this.keyValue)
-        requestData[this.keyWord] = this.keyValue
+      if (this.keyWord && this.keyValue) requestData[this.keyWord] = this.keyValue
       // 将参数传入，请求组件数据
       this.$refs.table.requestData(requestData)
     },
 
     // 修改状态
-    switchStastus (data) {
+    switchStastus(data) {
       let requestData = {
         id: data.id,
         status: data.status

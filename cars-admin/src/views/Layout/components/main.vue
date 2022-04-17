@@ -3,8 +3,7 @@
 </template>
 <script>
 export default {
-  name: "LayoutMain",
+  name: 'LayoutMain'
 }
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

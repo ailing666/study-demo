@@ -27,12 +27,12 @@ export default {
     },
     parkingData: {
       type: Object,
-      default: () => { }
+      default: () => {}
     }
   },
   methods: {
     // 弹窗显示时触发
-    opened () {
+    opened() {
       // 创建地图
       this.$refs.aMap.mapCreate()
       this.$nextTick(() => {
@@ -42,14 +42,12 @@ export default {
       })
     },
     // 弹窗关闭时触发
-    close () {
+    close() {
       this.$emit('update:dialogVisible', false)
       // 销毁地图
       this.$refs.aMap.mapDestroy()
-    },
+    }
   }
 }
-
 </script>
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>

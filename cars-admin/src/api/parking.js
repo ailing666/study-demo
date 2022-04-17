@@ -2,7 +2,7 @@ import service from '../utils/request'
 /**
  * 添加停车场
  */
-export function ParkingAdd (data = {}) {
+export function ParkingAdd(data = {}) {
   return service.request({
     method: 'post',
     url: '/parking/add/',
@@ -13,7 +13,7 @@ export function ParkingAdd (data = {}) {
 /**
  * 获取停车场详情
  */
-export function ParkingDetailed (data = {}) {
+export function ParkingDetailed(data = {}) {
   return service.request({
     method: 'post',
     url: '/parking/detailed/',
@@ -21,7 +21,7 @@ export function ParkingDetailed (data = {}) {
   })
 }
 /** 停车场修改 */
-export function ParkingEdit (data = {}) {
+export function ParkingEdit(data = {}) {
   return service.request({
     method: 'post',
     url: '/parking/edit/',
@@ -30,7 +30,7 @@ export function ParkingEdit (data = {}) {
 }
 
 /** 停车场删除 */
-export function ParkingDelete (data = {}) {
+export function ParkingDelete(data = {}) {
   return service.request({
     method: 'post',
     url: '/parking/delete/',
@@ -38,7 +38,7 @@ export function ParkingDelete (data = {}) {
   })
 }
 /** 停车场状态修改 */
-export function ParkingStatus (data = {}) {
+export function ParkingStatus(data = {}) {
   return service.request({
     method: 'post',
     url: '/parking/status/',

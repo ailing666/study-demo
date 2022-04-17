@@ -15,17 +15,17 @@
 </template>
 <script>
 // 组件
-import LayoutAside from "./components/aside"
-import LayoutHeader from "./components/header"
-import LayoutMain from "./components/main"
+import LayoutAside from './components/aside'
+import LayoutHeader from './components/header'
+import LayoutMain from './components/main'
 export default {
-  name: "Layout",
+  name: 'Layout',
   components: { LayoutAside, LayoutHeader, LayoutMain },
   computed: {
-    collapse () {
+    collapse() {
       return this.$store.state.app.collapse
     }
-  },
+  }
 }
 </script>
 <style lang="scss" scpoed>

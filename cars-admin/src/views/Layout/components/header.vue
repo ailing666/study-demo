@@ -19,19 +19,19 @@
 
 <script>
 export default {
-  name: "LayoutHeader",
+  name: 'LayoutHeader',
   components: {},
   props: {},
   computed: {
-    username () {
+    username() {
       return this.$store.state.app.username
     }
   },
   methods: {
-    switchAside () {
+    switchAside() {
       this.$store.commit('app/SET_COLLAPSE')
     },
-    logout () {
+    logout() {
       this.$confirm('确认退出管理后台', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -40,15 +40,15 @@ export default {
         this.$store.dispatch('app/logoutAction').then(response => {
           this.$message({
             message: response.message,
-            type: "success"
+            type: 'success'
           })
           this.$router.push({
-            name: "Login"
+            name: 'Login'
           })
         })
       })
     }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>

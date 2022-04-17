@@ -1,12 +1,12 @@
-import service from "../utils/request"
-import requestUrl from "./requestUrl"
+import service from '../utils/request'
+import requestUrl from './requestUrl'
 /**
  * 获取城市列表
  */
-export function GetCity (data = {}) {
+export function GetCity(data = {}) {
   return service.request({
-    method: "post",
-    url: "/cityPicker/",
+    method: 'post',
+    url: '/cityPicker/',
     data
   })
 }
@@ -14,10 +14,10 @@ export function GetCity (data = {}) {
 /**
  * 获取车辆品牌
  */
-export function GetCarsBrand (data = {}) {
+export function GetCarsBrand(data = {}) {
   return service.request({
-    method: "post",
-    url: "/common/getCarsBrand/",
+    method: 'post',
+    url: '/common/getCarsBrand/',
     data
   })
 }
@@ -25,19 +25,19 @@ export function GetCarsBrand (data = {}) {
 /**
  * 获取停车场
  */
-export function GetParking (data = {}) {
+export function GetParking(data = {}) {
   return service.request({
-    method: "post",
-    url: "/common/getParking/",
+    method: 'post',
+    url: '/common/getParking/',
     data
   })
 }
 /**
  * 获取停车场列表
  */
-export function ParkingList (params = {}) {
+export function ParkingList(params = {}) {
   return service.request({
-    method: "post",
+    method: 'post',
     url: requestUrl[params.url],
     data: params.data
   })
@@ -45,9 +45,9 @@ export function ParkingList (params = {}) {
 /**
  * 删除列表
  */
-export function Delete (params = {}) {
+export function Delete(params = {}) {
   return service.request({
-    method: "post",
+    method: 'post',
     url: requestUrl[params.url],
     data: params.data
   })

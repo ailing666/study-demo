@@ -7,11 +7,7 @@
     :formButton="formButton"
   >
     <template v-slot:city>
-      <AreaCascader
-        ref="areaCascader"
-        :cityAreaValue.sync="formData.area"
-        @getAddress="getAddress"
-      />
+      <AreaCascader ref="areaCascader" :cityAreaValue.sync="formData.area" @getAddress="getAddress" />
     </template>
     <template v-slot:address>
       <div class="address-map">
@@ -26,9 +22,9 @@ import AreaCascader from '@/components/AreaCascader'
 import CarForm from '@/components/CarForm'
 import { ParkingAdd, ParkingDetailed, ParkingEdit } from '@/api/parking'
 export default {
-  name: "ParkingAdd",
+  name: 'ParkingAdd',
   components: { CarMap, AreaCascader, CarForm },
-  data () {
+  data() {
     // 自定义校验
     const validateNumber = (rule, value, callback) => {
       if (!value) {
@@ -46,40 +42,63 @@ export default {
         mapLoad: true
       },
       formConfig: [
-        { type: 'input', label: '停车场名称', prop: 'parkingName', placeholder: '请输入停车场名称', width: '200px', required: true, rules: [{ min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }] },
+        {
+          type: 'input',
+          label: '停车场名称',
+          prop: 'parkingName',
+          placeholder: '请输入停车场名称',
+          width: '200px',
+          required: true,
+          rules: [{ min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }]
+        },
         { type: 'slot', slotName: 'city', label: '区域' },
         { type: 'radio', label: '类型', prop: 'type', options: this.$store.state.config.parking_type, required: true },
-        { type: 'input', label: '可停放车辆', prop: 'carsNumber', placeholder: '可停放车辆数', width: '200px', required: true, validator: [{ validator: validateNumber, trigger: 'blur' }] },
-        { type: 'radio', label: '禁启用', prop: 'status', options: this.$store.state.config.radio_disabled, required: true, rulesMsg: '请选择禁用或启用' },
+        {
+          type: 'input',
+          label: '可停放车辆',
+          prop: 'carsNumber',
+          placeholder: '可停放车辆数',
+          width: '200px',
+          required: true,
+          validator: [{ validator: validateNumber, trigger: 'blur' }]
+        },
+        {
+          type: 'radio',
+          label: '禁启用',
+          prop: 'status',
+          options: this.$store.state.config.radio_disabled,
+          required: true,
+          rulesMsg: '请选择禁用或启用'
+        },
         { type: 'slot', slotName: 'address', label: '位置' },
-        { type: 'input', label: '经纬度', prop: 'lnglat', width: '200px', disabled: true },
+        { type: 'input', label: '经纬度', prop: 'lnglat', width: '200px', disabled: true }
       ],
       formButton: [
         {
-          label: "确定",
-          key: "submit",
-          type: "danger",
+          label: '确定',
+          key: 'submit',
+          type: 'danger',
           handler: () => this.formValidate()
         },
-        { label: "重置", key: "reset" }
+        { label: '重置', key: 'reset' }
       ],
       formData: {
-        parkingName: "",
-        area: "",
-        type: "",
-        carsNumber: "",
-        address: "",
-        status: "",
-        lnglat: ""
+        parkingName: '',
+        area: '',
+        type: '',
+        carsNumber: '',
+        address: '',
+        status: '',
+        lnglat: ''
       },
       id: this.$route.query.id,
-      formLoading: false,
+      formLoading: false
     }
   },
   methods: {
     // 提交表单
-    formValidate () {
-      this.$refs.carForm.$refs.form.validate((valid) => {
+    formValidate() {
+      this.$refs.carForm.$refs.form.validate(valid => {
         if (valid) {
           this.id ? this.editParking() : this.addParking()
         } else {
@@ -89,12 +108,12 @@ export default {
     },
 
     // 地图加载完成再获取接口
-    mapLoad () {
+    mapLoad() {
       this.getParkingDetailed()
     },
 
     // 获取详情
-    getParkingDetailed () {
+    getParkingDetailed() {
       // id不存在返回
       if (!this.id) return
 
@@ -104,7 +123,7 @@ export default {
         })
 
         // 设置覆盖物
-        const splitLnglat = res.data.lnglat.split(",")
+        const splitLnglat = res.data.lnglat.split(',')
         const lnglat = {
           lng: splitLnglat[0],
           lat: splitLnglat[1]
@@ -118,70 +137,74 @@ export default {
     },
 
     // 请求修改停车场接口
-    editParking () {
+    editParking() {
       let requestData = JSON.parse(JSON.stringify(this.formData))
       requestData.id = this.id
       this.formLoading = true
-      ParkingEdit(requestData).then(res => {
-        // 重置表单
-        this.resetForm()
-        this.formLoading = false
-        this.$message({
-          message: res.message,
-          type: 'success'
+      ParkingEdit(requestData)
+        .then(res => {
+          // 重置表单
+          this.resetForm()
+          this.formLoading = false
+          this.$message({
+            message: res.message,
+            type: 'success'
+          })
+          this.$router.push({
+            name: 'ParkingIndex'
+          })
         })
-        this.$router.push({
-          name: "ParkingIndex"
+        .catch(() => {
+          this.formLoading = false
         })
-      }).catch(() => {
-        this.formLoading = false
-      })
     },
 
     // 请求添加停车场接口
-    addParking () {
+    addParking() {
       this.formLoading = true
-      ParkingAdd(this.formData).then(res => {
-        // 重置表单
-        this.resetForm()
-        this.formLoading = false
-        this.$message({
-          message: res.message,
-          type: 'success'
+      ParkingAdd(this.formData)
+        .then(res => {
+          // 重置表单
+          this.resetForm()
+          this.formLoading = false
+          this.$message({
+            message: res.message,
+            type: 'success'
+          })
+          this.$router.push({
+            name: 'ParkingIndex'
+          })
         })
-        this.$router.push({
-          name: "ParkingIndex"
+        .catch(() => {
+          this.formLoading = false
         })
-      }).catch(() => {
-        this.formLoading = false
-      })
     },
 
     // 修改areaValue
-    cityAreaValue (v) {
+    cityAreaValue(v) {
       this.formData.areaValue = v
     },
 
     // 获取经纬度
-    getLngLat (v) {
+    getLngLat(v) {
       this.formData.lnglat = v.value
     },
 
     // 获取中文地址
-    getAddress (address) {
+    getAddress(address) {
       this.formData.address = address
       // 触发carMap组件事件
       this.$refs.carMap.setMapCenter(address)
     },
 
     // 重置表单
-    resetForm () {
+    resetForm() {
       this.$refs.carForm.$refs.form.resetFields()
       // 清除 cityAray 的值
       this.$refs.areaCascader.clear()
       // 清除地图覆盖物
       this.$refs.carMap.delMarker()
-    },
+    }
   }
 }
 </script>

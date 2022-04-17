@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="logo">
-      <img src="../../../assets/logo.png" alt :class="{'mini-logo': collapse}" />
+      <img src="../../../assets/logo.png" alt :class="{ 'mini-logo': collapse }" />
     </h1>
     <el-menu
       :collapse="collapse"
@@ -17,14 +17,12 @@
         <el-submenu v-if="!item.hidden" :key="item.id" :index="index + ''">
           <template slot="title">
             <svg-icon :icon="item.meta.icon" :className="item.meta && item.meta.iconClass"></svg-icon>
-            <span>{{ item.meta ? item.meta.title : "" }}</span>
+            <span>{{ item.meta ? item.meta.title : '' }}</span>
           </template>
           <template v-if="item.children && item.children.length > 0">
-            <el-menu-item
-              v-for="sub in item.children"
-              :key="sub.id"
-              :index="sub.path"
-            >{{ sub.meta ? sub.meta.title : ""}}</el-menu-item>
+            <el-menu-item v-for="sub in item.children" :key="sub.id" :index="sub.path">{{
+              sub.meta ? sub.meta.title : ''
+            }}</el-menu-item>
           </template>
         </el-submenu>
       </template>
@@ -34,23 +32,22 @@
 
 <script>
 export default {
-  name: "LayoutAside",
+  name: 'LayoutAside',
   components: {},
   props: {},
   computed: {
     // 监听路由变化
-    defalutActive () {
+    defalutActive() {
       const route = this.$route
       return route.path
     },
     // 菜单
-    collapse () {
+    collapse() {
       return this.$store.state.app.collapse
     },
-    router () {
+    router() {
       return this.$router.options.routes
     }
-
   }
 }
 </script>

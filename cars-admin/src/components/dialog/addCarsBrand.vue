@@ -26,9 +26,9 @@
 
 <script>
 import CarForm from '@/components/CarForm'
-import { BrandLogo, BrandAdd, BrandEdit } from "@/api/brand"
+import { BrandLogo, BrandAdd, BrandEdit } from '@/api/brand'
 export default {
-  name: "AddCarsBrand",
+  name: 'AddCarsBrand',
   components: { CarForm },
   props: {
     isVisible: {
@@ -37,120 +37,142 @@ export default {
     },
     data: {
       type: Object,
-      defult: () => { }
+      defult: () => {}
     }
   },
-  data () {
+  data() {
     return {
       // 弹窗显示/关闭标记
       dialogVisible: false,
       // 表单数据
       formData: {
-        nameCh: "",
-        nameEn: "",
-        imgUrl: "",
-        status: "",
-        content: ""
+        nameCh: '',
+        nameEn: '',
+        imgUrl: '',
+        status: '',
+        content: ''
       },
       // 表单配置
       formConfig: [
-        { type: 'input', label: '品牌中文', prop: 'nameCh', required: true, rules: [{ min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }] },
-        { type: 'input', label: '品牌英文', prop: 'nameEn', },
-        { type: 'slot', slotName: 'logo', label: 'LOGO', prop: 'imgUrl', placeholder: '可停放车辆数', width: '200px', required: true },
-        { type: 'radio', label: '禁启用', prop: 'status', options: this.$store.state.config.radio_disabled, required: true, rulesMsg: '请选择禁用或启用' },
+        {
+          type: 'input',
+          label: '品牌中文',
+          prop: 'nameCh',
+          required: true,
+          rules: [{ min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }]
+        },
+        { type: 'input', label: '品牌英文', prop: 'nameEn' },
+        {
+          type: 'slot',
+          slotName: 'logo',
+          label: 'LOGO',
+          prop: 'imgUrl',
+          placeholder: '可停放车辆数',
+          width: '200px',
+          required: true
+        },
+        {
+          type: 'radio',
+          label: '禁启用',
+          prop: 'status',
+          options: this.$store.state.config.radio_disabled,
+          required: true,
+          rulesMsg: '请选择禁用或启用'
+        }
       ],
       // 表单按钮
       formButton: [
         {
-          label: "确定",
-          key: "submit",
-          type: "danger",
+          label: '确定',
+          key: 'submit',
+          type: 'danger',
           handler: () => this.submit()
-        },
+        }
       ],
       // 状态
       radioDisabled: this.$store.state.config.radio_disabled,
       // 选中的LOGO
-      logoCurrent: "",
+      logoCurrent: '',
       // logo
       logoList: []
     }
   },
   watch: {
-    isVisible (newV) {
+    isVisible(newV) {
       this.dialogVisible = newV
     }
   },
   methods: {
     // 弹窗打开时
-    opened () {
+    opened() {
       this.getBrandLogo()
       this.getDetailed()
     },
 
     // 获取品牌LOGO
-    getBrandLogo () {
+    getBrandLogo() {
       // 存在数据时，不再请求接口
       if (this.logoList.length !== 0) return false
       // 没有数据时
       BrandLogo().then(response => {
         const data = response.data
-        if (data) { this.logoList = data }
+        if (data) {
+          this.logoList = data
+        }
       })
     },
 
     // 获取详情
-    getDetailed () {
+    getDetailed() {
       this.formData = this.data
       this.logoCurrent = this.data.imgUrl
       this.formData.imgUrl = this.data.imgUrl
     },
 
     // 表单提交
-    submit () {
+    submit() {
       // 根据是否有id判断是修改还是新增
       this.data.id ? this.edit() : this.add()
     },
 
     // 添加
-    add () {
+    add() {
       this.formData.imgUrl = this.logoCurrent
       BrandAdd(this.formData).then(response => {
         this.$message({
-          type: "success",
+          type: 'success',
           message: response.message
         })
         // 重置表单
-        this.reset("form")
+        this.reset('form')
       })
     },
 
     // 修改
-    edit () {
+    edit() {
       this.formData.imgUrl = this.logoCurrent
       const requestData = JSON.parse(JSON.stringify(this.formData))
       BrandEdit(requestData).then(response => {
         this.$message({
-          type: "success",
+          type: 'success',
           message: response.message
         })
-        this.reset("form")
+        this.reset('form')
       })
     },
 
     // 重置表单
-    reset (formName) {
+    reset(formName) {
       this.$refs[formName].resetFields()
       // 清除选中的LOGO
-      this.logoCurrent = ""
+      this.logoCurrent = ''
     },
 
     // 弹窗关闭
-    close () {
-      this.$emit("update:isVisible", false)
+    close() {
+      this.$emit('update:isVisible', false)
     }
   }
-};
+}
 </script>
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>

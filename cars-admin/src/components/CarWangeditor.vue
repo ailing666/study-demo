@@ -6,7 +6,7 @@
 import E from 'wangeditor'
 export default {
   name: 'CarWangeditor',
-  data () {
+  data() {
     return {
       editor: null
     }
@@ -17,17 +17,17 @@ export default {
       default: ''
     }
   },
-  mounted () {
+  mounted() {
     this.createEditor()
   },
   watch: {
-    context (newV) {
+    context(newV) {
       this.editor.txt.html(newV)
     }
   },
   methods: {
     // 富文本
-    createEditor () {
+    createEditor() {
       this.editor = new E(this.$refs.editorDom)
       this.editor.customConfig.onchange = html => {
         this.$emit('update:context', html)
@@ -35,12 +35,10 @@ export default {
       this.editor.create()
     },
     // 清除值
-    clear () {
+    clear() {
       this.editor.txt.clear()
     }
   }
 }
-
 </script>
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,115 +1,115 @@
-import Vue from "vue"
-import VueRouter from "vue-router"
-import Layout from "../views/Layout"
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Layout from '../views/Layout'
 Vue.use(VueRouter)
 const routes = [
   {
-    path: "/",
-    redirect: "Login",
+    path: '/',
+    redirect: 'Login',
     hidden: true
   },
   {
-    path: "/login",
-    name: "Login",
+    path: '/login',
+    name: 'Login',
     hidden: true,
-    component: () => import("../views/Login/index.vue")
+    component: () => import('../views/Login/index.vue')
   },
   {
-    path: "/home",
-    name: "Home",
+    path: '/home',
+    name: 'Home',
     meta: {
-      title: "控制台",
-      icon: "console",
-      iconClass: "icon_console"
+      title: '控制台',
+      icon: 'console',
+      iconClass: 'icon_console'
     },
     component: Layout,
     children: [
       {
-        path: "/consoleIndex",
-        name: "ConsoleIndex",
+        path: '/consoleIndex',
+        name: 'ConsoleIndex',
         meta: {
-          title: "首页"
+          title: '首页'
         },
-        component: () => import("../views/Console/index.vue"),
+        component: () => import('../views/Console/index.vue')
       }
     ]
   },
   // 停车场
   {
-    path: "/parking",
-    name: "Parking",
+    path: '/parking',
+    name: 'Parking',
     meta: {
-      title: "停车场",
-      icon: "console",
-      iconClass: "icon_console"
+      title: '停车场',
+      icon: 'console',
+      iconClass: 'icon_console'
     },
     component: Layout,
     children: [
       {
-        path: "/parkingIndex",
-        name: "ParkingIndex",
+        path: '/parkingIndex',
+        name: 'ParkingIndex',
         meta: {
-          title: "列表管理"
+          title: '列表管理'
         },
-        component: () => import("../views/Parking/index.vue"),
+        component: () => import('../views/Parking/index.vue')
       },
       {
-        path: "/parkingAdd",
-        name: "ParkingAdd",
+        path: '/parkingAdd',
+        name: 'ParkingAdd',
         meta: {
-          title: "新增停车场"
+          title: '新增停车场'
         },
-        component: () => import("../views/Parking/ParkingAdd.vue"),
+        component: () => import('../views/Parking/ParkingAdd.vue')
       }
     ]
   },
   // 车辆品牌
   {
-    path: "/carsBrand",
-    name: "CarsBrand",
+    path: '/carsBrand',
+    name: 'CarsBrand',
     meta: {
-      title: "车辆品牌",
-      icon: "console",
-      iconClass: "icon_console"
+      title: '车辆品牌',
+      icon: 'console',
+      iconClass: 'icon_console'
     },
     component: Layout,
     children: [
       {
-        path: "/carsBrandIndex",
-        name: "CarsBrandIndex",
+        path: '/carsBrandIndex',
+        name: 'CarsBrandIndex',
         meta: {
-          title: "品牌列表"
+          title: '品牌列表'
         },
-        component: () => import("../views/CarsBrand"),
+        component: () => import('../views/CarsBrand')
       }
     ]
   },
   // 车辆管理
   {
-    path: "/cars",
-    name: "cars",
+    path: '/cars',
+    name: 'cars',
     meta: {
-      title: "车辆管理",
-      icon: "console",
-      iconClass: "icon_console"
+      title: '车辆管理',
+      icon: 'console',
+      iconClass: 'icon_console'
     },
     component: Layout,
     children: [
       {
-        path: "/carsIndex",
-        name: "CarsIndex",
+        path: '/carsIndex',
+        name: 'CarsIndex',
         meta: {
-          title: "车辆列表"
+          title: '车辆列表'
         },
-        component: () => import("../views/Cars/index.vue"),
+        component: () => import('../views/Cars/index.vue')
       },
       {
-        path: "/carsAdd",
-        name: "CarsAdd",
+        path: '/carsAdd',
+        name: 'CarsAdd',
         meta: {
-          title: "新增车辆"
+          title: '新增车辆'
         },
-        component: () => import("../views/Cars/CarsAdd.vue"),
+        component: () => import('../views/Cars/CarsAdd.vue')
       }
     ]
   }

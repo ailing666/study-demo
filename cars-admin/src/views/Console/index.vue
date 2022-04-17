@@ -4,10 +4,9 @@
 
 <script>
 export default {
-  name: "ConsoleIndex",
+  name: 'ConsoleIndex',
   components: {},
-  props: {},
+  props: {}
 }
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -3,17 +3,9 @@
     <div class="filter-form">
       <el-row>
         <el-col :span="18">
-          <el-form
-            :inline="true"
-            :model="form"
-            class="demo-form-inline"
-            label-width="100px"
-          >
+          <el-form :inline="true" :model="form" class="demo-form-inline" label-width="100px">
             <el-form-item label="车辆品牌：">
-              <el-input
-                v-model="form.brand"
-                placeholder="请输入品牌"
-              ></el-input>
+              <el-input v-model="form.brand" placeholder="请输入品牌"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="danger" @click="search">搜索</el-button>
@@ -22,9 +14,7 @@
         </el-col>
         <el-col :span="6">
           <div class="pull-right">
-            <el-button type="danger" @click="showDialog = true"
-              >新增车辆品牌</el-button
-            >
+            <el-button type="danger" @click="showDialog = true">新增车辆品牌</el-button>
           </div>
         </el-col>
       </el-row>
@@ -42,12 +32,7 @@
         ></el-switch>
       </template>
       <template v-slot:operation="slotData">
-        <el-button
-          type="danger"
-          size="small"
-          @click="editParking(slotData.data)"
-          >编辑</el-button
-        >
+        <el-button type="danger" size="small" @click="editParking(slotData.data)">编辑</el-button>
       </template>
     </TableData>
     <AddCarsBrand :isVisible.sync="showDialog" :data="brandData" />
@@ -60,7 +45,7 @@ import { BrandStatus } from '@/api/brand'
 export default {
   name: 'CarBrand',
   components: { AddCarsBrand, TableData },
-  data () {
+  data() {
     return {
       // 弹窗标记
       showDialog: false,
@@ -80,7 +65,7 @@ export default {
             label: '车辆品牌',
             prop: 'nameCh',
             type: 'function',
-            callback: (row, prop) => `${row.nameCh}/${row.nameEn}`
+            callback: row => `${row.nameCh}/${row.nameEn}`
           },
           { prop: 'status', label: '禁启用', type: 'slot', slotName: 'status' },
           {
@@ -99,13 +84,13 @@ export default {
   },
   methods: {
     // 编辑
-    editParking (query) {
+    editParking(query) {
       this.brandData = JSON.parse(JSON.stringify(query))
       this.showDialog = true
     },
 
     // 修改状态
-    switchStastus (data) {
+    switchStastus(data) {
       let requestData = {
         id: data.id,
         status: data.status
@@ -125,7 +110,7 @@ export default {
     },
 
     // 搜索
-    search () {
+    search() {
       const requestData = {
         pageSize: 10,
         pageNumber: 1
@@ -139,8 +124,7 @@ export default {
       }
 
       // 关键字
-      if (this.keyWord && this.keyValue)
-        requestData[this.keyWord] = this.keyValue
+      if (this.keyWord && this.keyValue) requestData[this.keyWord] = this.keyValue
       // 将参数传入，请求组件数据
       this.$refs.table.requestData(requestData)
     }

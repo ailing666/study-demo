@@ -4,10 +4,12 @@
       <ul class="menu-tab">
         <li
           @click="toggleHigh(i)"
-          :class="{'current': currentTab === item.type}"
-          v-for="(item,i) in tabList"
+          :class="{ current: currentTab === item.type }"
+          v-for="(item, i) in tabList"
           :key="item.type"
-        >{{ item.label }}</li>
+        >
+          {{ item.label }}
+        </li>
       </ul>
       <el-form ref="form" :model="form" :rules="form_rules">
         <el-form-item prop="name">
@@ -35,17 +37,15 @@
                 @click="getCodeFn()"
                 :disabled="code_disabled"
                 :loading="code_loading"
-              >{{ code_text }}</el-button>
+                >{{ code_text }}</el-button
+              >
             </el-col>
           </el-row>
         </el-form-item>
         <el-form-item>
-          <el-button
-            type="danger"
-            class="el-button-block"
-            :disabled="submit_disabled"
-            @click="submitForm('form')"
-          >{{ currentTab === "login" ? "登录": "注册"}}</el-button>
+          <el-button type="danger" class="el-button-block" :disabled="submit_disabled" @click="submitForm('form')">{{
+            currentTab === 'login' ? '登录' : '注册'
+          }}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -53,23 +53,23 @@
 </template>
 
 <script>
-import sha1 from "js-sha1"
-import { validate_email, validate_password } from "@/utils/validate"
-import { GetCode, Register } from "@/api/login"
+import sha1 from 'js-sha1'
+import { validate_email, validate_password } from '@/utils/validate'
+import { GetCode, Register } from '@/api/login'
 
 export default {
-  name: "Login",
-  data () {
+  name: 'Login',
+  data() {
     /**
      * 自定义检验规则
      */
     // 检验邮箱
     const validate_name_rules = (rule, value, callback) => {
       let regEmail = validate_email(value)
-      if (value === "") {
-        callback(new Error("请输入邮箱"))
+      if (value === '') {
+        callback(new Error('请输入邮箱'))
       } else if (!regEmail) {
-        callback(new Error("邮箱格式不正确"))
+        callback(new Error('邮箱格式不正确'))
       } else {
         callback()
       }
@@ -77,10 +77,10 @@ export default {
     // 检验密码
     const validate_password_rules = (rule, value, callback) => {
       let regPassword = validate_password(value)
-      if (value === "") {
-        callback(new Error("请输入密码"))
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else if (!regPassword) {
-        callback(new Error("请入 >=6 并且 <= 20 位的密码，包含数字、字母"))
+        callback(new Error('请入 >=6 并且 <= 20 位的密码，包含数字、字母'))
       } else {
         callback()
       }
@@ -88,24 +88,24 @@ export default {
     // 检验确认密码
     const validate_passwords_rules = (rule, value, callback) => {
       let password_value = this.form.password
-      if (this.currentTab === "login") {
+      if (this.currentTab === 'login') {
         callback()
         return false
       }
-      if (value === "") {
-        callback(new Error("请输入确认密码"))
+      if (value === '') {
+        callback(new Error('请输入确认密码'))
       } else if (password_value !== value) {
-        callback(new Error("两次密码不一致，请重新输入"))
+        callback(new Error('两次密码不一致，请重新输入'))
       } else {
         callback()
       }
     }
     // 检验验证码
     const validate_code_rules = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入验证码"))
+      if (value === '') {
+        callback(new Error('请输入验证码'))
       } else if (value.length !== 6) {
-        callback(new Error("请输入长度为6位数的验证码"))
+        callback(new Error('请输入长度为6位数的验证码'))
       } else {
         callback()
       }
@@ -113,14 +113,14 @@ export default {
     return {
       tabIndex: 0,
       tabList: [
-        { type: "login", label: "登录" },
-        { type: "register", label: "注册" }
+        { type: 'login', label: '登录' },
+        { type: 'register', label: '注册' }
       ],
       form: {
-        name: "",
-        password: "",
-        passwords: "",
-        code: ""
+        name: '',
+        password: '',
+        passwords: '',
+        code: ''
       },
       code_text: '获取验证码',
       code_disabled: false,
@@ -128,32 +128,24 @@ export default {
       timer: null,
       submit_disabled: true,
       form_rules: {
-        name: [
-          { validator: validate_name_rules, trigger: 'blur' }
-        ],
-        password: [
-          { validator: validate_password_rules, trigger: 'blur' }
-        ],
-        passwords: [
-          { validator: validate_passwords_rules, trigger: 'blur' }
-        ],
-        code: [
-          { validator: validate_code_rules, trigger: 'blur' }
-        ]
+        name: [{ validator: validate_name_rules, trigger: 'blur' }],
+        password: [{ validator: validate_password_rules, trigger: 'blur' }],
+        passwords: [{ validator: validate_passwords_rules, trigger: 'blur' }],
+        code: [{ validator: validate_code_rules, trigger: 'blur' }]
       }
     }
   },
   computed: {
-    currentTab () {
+    currentTab() {
       return this.tabList[this.tabIndex].type
     }
   },
   methods: {
-    toggleHigh (type) {
+    toggleHigh(type) {
       this.tabIndex = type
     },
     // 倒计时
-    countdown (number) {
+    countdown(number) {
       let second = number
       // 禁用按钮
       this.code_disabled = true
@@ -171,15 +163,15 @@ export default {
       }, 1000)
     },
     // 获取验证码方法
-    getCodeFn () {
-      if (this.form.name === "") {
-        this.$message.error("邮箱不能为空！！")
+    getCodeFn() {
+      if (this.form.name === '') {
+        this.$message.error('邮箱不能为空！！')
         return false
       }
       if (!validate_email(this.form.name)) {
         this.$message({
-          message: "邮箱格式有误，请重新输入！！",
-          type: "error"
+          message: '邮箱格式有误，请重新输入！！',
+          type: 'error'
         })
         return false
       }
@@ -187,28 +179,30 @@ export default {
         username: this.form.name,
         module: this.currentTab
       }
-      this.code_text = "发送中"
+      this.code_text = '发送中'
       this.code_loading = true
-      GetCode(requestData).then(response => {
-        this.$message({
-          message: response.message,
-          type: "success"
+      GetCode(requestData)
+        .then(response => {
+          this.$message({
+            message: response.message,
+            type: 'success'
+          })
+          // 激活按钮
+          this.submit_disabled = false
+          // 清除加载
+          this.code_loading = false
+          // 执行倒计时方法
+          this.countdown(60)
         })
-        // 激活按钮
-        this.submit_disabled = false
-        // 清除加载
-        this.code_loading = false
-        // 执行倒计时方法
-        countdown(60)
-      }).catch(error => {
-        this.code_text = "重新获取"
-        this.code_loading = false
-      })
+        .catch(() => {
+          this.code_text = '重新获取'
+          this.code_loading = false
+        })
     },
 
     // 提交表单
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         // 表单验证通过
         if (valid) {
           // 三元运算
@@ -219,58 +213,65 @@ export default {
       })
     },
     // 登录
-    login () {
+    login() {
       const requestData = {
         username: this.form.name,
         password: sha1(this.form.password),
         code: this.form.code
       }
-      this.$store.dispatch('app/loginAction', requestData).then(response => {
-        this.$message({
-          message: response.message,
-          type: "success"
+      this.$store
+        .dispatch('app/loginAction', requestData)
+        .then(response => {
+          this.$message({
+            message: response.message,
+            type: 'success'
+          })
+          // 页面跳转
+          this.$router.push({ name: 'ConsoleIndex' })
         })
-        // 页面跳转
-        this.$router.push({ name: 'ConsoleIndex' })
-      }).catch(error => {
-        // 重置数据
-        reset()
-      })
+        .catch(() => {
+          // 重置数据
+          this.reset()
+        })
     },
     // 注册
-    register () {
+    register() {
       const requestData = {
         username: this.form.name,
         password: sha1(this.form.password),
         code: this.form.code
       }
-      Register(requestData).then(response => {
-        this.$message({
-          message: response.message,
-          type: "success"
+      Register(requestData)
+        .then(response => {
+          this.$message({
+            message: response.message,
+            type: 'success'
+          })
+          // 重置数据
+          this.reset()
         })
-        // 重置数据
-        reset()
-      }).catch(error => {
-        // 重置数据
-        reset()
-      })
+        .catch(() => {
+          // 重置数据
+          this.reset()
+        })
     },
 
     // 重置
-    reset () {
+    reset() {
       // 重置表单
-      this.$refs["form"].resetFields()
+      this.$refs['form'].resetFields()
       // 修改模块
-      this.currentTab = "login"
+      this.currentTab = 'login'
       // 判断定时器是否存在，存在则清除
-      if (this.timer) { clearInterval(this.timer) }
+      if (this.timer) {
+        clearInterval(this.timer)
+      }
       // 还原获取验码按钮状态
       this.code_disabled = false
-      this.code_text = "获取验证码"
+      this.code_text = '获取验证码'
     }
-  },
-};
+  }
+}
 </script>
 <style lang="scss" scoped>
 #login {

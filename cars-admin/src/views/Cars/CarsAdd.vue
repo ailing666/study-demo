@@ -62,135 +62,134 @@
   </CarForm>
 </template>
 <script>
-
-import CarForm from "@c/CarForm"
-import { GetCarsBrand, GetParking } from "@/api/common"
-import { CarsAdd, CarsEdit, CarsDetailed } from "@/api/cars"
+import CarForm from '@c/CarForm'
+import { GetCarsBrand, GetParking } from '@/api/common'
+import { CarsAdd, CarsEdit, CarsDetailed } from '@/api/cars'
 
 export default {
-  name: "CarsAdd",
+  name: 'CarsAdd',
   components: { CarForm },
-  data () {
+  data() {
     return {
       id: this.$route.query.id,
       carsAttrList: [],
       formConfig: [
         {
-          type: "select",
-          label: "车辆品牌",
-          placeholder: "请选择车辆品牌",
-          prop: "carsBrandId",
-          select_vlaue: "id",   // 自有的私有属性
-          select_label: "nameCh",
+          type: 'select',
+          label: '车辆品牌',
+          placeholder: '请选择车辆品牌',
+          prop: 'carsBrandId',
+          select_vlaue: 'id', // 自有的私有属性
+          select_label: 'nameCh',
           required: true,
           options: []
         },
         {
-          type: "select",
-          label: "停车场",
-          placeholder: "请选择停车场",
-          select_vlaue: "id",   // 自有的私有属性
-          select_label: "parkingName",
-          prop: "parkingId",
+          type: 'select',
+          label: '停车场',
+          placeholder: '请选择停车场',
+          select_vlaue: 'id', // 自有的私有属性
+          select_label: 'parkingName',
+          prop: 'parkingId',
           required: true,
           options: []
         },
         {
-          type: "input",
-          label: "车辆型号",
-          placeholder: "请输入车辆型号",
-          prop: "carsMode",
-          required: true,
+          type: 'input',
+          label: '车辆型号',
+          placeholder: '请输入车辆型号',
+          prop: 'carsMode',
+          required: true
         },
         {
-          type: "input",
-          label: "车牌号",
-          placeholder: "请输入车牌号",
-          prop: "carsNumber",
-          required: true,
+          type: 'input',
+          label: '车牌号',
+          placeholder: '请输入车牌号',
+          prop: 'carsNumber',
+          required: true
         },
         {
-          type: "input",
-          label: "车架号",
-          placeholder: "请输入车架号",
-          prop: "carsFrameNumber",
-          required: true,
+          type: 'input',
+          label: '车架号',
+          placeholder: '请输入车架号',
+          prop: 'carsFrameNumber',
+          required: true
         },
         {
-          type: "input",
-          label: "发动机号",
-          placeholder: "请输入发动机号",
-          prop: "engineNumber",
-          required: true,
+          type: 'input',
+          label: '发动机号',
+          placeholder: '请输入发动机号',
+          prop: 'engineNumber',
+          required: true
         },
         {
-          type: "radio",
-          label: "年检",
-          placeholder: "请选择年检",
-          prop: "yearCheck",
+          type: 'radio',
+          label: '年检',
+          placeholder: '请选择年检',
+          prop: 'yearCheck',
           options: this.$store.state.config.year_check,
-          required: true,
+          required: true
         },
         {
-          type: "slot",
-          slotName: "maintain",
-          prop: "maintainDate",
-          label: "保养日期",
-          required: true,
+          type: 'slot',
+          slotName: 'maintain',
+          prop: 'maintainDate',
+          label: '保养日期',
+          required: true
         },
         {
-          type: "radio",
-          label: "档位",
-          placeholder: "请选择档位",
-          prop: "gear",
+          type: 'radio',
+          label: '档位',
+          placeholder: '请选择档位',
+          prop: 'gear',
           options: this.$store.state.config.gear,
-          required: true,
+          required: true
         },
         {
-          type: "slot",
-          slotName: "energy",
-          prop: "energyType",
-          label: "能源类型",
-          required: true,
+          type: 'slot',
+          slotName: 'energy',
+          prop: 'energyType',
+          label: '能源类型',
+          required: true
         },
         {
-          type: "disabled",
-          label: "禁启用",
-          placeholder: "请选择禁启用",
-          prop: "status",
-          required: true,
+          type: 'disabled',
+          label: '禁启用',
+          placeholder: '请选择禁启用',
+          prop: 'status',
+          required: true
         },
         {
-          type: "slot",
-          slotName: "carsAttr",
-          prop: "carsAttr",
-          label: "车辆属性",
+          type: 'slot',
+          slotName: 'carsAttr',
+          prop: 'carsAttr',
+          label: '车辆属性'
         },
         {
-          type: "editor",
-          prop: "content",
-          label: "车辆描述"
-        },
+          type: 'editor',
+          prop: 'content',
+          label: '车辆描述'
+        }
       ],
       formButton: [
-        { label: "确定", key: "submit", type: "danger", handler: () => this.formSubmit() },
-        { label: "重置", key: "reset", handler: () => this.resetForm() },
+        { label: '确定', key: 'submit', type: 'danger', handler: () => this.formSubmit() },
+        { label: '重置', key: 'reset', handler: () => this.resetForm() }
       ],
       formData: {
-        parkingId: "",
-        carsBrandId: "",
-        carsMode: "",
-        carsNumber: "",
-        carsFrameNumber: "",
-        engineNumber: "",
+        parkingId: '',
+        carsBrandId: '',
+        carsMode: '',
+        carsNumber: '',
+        carsFrameNumber: '',
+        engineNumber: '',
         yearCheck: false,
         gear: 1,
         energyType: 1,
         electric: 0,
         oil: 0,
         carsAttr: {},
-        content: "",
-        maintainDate: "",
+        content: '',
+        maintainDate: '',
         status: true
       },
       // 车辆品牌列表
@@ -198,16 +197,16 @@ export default {
       formLoading: false
     }
   },
-  beforeMount () {
+  beforeMount() {
     this.getCarsBrandList()
     this.getParkingList()
   },
-  mounted () {
+  mounted() {
     this.getCarsDetailed()
   },
   methods: {
     // 获取详情
-    getCarsDetailed () {
+    getCarsDetailed() {
       // id不存在返回
       if (!this.id) return
       CarsDetailed({ id: this.id }).then(res => {
@@ -218,7 +217,7 @@ export default {
       })
     },
     // 还原carsAttrList
-    setCarsAttrList (value) {
+    setCarsAttrList(value) {
       const carsAttr = JSON.parse(value)
       const arr = []
       const json = {}
@@ -231,53 +230,57 @@ export default {
     },
 
     // 提交表单
-    formSubmit () {
+    formSubmit() {
       this.setCarsAttr()
       this.id ? this.editCar() : this.addCar()
     },
 
     // 编辑车辆
-    editCar () {
+    editCar() {
       let requestData = JSON.parse(JSON.stringify(this.formData))
       requestData.id = this.id
       this.formLoading = true
-      CarsEdit(requestData).then(res => {
-        // 重置表单
-        this.resetForm()
-        this.formLoading = false
-        this.$message({
-          message: res.message,
-          type: 'success'
+      CarsEdit(requestData)
+        .then(res => {
+          // 重置表单
+          this.resetForm()
+          this.formLoading = false
+          this.$message({
+            message: res.message,
+            type: 'success'
+          })
+          this.$router.push({
+            name: 'CarsIndex'
+          })
         })
-        this.$router.push({
-          name: "CarsIndex"
+        .catch(() => {
+          this.formLoading = false
         })
-      }).catch(() => {
-        this.formLoading = false
-      })
     },
 
     // 添加车辆
-    addCar () {
+    addCar() {
       this.formLoading = true
-      CarsAdd(this.formData).then(res => {
-        // 重置表单
-        this.resetForm()
-        this.formLoading = false
-        this.$message({
-          message: res.message,
-          type: 'success'
+      CarsAdd(this.formData)
+        .then(res => {
+          // 重置表单
+          this.resetForm()
+          this.formLoading = false
+          this.$message({
+            message: res.message,
+            type: 'success'
+          })
+          this.$router.push({
+            name: 'CarsIndex'
+          })
         })
-        this.$router.push({
-          name: "CarsIndex"
+        .catch(() => {
+          this.formLoading = false
         })
-      }).catch(() => {
-        this.formLoading = false
-      })
     },
 
     // 重置表单
-    resetForm () {
+    resetForm() {
       // form表单重置
       this.$refs.carForm.reset()
       // 车辆属性
@@ -286,53 +289,51 @@ export default {
     },
 
     // 获取车辆品牌
-    async getCarsBrandList () {
+    async getCarsBrandList() {
       const res = await GetCarsBrand()
       const data = res.data.data
       if (data && data.length > 0) {
-        const carsBrand = this.formConfig.filter(item => item.prop == "carsBrandId")
+        const carsBrand = this.formConfig.filter(item => item.prop == 'carsBrandId')
         // 将品牌列表赋值给对应的options
         carsBrand.length > 0 && (carsBrand[0].options = data)
       }
     },
 
     // 获取停车场
-    async getParkingList () {
+    async getParkingList() {
       const res = await GetParking()
       const data = res.data.data
       if (data && data.length > 0) {
-        const parking = this.formConfig.filter(item => item.prop == "parkingId")
+        const parking = this.formConfig.filter(item => item.prop == 'parkingId')
         // 将停车场列表赋值给对应的options
         parking.length > 0 && (parking[0].options = data)
       }
     },
 
     // 设置carsAttr格式
-    setCarsAttr () {
+    setCarsAttr() {
       const obj = {}
       this.carsAttrList.forEach(item => item.attrKey && (obj[item.attrKey] = item.attrValue))
       this.formData.carsAttr = JSON.stringify(obj)
     },
 
     // 添加车辆属性
-    addCarsAttr () {
+    addCarsAttr() {
       this.carsAttrList.push({ attrKey: '', attrValue: '' })
     },
 
     // 删除属性
-    delCarsAttr (key) {
+    delCarsAttr(key) {
       this.carsAttrList = this.carsAttrList.filter(item => item.attrKey !== key)
     },
 
     // 改变能源类型清空值
-    changeEnergyType () {
+    changeEnergyType() {
       this.formData.electric = 0
       this.formData.oil = 0
-    },
-
-
+    }
   }
-};
+}
 </script>
 <style lang="scss">
 .progress-bar-wrap {

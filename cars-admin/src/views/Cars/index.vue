@@ -5,10 +5,7 @@
         <el-col :span="22">
           <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="区域">
-              <AreaCascader
-                ref="areaCascader"
-                :cityAreaValue.sync="form.area"
-              />
+              <AreaCascader ref="areaCascader" :cityAreaValue.sync="form.area" />
             </el-form-item>
             <el-form-item label="类型">
               <el-select v-model="form.type" placeholder="活动区域">
@@ -31,20 +28,13 @@
               </el-select>
             </el-form-item>
             <el-form-item label="关键字">
-              <el-select
-                v-model="keyWord"
-                placeholder="请选择"
-                style="width:110px"
-              >
+              <el-select v-model="keyWord" placeholder="请选择" style="width:110px">
                 <el-option label="停车场名称" value="parkingName"></el-option>
                 <el-option label="详细区域" value="address"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input
-                v-model="keyValue"
-                placeholder="请输入关键字"
-              ></el-input>
+              <el-input v-model="keyValue" placeholder="请输入关键字"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="danger">搜索</el-button>
@@ -74,9 +64,7 @@
       </template>
       <!-- 操作 -->
       <template v-slot:operation="slotData">
-        <el-button type="danger" size="small" @click="editCars(slotData.data)"
-          >编辑</el-button
-        >
+        <el-button type="danger" size="small" @click="editCars(slotData.data)">编辑</el-button>
       </template>
     </TableData>
   </div>
@@ -89,7 +77,7 @@ import TableData from '@/components/TableData.vue'
 export default {
   name: 'CarIndex',
   components: { AreaCascader, TableData },
-  data () {
+  data() {
     return {
       form: {
         area: '',
@@ -160,7 +148,7 @@ export default {
   },
   methods: {
     // 修改状态
-    switchStastus (data) {
+    switchStastus(data) {
       let requestData = {
         id: data.id,
         status: data.status

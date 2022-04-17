@@ -14,7 +14,7 @@
 import { GetCity } from '@/api/common'
 export default {
   name: 'areaCascader',
-  data () {
+  data() {
     return {
       value: '',
       // 请求到的区域对象
@@ -35,8 +35,8 @@ export default {
           // 定义区域的Json
           const areaJson = {
             0: { type: 'province' },
-            1: { type: 'city', keyName: 'province', },
-            2: { type: 'area', keyName: 'city' },
+            1: { type: 'city', keyName: 'province' },
+            2: { type: 'area', keyName: 'city' }
           }
           const { type, keyName } = areaJson[level]
 
@@ -73,34 +73,32 @@ export default {
   },
   methods: {
     // 初始化默认值
-    initDefault (value) {
+    initDefault(value) {
       if (value) {
         this.initValueFlag = true
-        this.initValue = value.split(",").join(" / ")
+        this.initValue = value.split(',').join(' / ')
       }
     },
     // 级联选择器改变时触发
-    areaChange (v) {
-      this.$emit("update:cityAreaValue", v.join())
+    areaChange(v) {
+      this.$emit('update:cityAreaValue', v.join())
       // 最后一个节点
       const lastNode = this.areaData.area.find(item => item.value === v[v.length - 1])
       this.getAddress(lastNode)
     },
 
     // 获取选中的中文地址
-    getAddress (node) {
+    getAddress(node) {
       this.address.push(node.label)
       if (this.address.length === 3) {
         this.$emit('getAddress', this.address.join(''))
         this.address = []
       }
     },
-    clear () {
-      this.value = ""
+    clear() {
+      this.value = ''
     }
   }
 }
-
 </script>
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>
