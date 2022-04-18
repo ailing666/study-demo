@@ -29,6 +29,8 @@
       <el-radio-group v-if="item.type === 'disabled'" v-model="formData[item.prop]">
         <el-radio v-for="radio in radio_disabled" :label="radio.value" :key="radio.value">{{ radio.label }}</el-radio>
       </el-radio-group>
+      <!-- 图片上传 -->
+      <UpLoad v-else-if="item.type === 'upLoad'" :imgUrl="formData[item.prop]" :value.sync="formData[item.prop]" />
       <!-- 具名插槽，slotName要对应 ，data就是整行的数据-->
       <slot v-else-if="item.type === 'slot'" :name="item.slotName"></slot>
       <!-- 文本编辑器 -->
@@ -52,10 +54,11 @@
 </template>
 
 <script>
+import UpLoad from '@/components/upLoad'
 import Wangeditor from '@/components/CarWangeditor.vue'
 export default {
   name: 'CarForm',
-  components: { Wangeditor },
+  components: { Wangeditor, UpLoad },
   props: {
     formConfig: {
       type: Array,

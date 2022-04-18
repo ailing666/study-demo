@@ -46,6 +46,11 @@ export default {
             type: 'image'
           },
           {
+            label: '车辆图片',
+            prop: 'carsImg',
+            type: 'image'
+          },
+          {
             label: '年检',
             prop: 'yearCheck',
             type: 'function',

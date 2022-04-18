@@ -43,7 +43,7 @@
           :width="item.width"
         >
           <template slot-scope="scope">
-            <img :src="scope.row.imgUrl" :width="item.imgWidth || 50" :height="item.imgHeight || 50" alt />
+            <img :src="scope.row[item.prop]" :width="item.imgWidth || 50" :height="item.imgHeight || 50" alt />
           </template>
         </el-table-column>
         <!-- 按钮 -->

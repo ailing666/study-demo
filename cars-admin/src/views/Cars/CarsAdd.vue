@@ -160,6 +160,11 @@ export default {
           required: true
         },
         {
+          type: 'upLoad',
+          prop: 'carsImg',
+          label: '图片上传'
+        },
+        {
           type: 'slot',
           slotName: 'carsAttr',
           prop: 'carsAttr',
@@ -186,6 +191,7 @@ export default {
         gear: 1,
         energyType: 1,
         electric: 0,
+        carsImg: '',
         oil: 0,
         carsAttr: {},
         content: '',
@@ -285,7 +291,6 @@ export default {
       this.$refs.carForm.reset()
       // 车辆属性
       this.carsAttrList = []
-      console.log(this.formData)
     },
 
     // 获取车辆品牌
