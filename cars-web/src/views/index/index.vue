@@ -6,6 +6,8 @@
     <div id="children-view" :class="{'show-user' : isShow}">
       <router-view />
     </div>
+    <!-- login -->
+    <Login></Login>
   </div>
 </template>
 
@@ -13,9 +15,10 @@
 import AMap from "@/views/aMap"
 import Car from "@/views/car"
 import Navbar from '@/components/NavBar'
+import Login from './Login.vue';
 export default {
   name: "Index",
-  components: { AMap, Car, Navbar },
+  components: { AMap, Car, Navbar,Login },
   data () {
     return {}
   },
