@@ -32,7 +32,7 @@
 <script>
 import sha1 from "js-sha1";
 import { validate_email, validate_password } from "@/utils/validate";
-import { GetCode, Register, Login } from "@/api/login";
+import { GetCode,  Login } from "@/api/login";
 import { getToken, setToken, setUsername } from "@/utils/cookies";
 export default {
   name: "Login",
@@ -103,8 +103,7 @@ export default {
         }
   },
   beforeMount(){
-      console.log('getToken(): ', getToken());
-      this.show = getToken() ?  true:false
+      this.show = getToken() ? false : true
   },
   methods: {
     // 倒计时
