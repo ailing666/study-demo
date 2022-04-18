@@ -19,7 +19,26 @@
           :strokeColor="item.color"
           :strokeOpacity="item.strokeOpacity"
           :strokeWeight="item.strokeWeight"
-        ></el-amap-circle
+        ></el-amap-circle>
+        <!-- 覆盖物 - 停车场 -->
+        <el-amap-marker
+          v-for="(item, index) in parking"
+          :key="item.id"
+          :content="item.content"
+          :offset="item.offset"
+          :position="item.position"
+          :vid="index"
+        ></el-amap-marker>
+        <!--覆盖物 - 停车场 - 可停放数量-->
+        <el-amap-marker
+          v-for="(item, index) in parking"
+          :extData="item"
+          :key="item.id + index"
+          :content="item.text"
+          :offset="item.offsetText"
+          :position="item.position"
+          :vid="index"
+        ></el-amap-marker
       ></el-amap>
     </div>
   </div>
@@ -31,6 +50,12 @@ import { selfLocation } from './location'
 let amapManager = new AMapManager()
 export default {
   name: 'AMap',
+  props: {
+    parking: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
       amapManager,
@@ -67,7 +92,11 @@ export default {
     initMap () {
       // 获取地图实例储存起来
       this.map = amapManager.getMap()
-      this.setSelfLocation(this.map)
+      this.map.on('complete', () => {
+        // 地图渲染完成回调
+        this.$emit('mapLoad')
+        this.setSelfLocation(this.map)
+      })
     },
     // 设置自身定位
     setSelfLocation (map) {
