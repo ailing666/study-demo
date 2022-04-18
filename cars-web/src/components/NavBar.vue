@@ -11,7 +11,7 @@
         <a href="javascript: void(0);" class="select-car-btn">选择车辆</a>
       </li>
       <li>
-        <i class="icon icon-w-44 icon-location"></i>
+        <i class="icon icon-w-44 icon-location" @click="selfLocation"></i>
       </li>
       <li>
         <i class="icon icon-w-44 icon-user" @click="toUser"></i>
@@ -21,11 +21,16 @@
 </template>
 <script>
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   methods: {
+    // 跳转到user
     toUser () {
       this.$router.push(this.$route.name === 'Index' ? '/user' : '/')
     },
+    // 获取自身定位
+    selfLocation () {
+      this.$store.commit('location/SELE_LOCATION')
+    }
   }
 }
 </script>

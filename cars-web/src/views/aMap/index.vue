@@ -27,6 +27,7 @@
 
 <script>
 import { AMapManager, lazyAMapApiLoaderInstance } from 'vue-amap'
+import { selfLocation } from './location'
 let amapManager = new AMapManager()
 export default {
   name: 'AMap',
@@ -37,7 +38,7 @@ export default {
       map: null,
       // 缩放，值范围[3-18]
       zoom: 18,
-      center: [],
+      center: [114.085947, 22.547],
       events: {
         init: () => {
           lazyAMapApiLoaderInstance.load().then(() => {
@@ -56,27 +57,29 @@ export default {
       ]
     }
   },
+  watch: {
+    '$store.state.location.selfLocation' () {
+      this.setSelfLocation(this.map)
+    }
+  },
   methods: {
+    // 初始化地图
     initMap () {
       // 获取地图实例储存起来
       this.map = amapManager.getMap()
-      var geolocation = new AMap.Geolocation({
-        enableHighAccuracy: true, //是否使用高精度定位，默认:true
-        timeout: 10000, //超过10秒后停止定位，默认：5s
-        buttonPosition: 'RB', //定位按钮的停靠位置
-        buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-        zoomToAccuracy: true, //定位成功后是否自动调整地图视野到定位点
-        showCircle: false,
-        markerOptions: { content: ' ' }
+      this.setSelfLocation(this.map)
+    },
+    // 设置自身定位
+    setSelfLocation (map) {
+      selfLocation({
+        map,
+        complete: val => this.onComplete(val)
       })
-      this.map.addControl(geolocation)
-      geolocation.getCurrentPosition((status, result) => {
-        if (status == 'complete') {
-          const lat = result.position.lat
-          const lng = result.position.lng
-          this.circleData[0].center = [lng, lat]
-        }
-      })
+    },
+    // 获取定位成功回调
+    onComplete (data) {
+      const { lng, lat } = data.position
+      this.circleData[0].center = [lng, lat]
     }
   }
 }
