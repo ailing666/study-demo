@@ -50,7 +50,7 @@ export default {
         // 覆盖文字偏移量
         item.offsetText = [-30, -55]
         // 覆盖文字样式
-        item.text = `<div style="width: 60px; background-color:red;font-size: 20px; color: #fff; text-align: center;line-height: 50px; height: 60px;">${item.carsNumber}</div>`
+        item.text = `<div class="parking-info">${item.carsNumber}</div>`
         // 事件
         item.events = {
           // 点击触发 walking

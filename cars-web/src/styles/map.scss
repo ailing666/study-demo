@@ -1,4 +1,4 @@
-.parkingInfoWrap {
+.parking-info-wrap {
   color: white;
   border-radius: 100px;
   padding: 0 10px;
@@ -9,16 +9,20 @@
   width: 160px;
 }
 
-.parkingInfoNumber {
+.parking-info-number {
   font-size: 16px;
   margin-right: 5px;
 }
 
-.parkingInfoLine {
+.parking-info-line {
   display: inline-block;
   height: 15px;
   width: 1px;
   background-color: white;
   opacity: 0.3;
   margin: 0 10px -3px;
+}
+
+.parking-info{
+  width: 60px; font-size: 20px; color: #fff; text-align: center;line-height: 50px; height: 60px;
 }

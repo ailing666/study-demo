@@ -149,9 +149,9 @@ export default {
       this.parkingInfo = [
         {
           position: data.lnglat.split(','),
-          text: `<div class="parkingInfoWrap" >
-                    <span class="parkingInfoNumber">${data.carsNumber}</span>辆车
-                    <span class="parkingInfoLine"></span>距离您${val.routes[0].distance}米
+          text: `<div class="parking-info-wrap" >
+                    <span class="parking-info-number">${data.carsNumber}</span>辆车
+                    <span class="parking-info-line"></span>距离您${val.routes[0].distance}米
                   </div>`,
           offset: [-15, -54]
         }
