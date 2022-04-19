@@ -65,6 +65,8 @@ export default {
       const data = e.target.getExtData()
       // 调用map组件的 handlerWalking 方法
       this.$refs.map.handlerWalking(data)
+      // 往map组件传值
+      this.$refs.map.parkingData = data
     }
   }
 }
