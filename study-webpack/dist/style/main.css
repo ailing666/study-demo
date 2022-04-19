@@ -1,11 +1,17 @@
 body {
-  background-color: #095;
+  background-color: #bdf;
 }
+
 div {
   width: 330px;
   height: 330px;
   background-color: pink;
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
+  opacity: 0.8;
+}
+
+h2 {
+  color: red;
 }
 
