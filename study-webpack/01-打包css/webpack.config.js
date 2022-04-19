@@ -18,7 +18,11 @@ module.exports = {
         // 正则表达式：匹配以 .css 结尾的文件
         test: /\.css$/i,
         // use 中 loader 的加载顺序：先下后上，先右后左，也就是所先执行 css-loader 再执行 style-loader
-        use: ['style-loader', 'css-loader']
+        use: [
+          // 将 JS 中的样式，挂载到 <style> 标签中
+          'style-loader',
+          // css-loader 按照 CommonJS 规范，将样式文件，输出到 JS 中
+          'css-loader']
       }
     ]
   }
