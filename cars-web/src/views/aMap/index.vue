@@ -38,6 +38,17 @@
           :offset="item.offsetText"
           :position="item.position"
           :vid="index"
+          :events="item.events"
+        ></el-amap-marker>
+        <!--覆盖物 - 停车场 - 距离信息-->
+        <el-amap-marker
+          v-for="(item, index) in parkingInfo"
+          zIndex="10000"
+          :key="item.id"
+          :content="item.text"
+          :offset="item.offset"
+          :position="item.position"
+          :vid="index"
         ></el-amap-marker
       ></el-amap>
     </div>
@@ -47,6 +58,7 @@
 <script>
 import { AMapManager, lazyAMapApiLoaderInstance } from 'vue-amap'
 import { selfLocation } from './location'
+import { getWalking } from '@/views/aMap/walking.js'
 let amapManager = new AMapManager()
 export default {
   name: 'AMap',
@@ -63,6 +75,8 @@ export default {
       map: null,
       // 缩放，值范围[3-18]
       zoom: 18,
+      selfLng: '',
+      selfLat: '',
       center: [114.085947, 22.547],
       events: {
         init: () => {
@@ -79,7 +93,8 @@ export default {
           strokeOpacity: 0.2,
           strokeWeight: 30
         }
-      ]
+      ],
+      parkingInfo: []
     }
   },
   watch: {
@@ -108,7 +123,32 @@ export default {
     // 获取定位成功回调
     onComplete (data) {
       const { lng, lat } = data.position
+      this.selfLng = lng + ''
+      this.selfLat = lat + ''
       this.circleData[0].center = [lng, lat]
+    },
+    // 父组件调用方法
+    handlerWalking (data) {
+      // 步行路线规划
+      getWalking({
+        map: this.map,
+        startPosition: [this.selfLng, this.selfLat],
+        endPosition: data.lnglat.split(','),
+        complete: val => this.handlerWalkingComlete(val, data)
+      })
+    },
+    // 路径规划成功执行的回调
+    handlerWalkingComlete (val, data) {
+      this.parkingInfo = [
+        {
+          position: data.lnglat.split(','),
+          text: `<div style='color: white; border-radius: 100px; padding: 0 10px; font-size: 12px; background-color: #34393f; line-height: 44px; height: 47px; width: 160px;'>
+                    <span style="font-size: 16px; margin-right: 5px;">${data.carsNumber}</span>
+                    辆车<span style="display: inline-block; height: 15px; width: 1px; background-color: white; opacity: 0.3; margin: 0 10px -3px;"></span>距离您${val.routes[0].distance}米
+                  </div>`,
+          offset: [-15, -54]
+        }
+      ]
     }
   }
 }
