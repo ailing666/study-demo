@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <Car /> -->
+    <Car ref="car" />
     <AMap ref="map" :parking="parking" @mapLoad="mapLoad" />
     <Navbar />
     <div id="children-view" :class="{ 'show-user': isShow }">
@@ -54,19 +54,21 @@ export default {
         // 事件
         item.events = {
           // 点击触发 walking
-          click: e => this.walking(e)
+          click: e => {
+            this.walking(e)
+            // 调用子组件方法获取车辆列表
+            this.$refs.car.getCarsList(e.target.getExtData())
+          }
         }
       })
       this.parking = data
     },
-    // 点击
+    // 获取步行路径
     walking (e) {
       // data是传过去的所有数据
       const data = e.target.getExtData()
       // 调用map组件的 handlerWalking 方法
       this.$refs.map.handlerWalking(data)
-      // 往map组件传值
-      this.$refs.map.parkingData = data
     }
   }
 }

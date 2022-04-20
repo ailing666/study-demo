@@ -4,15 +4,18 @@
     <section class="cars-item">
       <!-- 头部 -->
       <header>
-        <h4 class="car-logo fl fs-16">Mustang 2019款</h4>
+        <h4 class="car-logo fl fs-16">
+          <img :src="carInfo.imgUrl" />
+          <span class="name">{{ carInfo.carsMode }}</span>
+        </h4>
         <p class="car-dec fr opacity-4">新能源汽车&nbsp; &nbsp;5座</p>
       </header>
       <!-- 中间内容 -->
       <main>
         <div class="car-info">
-          <h5>粤 B745N8</h5>
+          <h5>{{ carInfo.carsNumber }}</h5>
           <section class="df">
-            <ul class="car-electric active-8">
+            <ul class="car-electric" :class="carInfo.oil | electricNumber">
               <li></li>
               <li></li>
               <li></li>
@@ -26,35 +29,38 @@
             </ul>
             <div class="car-mileage">
               <span>约</span>
-              <strong class="mileage-number">600</strong>
+              <strong class="mileage-number">{{ carInfo.countKm }}</strong>
               <span>KM</span>
             </div>
           </section>
         </div>
-        <img src="../../../assets/images/pic001.jpg" alt />
+        <img class="car-img" :src="carInfo.carsImg" alt />
       </main>
       <!-- 底部 -->
       <footer>
-        <a href="#" class="parking-link">某某停车场</a>
+        <a href="#" class="parking-link">{{ carInfo.parkingName }}</a>
       </footer>
     </section>
     <!-- 车辆详情 -->
     <section class="cars-item cars-detailed" :style="'height:' + height">
       <div>
-        <h4 class="cars-detailed-parking">某某停车场</h4>
+        <h4 class="cars-detailed-parking">{{ carInfo.parkingName }}</h4>
         <i class="close"></i>
       </div>
       <header>
-        <h4 class="car-logo fl fs-16">Mustang 2019款</h4>
+        <h4 class="car-logo fl fs-16">
+          <img :src="carInfo.imgUrl" />
+          <span class="name">{{ carInfo.carsMode }}</span>
+        </h4>
         <p class="car-dec fr opacity-4">新能源汽车&nbsp; &nbsp;5座</p>
       </header>
       <img src="../../../assets/images/pic001.jpg" width="100%" alt />
       <div class="car-info clearfix">
-        <h5 class="fl" style="fontSize:24px">粤 B745N8</h5>
+        <h5 class="fl" style="fontSize:24px">{{ carInfo.carsNumber }}</h5>
         <section class="df fr">
           <div class="car-mileage">
             <span>约</span>
-            <strong class="mileage-number">600</strong>
+            <strong class="mileage-number">{{ carInfo.countKm }}</strong>
             <span>KM</span>
           </div>
         </section>
@@ -99,18 +105,24 @@ export default {
   props: {
     height: {
       type: String,
-      default: "257px"
+      default: '257px'
+    },
+    carInfo: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
-    return {
+    return {}
+  },
+  filters: {
+    electricNumber (val) {
+      return `active-${Math.round(val / 10)}`
     }
   },
   methods: {}
 }
-
 </script>
-<style lang='scss' scoped>
-@import "./index.scss";
+<style lang="scss" scoped>
+@import './index.scss';
 </style>
-

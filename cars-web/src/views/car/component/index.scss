@@ -14,8 +14,13 @@
     line-height: 48px;
     
     .car-logo {
-      padding-left: 80px;
-      background: url("../../../assets/images/cars-logo.png") no-repeat left center;
+      img {
+        display: inline-block;
+        height: 34px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+    .name { font-size: 16px; }
     }
   }
 
@@ -25,8 +30,9 @@
     justify-content: space-between;
     height: 130px;
 
-    img {
+    .car-img {
       height: 120px;
+      width: 250px;
     }
 
     .car-electric {
@@ -106,6 +112,7 @@
 }
 
 .cars-detailed{
+  display: none;
   position: absolute;
   left: 0;
   right: 0;
