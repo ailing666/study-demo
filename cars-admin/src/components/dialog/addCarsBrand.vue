@@ -40,7 +40,7 @@ export default {
       defult: () => {}
     }
   },
-  data() {
+  data () {
     return {
       // 弹窗显示/关闭标记
       dialogVisible: false,
@@ -59,7 +59,7 @@ export default {
           label: '品牌中文',
           prop: 'nameCh',
           required: true,
-          rules: [{ min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }]
+          rules: [{ min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }]
         },
         { type: 'input', label: '品牌英文', prop: 'nameEn' },
         {
@@ -98,19 +98,19 @@ export default {
     }
   },
   watch: {
-    isVisible(newV) {
+    isVisible (newV) {
       this.dialogVisible = newV
     }
   },
   methods: {
     // 弹窗打开时
-    opened() {
+    opened () {
       this.getBrandLogo()
       this.getDetailed()
     },
 
     // 获取品牌LOGO
-    getBrandLogo() {
+    getBrandLogo () {
       // 存在数据时，不再请求接口
       if (this.logoList.length !== 0) return false
       // 没有数据时
@@ -123,20 +123,20 @@ export default {
     },
 
     // 获取详情
-    getDetailed() {
+    getDetailed () {
       this.formData = this.data
       this.logoCurrent = this.data.imgUrl
       this.formData.imgUrl = this.data.imgUrl
     },
 
     // 表单提交
-    submit() {
+    submit () {
       // 根据是否有id判断是修改还是新增
       this.data.id ? this.edit() : this.add()
     },
 
     // 添加
-    add() {
+    add () {
       this.formData.imgUrl = this.logoCurrent
       BrandAdd(this.formData).then(response => {
         this.$message({
@@ -144,12 +144,12 @@ export default {
           message: response.message
         })
         // 重置表单
-        this.reset('form')
+        this.reset()
       })
     },
 
     // 修改
-    edit() {
+    edit () {
       this.formData.imgUrl = this.logoCurrent
       const requestData = JSON.parse(JSON.stringify(this.formData))
       BrandEdit(requestData).then(response => {
@@ -157,19 +157,20 @@ export default {
           type: 'success',
           message: response.message
         })
-        this.reset('form')
+        this.reset()
       })
     },
 
     // 重置表单
-    reset(formName) {
-      this.$refs[formName].resetFields()
+    reset () {
+      this.$refs.carForm.reset()
       // 清除选中的LOGO
       this.logoCurrent = ''
+      this.close()
     },
 
     // 弹窗关闭
-    close() {
+    close () {
       this.$emit('update:isVisible', false)
     }
   }

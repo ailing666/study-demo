@@ -77,7 +77,7 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
       loading: false,
       // 禁启用数据
@@ -86,18 +86,18 @@ export default {
   },
   watch: {
     formConfig: {
-      handler() {
+      handler () {
         this.initFormData()
       },
       immediate: true
     },
-    formLoading(newV) {
+    formLoading (newV) {
       this.loading = newV
     }
   },
   methods: {
     // 初始化form
-    initFormData() {
+    initFormData () {
       this.formConfig.forEach(item => {
         // 传入必填就添加到rules
         if (item.required) this.rules(item)
@@ -107,7 +107,7 @@ export default {
       })
     },
     // 校验规则
-    rules(item) {
+    rules (item) {
       const typeMsg = {
         input: '请输入',
         radio: '请选择'
@@ -119,9 +119,9 @@ export default {
       item.rules = item.rules ? requiredRule.concat(item.rules) : requiredRule
     },
     // 重置表单
-    reset() {
+    reset () {
       this.$refs.form.resetFields()
-      this.$refs.editor[0].clear()
+      this.$refs.editor && this.$refs.editor[0].clear()
     }
   }
 }

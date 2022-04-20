@@ -116,7 +116,7 @@ export default {
     }
   },
   components: { SearchForm },
-  data() {
+  data () {
     return {
       // table数据
       tableData: [],
@@ -124,6 +124,8 @@ export default {
       tableLoading: false,
       // table的配置
       configData: {
+        // 是否初始化请求
+        isInitRequest: true,
         // 表头
         thead: [],
         // 是否显示前面的多选框
@@ -145,7 +147,7 @@ export default {
   watch: {
     // 监听外部传入的配置对象，默认触发一次，有值就初始化表格
     tableConfig: {
-      handler() {
+      handler () {
         this.initConfig()
       },
       immediate: true
@@ -153,18 +155,18 @@ export default {
   },
   methods: {
     // 初始化表格配置
-    initConfig() {
+    initConfig () {
       // 将组件传入的值覆盖
       for (let key in this.tableConfig) {
-        if (this.tableConfig[key]) {
+        if (this.tableConfig[key] !== '') {
           this.configData[key] = this.tableConfig[key]
         }
       }
-      // 加载表格数据
-      this.loadData()
+      // 是否初始化加载表格数据
+      this.configData.isInitRequest && this.loadData()
     },
     // 搜索
-    search(data) {
+    search (data) {
       const searchData = {
         ...data,
         pageNumber: 1,
@@ -173,7 +175,7 @@ export default {
       this.requestData(searchData)
     },
     // 供外部组件调用的请求方法
-    requestData(params = '') {
+    requestData (params = '') {
       // 如果外部组件传入params就用外部的，否则就用默认的
       if (params) {
         this.configData.requestData = params
@@ -182,7 +184,7 @@ export default {
     },
 
     // 请求表格数据
-    loadData() {
+    loadData () {
       let requestData = {
         url: this.configData.url,
         data: this.configData.requestData
@@ -201,19 +203,19 @@ export default {
     },
 
     // 页容量改变
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.configData.requestData.pageSize = val
       this.loadData()
     },
 
     // 页码改变
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.configData.requestData.pageNumber = val
       this.loadData()
     },
 
     // 删除
-    del(id) {
+    del (id) {
       this.$confirm('确定删除此信息', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -240,7 +242,7 @@ export default {
       })
     },
     // 编辑
-    edit(id, link) {
+    edit (id, link) {
       this.$router.push({
         name: link,
         query: { id }

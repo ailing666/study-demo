@@ -110,6 +110,14 @@ const routes = [
           title: '新增车辆'
         },
         component: () => import('../views/Cars/CarsAdd.vue')
+      },
+      {
+        path: '/carsAttr',
+        name: 'CarsAttr',
+        meta: {
+          title: '车辆属性'
+        },
+        component: () => import('../views/Cars/CarsAttr.vue')
       }
     ]
   }

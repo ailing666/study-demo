@@ -30,7 +30,11 @@
       <div v-if="item.type === 'city'"><AreaCascader ref="city" :cityAreaValue.sync="cityValue"></AreaCascader></div>
       <!-- 城市 -->
       <div v-else-if="item.type === 'keyWord'">
-        <KeyWord ref="keyWord" :value.sync="keyWord" :searchOptions="['parkingName', 'address']"></KeyWord>
+        <KeyWord
+          ref="keyWord"
+          :value.sync="keyWord"
+          :searchOptions="item.searchOptions || ['parkingName', 'address']"
+        ></KeyWord>
       </div>
     </el-form-item>
     <el-form-item>
@@ -78,7 +82,7 @@ export default {
     }
   },
   components: { AreaCascader, KeyWord },
-  data() {
+  data () {
     return {
       formData: {},
       cityValue: '',
@@ -87,7 +91,7 @@ export default {
   },
   watch: {
     formConfig: {
-      handler() {
+      handler () {
         this.initFormData()
       },
       immediate: true
@@ -95,7 +99,7 @@ export default {
   },
   methods: {
     // 搜索
-    search() {
+    search () {
       const searchData = {}
 
       for (const key in this.formData) {
@@ -112,7 +116,7 @@ export default {
       this.$emit('search', searchData)
     },
     // 初始化form
-    initFormData() {
+    initFormData () {
       const felid = {}
       this.formConfig.forEach(item => {
         if (item.prop) {
@@ -124,7 +128,7 @@ export default {
       this.formData = felid
     },
     // 重置表单
-    reset() {
+    reset () {
       this.$refs.form.resetFields()
       // 关键字处理
       this.$refs.keyWord && this.$refs.keyWord[0].clear()
