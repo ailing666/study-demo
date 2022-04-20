@@ -1,10 +1,9 @@
-
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'production',
-  entry: "./src/index.js",
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'build.js',
@@ -30,7 +29,7 @@ module.exports = {
                   // core-js 的版本
                   corejs: 3,
                   // 默认值
-                  targets: "defaults"
+                  targets: 'defaults',
                   // 可以手动指定兼容浏览器的版本
                   // targets: {
                   //   chrome: '58',
@@ -39,18 +38,18 @@ module.exports = {
                   //   safari: '10',
                   //   edge: '17'
                   // }
-                }
-              ]
-            ]
-          }
-        }
-      }
-    ]
+                },
+              ],
+            ],
+          },
+        },
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
-    })
-  ]
-} 
+    }),
+  ],
+}
