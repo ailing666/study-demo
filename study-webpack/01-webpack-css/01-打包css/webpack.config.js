@@ -1,9 +1,9 @@
+const path = require('path');
 
-const path = require('path')
 module.exports = {
   mode: 'production',
   // 配置入口文件
-  entry: "./src/index.js",
+  entry: './src/index.js',
   // 指定输出位置
   output: {
     // 必须是绝对路径
@@ -22,8 +22,8 @@ module.exports = {
           // 将 JS 中的样式，挂载到 <style> 标签中
           'style-loader',
           // css-loader 按照 CommonJS 规范，将样式文件，输出到 JS 中
-          'css-loader']
-      }
-    ]
-  }
-} 
+          'css-loader'],
+      },
+    ],
+  },
+};

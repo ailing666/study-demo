@@ -1,0 +1,9 @@
+body {
+  background-image: url(../image/bg.jpg);
+}
+
+li {
+  width: 30px;
+  height: 30px;
+  background-image: url(../image/user-black.png);
+}
