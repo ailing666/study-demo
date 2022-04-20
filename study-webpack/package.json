@@ -50,7 +50,8 @@
   "eslintConfig": {
     "extends": "airbnb-base",
     "rules": {
-      "semi": [1, "always"]
+      "semi": [1, "always"],
+      "no-console": "off"
     }
   }
 }
