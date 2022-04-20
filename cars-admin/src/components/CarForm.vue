@@ -40,7 +40,7 @@
         :context.sync="formData[item.prop]"
         v-model="formData[item.prop]"
       ></Wangeditor>
-      <!-- 按钮 -->
+      <!-- 单选按钮 -->
       <el-radio-group v-if="item.type === 'radio'" v-model="formData[item.prop]">
         <el-radio v-for="v in item.options" :key="v.value" :label="v.value">{{ v.label }}</el-radio>
       </el-radio-group>

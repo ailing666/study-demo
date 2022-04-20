@@ -6,6 +6,9 @@
       :config="searchConfig.config"
       @search="search"
     ></SearchForm>
+    <!-- 具名插槽 -->
+    <slot name="attr"></slot>
+    <!-- 表格内容 -->
     <el-table :data="tableData" v-loading="tableLoading" border style="width: 100%">
       <el-table-column v-if="configData.checkbox" type="selection" width="40"></el-table-column>
       <template v-for="item in tableConfig.thead">

@@ -28,7 +28,7 @@
       <slot v-else-if="item.type === 'slot'" :name="item.slotName"></slot>
       <!-- 城市 -->
       <div v-if="item.type === 'city'"><AreaCascader ref="city" :cityAreaValue.sync="cityValue"></AreaCascader></div>
-      <!-- 城市 -->
+      <!-- 关键字 -->
       <div v-else-if="item.type === 'keyWord'">
         <KeyWord
           ref="keyWord"
