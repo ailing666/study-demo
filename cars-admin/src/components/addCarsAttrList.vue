@@ -1,6 +1,7 @@
 <template>
   <div>
     <CarAttrItem @getAttrsData="getAttrsData" />
+    {{ countKm }}
     <el-row :gutter="15">
       <el-col :span="6" style="margin-bottom:16px" v-for="item in attrsList" :key="item.id">
         <span style="float:left;">{{ item.value }}</span>
@@ -23,9 +24,12 @@ export default {
     initValue: {
       type: String,
       default: ''
+    },
+    oil: {
+      type: Number,
+      default: 0
     }
   },
-
   data() {
     return {
       // 自定义属性列表
@@ -34,6 +38,26 @@ export default {
       currentBasisAttrs: [],
       // 将自定义属性列表和基础属性列表格式化后的对象
       attrItem: {}
+    }
+  },
+  computed: {
+    // 计算公里
+    countKm() {
+      // 监听值变化时计算属性
+      if (
+        !this.attrItem.basis ||
+        !this.attrItem.basis.true_oil_consume ||
+        !this.attrItem.car_body ||
+        !this.attrItem.car_body.oil_volume
+      ) {
+        return ''
+      }
+      // 剩余油量
+      const surplusOil = (this.oil * this.attrItem.car_body.oil_volume) / 100
+      // 计算公里
+      const km = (surplusOil / this.attrItem.basis.true_oil_consume) * 100
+      // 返回值
+      this.$emit('update:countKm', km.toFixed(2))
     }
   },
   watch: {

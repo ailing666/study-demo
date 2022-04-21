@@ -44,7 +44,13 @@
       </div>
     </template>
     <template v-slot:carsAttr>
-      <AddCarsAttrList ref="AddCarsAttrList" :initValue="formData.carsAttr" :value.sync="formData.carsAttr" />
+      <AddCarsAttrList
+        ref="AddCarsAttrList"
+        :oil="formData.oil"
+        :countKm.sync="formData.countKm"
+        :initValue="formData.carsAttr"
+        :value.sync="formData.carsAttr"
+      />
     </template>
   </CarForm>
 </template>
@@ -141,6 +147,11 @@ export default {
           required: true
         },
         {
+          type: 'input',
+          label: '可行驶公里',
+          prop: 'countKm'
+        },
+        {
           type: 'disabled',
           label: '禁启用',
           placeholder: '请选择禁启用',
@@ -181,6 +192,7 @@ export default {
         electric: 0,
         carsImg: '',
         oil: 0,
+        countKm: '',
         carsAttr: '',
         content: '',
         maintainDate: '',
