@@ -14,8 +14,7 @@
     "stylelint": "^14.7.1",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-webpack-plugin": "^3.2.0",
-    "webpack": "^5.47.1",
-    "webpack-cli": "^4.7.2"
+    "webpack": "^5.47.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
@@ -40,7 +39,9 @@
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss-loader": "^6.2.1",
     "style-loader": "^3.3.1",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.8.1"
   },
   "browserslist": [
     "last 1 version",
