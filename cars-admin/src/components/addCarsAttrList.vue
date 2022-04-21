@@ -19,6 +19,13 @@ import CarAttrItem from '@c/CarsAttrItem.vue'
 export default {
   name: 'AddCarsAttrList',
   components: { CarAttrItem },
+  props: {
+    initValue: {
+      type: String,
+      default: ''
+    }
+  },
+
   data() {
     return {
       // 自定义属性列表
@@ -27,6 +34,17 @@ export default {
       currentBasisAttrs: [],
       // 将自定义属性列表和基础属性列表格式化后的对象
       attrItem: {}
+    }
+  },
+  watch: {
+    initValue: {
+      handler(newValue) {
+        console.log('newValue: ', newValue)
+        if (newValue) {
+          this.attrItem = JSON.parse(newValue)
+        }
+      },
+      immediate: true
     }
   },
   methods: {

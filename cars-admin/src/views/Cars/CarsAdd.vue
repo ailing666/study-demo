@@ -44,7 +44,7 @@
       </div>
     </template>
     <template v-slot:carsAttr>
-      <AddCarsAttrList ref="AddCarsAttrList" :value.sync="formData.carsAttr" />
+      <AddCarsAttrList ref="AddCarsAttrList" :initValue="formData.carsAttr" :value.sync="formData.carsAttr" />
     </template>
   </CarForm>
 </template>
@@ -181,7 +181,7 @@ export default {
         electric: 0,
         carsImg: '',
         oil: 0,
-        carsAttr: {},
+        carsAttr: '',
         content: '',
         maintainDate: '',
         status: true
@@ -207,22 +207,8 @@ export default {
         Object.keys(this.formData).map(item => {
           this.formData[item] = res.data[item]
         })
-        this.setCarsAttrList(res.data.carsAttr)
       })
     },
-    // 还原carsAttrList
-    setCarsAttrList(value) {
-      const carsAttr = JSON.parse(value)
-      const arr = []
-      const json = {}
-      for (let key in carsAttr) {
-        json.attrKey = key
-        json.attrValue = carsAttr[key]
-        arr.push(json)
-      }
-      this.carsAttrList = arr
-    },
-
     // 提交表单
     formSubmit() {
       // 获取属性
