@@ -112,12 +112,12 @@ const routes = [
         component: () => import('../views/Cars/CarsAdd.vue')
       },
       {
-        path: '/carsAttr',
-        name: 'CarsAttr',
+        path: '/carsAttrList',
+        name: 'CarsAttrList',
         meta: {
           title: '车辆属性'
         },
-        component: () => import('../views/Cars/CarsAttr.vue')
+        component: () => import('../views/Cars/CarsAttrList.vue')
       }
     ]
   }

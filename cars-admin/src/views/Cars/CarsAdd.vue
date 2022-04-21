@@ -34,7 +34,7 @@
           </el-col>
         </el-row>
       </div>
-      <div class="progress-bar-wrap" v-if="formData.energyType == 3 || formData.energyType == 2">
+      <div class="progress-bar-wrap" v-if="formData.energyType === 3 || formData.energyType == 2">
         <span class="label-text">油量：</span>
         <el-row :gutter="20">
           <el-col :span="10">
@@ -44,31 +44,19 @@
       </div>
     </template>
     <template v-slot:carsAttr>
-      <el-button type="primary" @click="addCarsAttr">添加属性</el-button>
-      <div class="cars-attr-list" v-for="item in carsAttrList" :key="item.key">
-        <el-row :gutter="10">
-          <el-col :span="2">
-            <el-input v-model="item.attrKey"></el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input v-model="item.attrValue"></el-input>
-          </el-col>
-          <el-col :span="6">
-            <el-button type="primary" @click="delCarsAttr(item.attrKey)">删除属性</el-button>
-          </el-col>
-        </el-row>
-      </div>
+      <AddCarsAttrList ref="AddCarsAttrList" :value.sync="formData.carsAttr" />
     </template>
   </CarForm>
 </template>
 <script>
 import CarForm from '@c/CarForm'
+import AddCarsAttrList from '@c/addCarsAttrList'
 import { GetCarsBrand, GetParking } from '@/api/common'
 import { CarsAdd, CarsEdit, CarsDetailed } from '@/api/cars'
 
 export default {
   name: 'CarsAdd',
-  components: { CarForm },
+  components: { CarForm, AddCarsAttrList },
   data() {
     return {
       id: this.$route.query.id,
@@ -237,8 +225,16 @@ export default {
 
     // 提交表单
     formSubmit() {
-      this.setCarsAttr()
-      this.id ? this.editCar() : this.addCar()
+      // 获取属性
+      this.$refs.AddCarsAttrList.setAttrList()
+      this.$refs.carForm.$refs.form.validate(valid => {
+        if (valid) {
+          this.id ? this.editCar() : this.addCar()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
 
     // 编辑车辆
@@ -313,13 +309,6 @@ export default {
         // 将停车场列表赋值给对应的options
         parking.length > 0 && (parking[0].options = data)
       }
-    },
-
-    // 设置carsAttr格式
-    setCarsAttr() {
-      const obj = {}
-      this.carsAttrList.forEach(item => item.attrKey && (obj[item.attrKey] = item.attrValue))
-      this.formData.carsAttr = JSON.stringify(obj)
     },
 
     // 添加车辆属性

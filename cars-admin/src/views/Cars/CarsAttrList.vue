@@ -4,34 +4,25 @@
     <TableData ref="table" :tableConfig="tableConfig" :searchConfig="searchConfig">
       <!-- 属性插槽 -->
       <template v-slot:attr>
-        <div>
-          <el-button
-            style="margin-bottom:25px"
-            @click="attrClick(item)"
-            :type="currentAttrsId === item.id ? 'danger' : ''"
-            v-for="item in basisAttrsList"
-            :key="item.id"
-            size="samll"
-            >{{ item.value }}</el-button
-          >
-        </div>
+        <CarAttrItem @getTypeList="getTypeList" :isRequest="false" />
       </template>
     </TableData>
-    <AddCarsAttrs :isVisible.sync="showDialog" :data="attrData" />
+    <AddCarsAttrs :isVisible.sync="showDialog" :data="currentBasisAttrs" />
   </div>
 </template>
 <script>
 import TableData from '@/components/TableData.vue'
 import AddCarsAttrs from '@c/dialog/addCarsAttrs'
-import { GetCarsTypeBasis } from '@/api/carAttr.js'
+import CarAttrItem from '@c/CarsAttrItem.vue'
 export default {
-  name: 'CarAttr',
-  components: { TableData, AddCarsAttrs },
-  data () {
+  name: 'CarsAttrList',
+  components: { TableData, AddCarsAttrs, CarAttrItem },
+  data() {
     return {
       // 弹窗标记
       showDialog: false,
-      attrData: {},
+      // 当前点击的基本属性
+      currentBasisAttrs: {},
       // 表格配置
       tableConfig: {
         thead: [
@@ -63,18 +54,14 @@ export default {
             handler: () => this.carsTypeAddDialog()
           }
         ]
-      },
-      basisAttrsList: [],
-      currentAttrsId: ''
+      }
     }
-  },
-  mounted () {
-    this.getCarsAttrs()
   },
   methods: {
     // 新增按钮打开弹窗
-    carsTypeAddDialog () {
-      if (!this.currentAttrsId) {
+    carsTypeAddDialog() {
+      // 没有选择自定义属性无法添加
+      if (!this.currentBasisAttrs.id) {
         this.$message({
           message: '请选择车辆属性',
           type: 'error'
@@ -83,20 +70,10 @@ export default {
       }
       this.showDialog = true
     },
-    // 获取基础的属性列表
-    async getCarsAttrs () {
-      const res = await GetCarsTypeBasis()
-      this.basisAttrsList = res.data.data
-    },
-    // 点击按钮触发
-    attrClick (data) {
-      this.currentAttrsId = data.id
-      this.attrData = data
-      this.getTypeList(data.id)
-    },
     // 获取对应的属性列表
-    getTypeList (typeId) {
-      this.$refs.table.requestData({ typeId })
+    getTypeList(data) {
+      this.currentBasisAttrs = data
+      this.$refs.table.requestData({ typeId: this.currentBasisAttrs.id })
     }
   }
 }
