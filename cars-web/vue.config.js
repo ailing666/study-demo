@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 module.exports = {
   // 基本路径
   publicPath: process.env.NODE_ENV === 'production' ? '' : './',
@@ -39,7 +39,7 @@ module.exports = {
     sourceMap: false,
     // css预设器配置项
     loaderOptions: {
-      scss: { 
+      scss: {
         prependData: `@import "./src/styles/main.scss";`
       }
     }
@@ -59,21 +59,21 @@ module.exports = {
     https: false, // 编译失败时刷新页面
     hot: true, // 开启热加载
     hotOnly: false,
-    proxy: { 
+    proxy: {
       // 后端的接口：http://www.web-jshtml/api/cars   接口：/getCode/
       [process.env.VUE_APP_API_LOGIN]: {
-          target: process.env.VUE_API_DEV_LOGIN_TARGET, //API服务器的地址
-          changeOrigin: true,
-          pathRewrite: {
-            [`^${process.env.VUE_APP_API_LOGIN}`]: ''
-          }
+        target: process.env.VUE_API_DEV_LOGIN_TARGET, //API服务器的地址
+        changeOrigin: true,
+        pathRewrite: {
+          [`^${process.env.VUE_APP_API_LOGIN}`]: ''
+        }
       },
       // 前端的接口：http://www.web-jshtml/api/cars/web
       [process.env.VUE_APP_API_WEB]: {
         target: process.env.VUE_API_DEV_WEB_TARGET, //API服务器的地址
         changeOrigin: true,
         pathRewrite: {
-            [`^${process.env.VUE_APP_API_WEB}`]: ''
+          [`^${process.env.VUE_APP_API_WEB}`]: ''
         }
       }
     }

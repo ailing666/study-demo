@@ -8,7 +8,10 @@
           <img :src="carInfo.imgUrl" />
           <span class="name">{{ carInfo.carsMode }}</span>
         </h4>
-        <p class="car-dec fr opacity-4">新能源汽车&nbsp; &nbsp;5座</p>
+        <p class="car-dec fr opacity-4">
+          <span>{{ carInfo.carsAttr | energyType }}</span>
+          <span>{{ carInfo.carsAttr | seatNumber }}座</span>
+        </p>
       </header>
       <!-- 中间内容 -->
       <main>
@@ -29,7 +32,9 @@
             </ul>
             <div class="car-mileage">
               <span>约</span>
-              <strong class="mileage-number">{{ carInfo.countKm }}</strong>
+              <strong class="mileage-number">{{
+                carInfo.countKm | setCountKm
+              }}</strong>
               <span>KM</span>
             </div>
           </section>
@@ -52,22 +57,28 @@
           <img :src="carInfo.imgUrl" />
           <span class="name">{{ carInfo.carsMode }}</span>
         </h4>
-        <p class="car-dec fr opacity-4">新能源汽车&nbsp; &nbsp;5座</p>
+        <p class="car-dec fr opacity-4">
+          <span>{{ carInfo.carsAttr | energyType }}</span>
+          <span>{{ carInfo.carsAttr | seatNumber }}座</span>
+        </p>
       </header>
-      <img src="../../../assets/images/pic001.jpg" width="100%" alt />
+      <img class="car-img" :src="carInfo.carsImg" alt />
+
       <div class="car-info clearfix">
-        <h5 class="fl" style="fontSize:24px">{{ carInfo.carsNumber }}</h5>
+        <h5 class="fl" style="fontsize: 24px">{{ carInfo.carsNumber }}</h5>
         <section class="df fr">
           <div class="car-mileage">
             <span>约</span>
-            <strong class="mileage-number">{{ carInfo.countKm }}</strong>
+            <strong class="mileage-number">{{
+              carInfo.countKm | setCountKm
+            }}</strong>
             <span>KM</span>
           </div>
         </section>
       </div>
       <div class="cars-electric-warp">
         <div class="cars-electric-bg">
-          <div class="cars-electric-high" style="width:80%"></div>
+          <div class="cars-electric-high" style="width: 80%"></div>
         </div>
       </div>
       <p class="info">取车约支付12.0元停车费，实际补贴12.0元</p>
@@ -100,28 +111,46 @@
 </template>
 
 <script>
+import { getCarsAttrKey } from '@/utils/format';
 export default {
   name: 'CarList',
   props: {
     height: {
       type: String,
-      default: '257px'
+      default: '257px',
     },
     carInfo: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
-  data () {
-    return {}
+  data() {
+    return {};
   },
   filters: {
-    electricNumber (val) {
-      return `active-${Math.round(val / 10)}`
-    }
+    electricNumber(val) {
+      return `active-${Math.round(val / 10)}`;
+    },
+    energyType(val) {
+      return getCarsAttrKey({
+        data: val,
+        parerntKey: 'basis',
+        childKey: 'energy_type',
+      });
+    },
+    seatNumber(val) {
+      return getCarsAttrKey({
+        data: val,
+        parerntKey: 'car_body',
+        childKey: 'seat_number',
+      });
+    },
+    setCountKm(val) {
+      return parseInt(val);
+    },
   },
-  methods: {}
-}
+  methods: {},
+};
 </script>
 <style lang="scss" scoped>
 @import './index.scss';

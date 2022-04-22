@@ -192,6 +192,7 @@ export default {
         url: this.configData.url,
         data: this.configData.requestData
       }
+      console.log('requestData: ', requestData)
       this.tableLoading = true
       ParkingList(requestData)
         .then(res => {

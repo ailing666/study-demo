@@ -12,15 +12,17 @@
     @extend %clearfix;
     height: 48px;
     line-height: 48px;
-    
+
     .car-logo {
       img {
         display: inline-block;
         height: 34px;
         margin-right: 10px;
         vertical-align: middle;
-    }
-    .name { font-size: 16px; }
+      }
+      .name {
+        font-size: 16px;
+      }
     }
   }
 
@@ -32,11 +34,10 @@
 
     .car-img {
       height: 120px;
-      width: 250px;
+      width: 230px;
     }
 
     .car-electric {
-
       li {
         display: inline-block;
         height: 25px;
@@ -45,13 +46,13 @@
         border-radius: 6px;
         background-color: $color-border2;
       }
-  
+
       // 从1到10循环
       @for $i from 1 to 10 {
         &.active-#{$i} {
           // 从第1个到第i个li标签
-          li:nth-child(-n + #{$i} ) {
-            @include webkitA(background,linear-gradient(#17a8fa,#108dd9))
+          li:nth-child(-n + #{$i}) {
+            @include webkitA(background, linear-gradient(#17a8fa, #108dd9));
           }
         }
       }
@@ -67,9 +68,9 @@
       line-height: 48px;
       opacity: 0.8;
       border-top: 1px solid $color-border1;
-      
+
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         right: 0;
         top: 50%;
@@ -86,7 +87,6 @@
 
 // 公用的样式
 .car-info {
-
   h5 {
     font-size: 18px;
     margin-bottom: 16px;
@@ -97,7 +97,7 @@
 
     span {
       font-size: 12px;
-      
+
       &:first-child {
         opacity: 0.4;
       }
@@ -111,7 +111,7 @@
   }
 }
 
-.cars-detailed{
+.cars-detailed {
   display: none;
   position: absolute;
   left: 0;
@@ -138,18 +138,23 @@
     width: 28px;
     height: 28px;
     cursor: pointer;
-    &:before, &:after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        height: 24px;
-        margin-left: -1px;
-        margin-top: -12px;
-        border-left: 2px solid #999c9f;
-      }
-      &:before { @include webkitB(transform, rotate(45deg)); }
-      &:after { @include webkitB(transform, rotate(-45deg)); }
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: 24px;
+      margin-left: -1px;
+      margin-top: -12px;
+      border-left: 2px solid #999c9f;
+    }
+    &:before {
+      @include webkitB(transform, rotate(45deg));
+    }
+    &:after {
+      @include webkitB(transform, rotate(-45deg));
+    }
   }
 
   .cars-electric-warp {
@@ -157,7 +162,7 @@
     padding: 15px;
     margin-top: 12px;
     border-radius: 38px;
-    @include webkitB(box-shadow, 0 0 12px 0 rgba(0, 0, 0, .1));
+    @include webkitB(box-shadow, 0 0 12px 0 rgba(0, 0, 0, 0.1));
     @include webkitB(box-sizing, border-box);
 
     .cars-electric-bg {
@@ -165,7 +170,7 @@
       height: 10px;
       border-radius: 10px;
       background-color: $color-bg;
-    
+
       .cars-electric-high {
         position: absolute;
         top: 0;
@@ -184,7 +189,6 @@
   }
 
   .car-rental-time {
-
     li {
       display: flex;
       justify-content: space-between;
@@ -198,7 +202,6 @@
   }
 
   .car-insurance {
-
     i {
       float: right;
       width: 20px;
@@ -206,17 +209,17 @@
       border-radius: 100px;
       background-color: #cccccc;
       &.current {
-          background-color: $color-main;
+        background-color: $color-main;
       }
       &:before {
-          content: "";
-          display: block;
-          width: 8px;
-          height: 4px;
-          margin: 6px 0 0 5px;
-          border-left: 2px solid #fff;
-          border-bottom: 2px solid #fff;
-          @include webkitB(transform, rotate(-45deg));
+        content: '';
+        display: block;
+        width: 8px;
+        height: 4px;
+        margin: 6px 0 0 5px;
+        border-left: 2px solid #fff;
+        border-bottom: 2px solid #fff;
+        @include webkitB(transform, rotate(-45deg));
       }
     }
   }
